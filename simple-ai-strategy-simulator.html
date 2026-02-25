@@ -1,0 +1,2915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SASS — Simple AI Strategy Simulator</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;500&family=Bricolage+Grotesque:wght@400;700;800&display=swap');
+
+:root {
+  --bg: #f2efe8;
+  --surface: #ffffff;
+  --ink: #0e0e0e;
+  --ink2: #3a3830;
+  --muted: #9a9488;
+  --border: #dedad2;
+  --reactive: #c0392b;
+  --partial: #d97706;
+  --strategic: #1a6b3a;
+  --accent: #0e0e0e;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Archivo', sans-serif;
+  min-height: 100vh;
+}
+
+.page {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  min-height: 100vh;
+}
+
+/* ── LEFT PANEL ── */
+.controls {
+  background: var(--ink);
+  color: var(--bg);
+  padding: 32px 28px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  overflow-y: auto;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.controls-header { margin-bottom: 20px; }
+
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.controls h1 {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 800;
+  font-size: 40px;
+  line-height: 1.0;
+  color: #f2efe8;
+  letter-spacing: -0.03em;
+}
+
+.controls h1 em { font-style: normal; color: #4ade80; }
+
+.controls-sub {
+  margin-top: 10px;
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+/* Sector selector */
+.sector-selector {
+  margin-bottom: 20px;
+  padding: 12px 0;
+  border-top: 1px solid #222;
+  border-bottom: 1px solid #222;
+}
+
+.sector-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #444;
+  margin-bottom: 8px;
+}
+
+.sector-btns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+}
+
+.sector-btn {
+  padding: 8px 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  border: 1px solid #222;
+  background: #111;
+  color: #444;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.15s;
+  text-align: center;
+}
+
+.sector-btn:hover { border-color: #444; color: #888; }
+.sector-btn.active {
+  background: #1a1a1a;
+  border-color: #4ade80;
+  color: #4ade80;
+}
+
+/* Decision groups */
+.decision-group { margin-bottom: 18px; }
+
+.group-label {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #c8c4bc;
+  padding: 10px 0 7px;
+  border-top: 1px solid #333;
+  margin-bottom: 4px;
+}
+
+.decision {
+  padding: 10px 0;
+  border-bottom: 1px solid #1a1a1a;
+}
+
+.decision-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+  gap: 8px;
+}
+
+.decision-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #e8e4dc;
+  line-height: 1.3;
+  flex: 1;
+}
+
+.decision-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 2px;
+  white-space: nowrap;
+  transition: background 0.2s, color 0.2s;
+}
+
+.val-0 { background: #3a1010; color: #ff8070; }
+.val-1 { background: #2a2000; color: #f5c842; }
+.val-2 { background: #0a2a14; color: #4ade80; }
+
+.scale-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 3px;
+}
+
+.scale-btn {
+  padding: 5px 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.03em;
+  border: 1px solid #222;
+  background: #111;
+  color: #444;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.15s;
+  text-align: center;
+  line-height: 1.3;
+  position: relative;
+}
+
+.scale-btn:hover { border-color: #444; color: #888; }
+.scale-btn.active-0 { background: #3a1010; border-color: #ff4d2e; color: #ff8070; }
+.scale-btn.active-1 { background: #2a2000; border-color: #f5c842; color: #f5c842; }
+.scale-btn.active-2 { background: #0a2a14; border-color: #4ade80; color: #4ade80; }
+
+/* Hover tooltip */
+.btn-tooltip {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  width: 220px;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 3px;
+  padding: 10px 12px;
+  pointer-events: none;
+}
+
+.btn-tooltip.visible { display: block; }
+
+.btn-tooltip-level {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.tooltip-reactive { color: #ff8070; }
+.tooltip-partial   { color: #f5c842; }
+.tooltip-strategic { color: #4ade80; }
+
+.btn-tooltip-text {
+  font-size: 11px;
+  color: #aaa;
+  line-height: 1.55;
+  font-weight: 300;
+  font-family: 'Archivo', sans-serif;
+}
+
+.decision-desc {
+  font-size: 11px;
+  color: #555;
+  margin-top: 6px;
+  line-height: 1.5;
+  font-style: italic;
+  transition: opacity 0.2s;
+}
+
+/* Score summary */
+.score-summary {
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid #222;
+}
+
+.score-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #444;
+  margin-bottom: 10px;
+}
+
+.score-number {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 52px;
+  line-height: 1;
+  transition: color 0.3s;
+}
+
+.score-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  margin-top: 6px;
+  transition: color 0.3s;
+}
+
+.score-bar-bg {
+  height: 4px;
+  background: #1a1a1a;
+  border-radius: 2px;
+  margin-top: 12px;
+  overflow: hidden;
+}
+
+.score-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.4s ease, background 0.3s;
+}
+
+/* ── RIGHT PANEL ── */
+.output {
+  padding: 36px 36px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.output-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: 16px;
+}
+
+.output-title {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 22px;
+  letter-spacing: -0.01em;
+}
+
+.output-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  text-align: right;
+  line-height: 1.6;
+  flex-shrink: 0;
+}
+
+/* Tab nav */
+.tab-nav {
+  display: flex;
+  gap: 2px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: -4px;
+}
+
+.tab-btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 8px 14px 10px;
+  border: none;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s;
+}
+
+.tab-btn:hover { color: var(--ink); }
+.tab-btn.active { color: var(--ink); border-bottom-color: var(--ink); }
+
+.tab-panel { display: none; }
+.tab-panel.active { display: flex; flex-direction: column; gap: 24px; }
+
+/* Horizon cards */
+.horizons {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+}
+
+.horizon-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.horizon-head {
+  padding: 12px 14px 10px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.horizon-period {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 14px;
+  letter-spacing: -0.01em;
+}
+
+.horizon-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.horizon-chart {
+  padding: 16px 14px 10px;
+  height: 130px;
+  position: relative;
+}
+
+.horizon-chart svg { width: 100%; height: 100%; }
+
+.horizon-stats {
+  padding: 10px 14px 14px;
+  border-top: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.hstat { display: flex; flex-direction: column; gap: 2px; }
+
+.hstat-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hstat-val {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 18px;
+  line-height: 1;
+  transition: color 0.3s;
+}
+
+.hstat-sub { font-size: 10px; color: var(--muted); font-weight: 300; }
+
+/* Inaction section */
+.inaction-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 20px 22px;
+}
+
+.section-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.inaction-rows { display: flex; flex-direction: column; gap: 10px; }
+
+.inaction-row {
+  display: grid;
+  grid-template-columns: 200px 1fr 72px;
+  align-items: center;
+  gap: 12px;
+}
+
+.inaction-name { font-size: 13px; color: var(--ink2); font-weight: 400; }
+
+.inaction-bar-bg {
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.inaction-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.4s ease, background 0.3s;
+}
+
+.inaction-pct {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  text-align: right;
+  transition: color 0.3s;
+}
+
+/* Impact table */
+.impact-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.impact-table { width: 100%; border-collapse: collapse; }
+
+.impact-table th {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  background: #faf9f5;
+}
+
+.impact-table td {
+  padding: 9px 14px;
+  font-size: 13px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.impact-table tr:last-child td { border-bottom: none; }
+.impact-table tr:hover td { background: #faf9f5; }
+
+.decision-dot {
+  display: inline-block;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+.impact-chip {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  padding: 2px 7px;
+  border-radius: 2px;
+  letter-spacing: 0.05em;
+}
+
+.chip-high { background: #dcfce7; color: #166534; }
+.chip-med  { background: #fef9c3; color: #854d0e; }
+.chip-low  { background: #fee2e2; color: #991b1b; }
+
+/* Insight box */
+.insight {
+  background: var(--ink);
+  color: #e8e4dc;
+  border-radius: 3px;
+  padding: 20px 24px;
+}
+
+.insight p {
+  font-size: 14px;
+  line-height: 1.75;
+  font-weight: 300;
+}
+
+.insight strong { color: #4ade80; font-weight: 500; }
+
+.insight .cite {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: #444;
+  margin-top: 8px;
+  display: block;
+}
+
+/* ── TRANSPARENCY PANEL ── */
+.transparency-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.transparency-intro {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 20px 22px;
+}
+
+.transparency-intro h3 {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+
+.transparency-intro p {
+  font-size: 12px;
+  color: var(--ink2);
+  line-height: 1.7;
+  font-weight: 300;
+}
+
+.scoring-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.scoring-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 16px 18px;
+}
+
+.scoring-card-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.weight-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.weight-name {
+  font-size: 11px;
+  color: var(--ink2);
+  flex: 1;
+  line-height: 1.3;
+}
+
+.weight-bars {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+}
+
+.weight-bar-seg {
+  height: 10px;
+  border-radius: 1px;
+  transition: width 0.4s ease;
+}
+
+.weight-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: var(--muted);
+  min-width: 28px;
+  text-align: right;
+}
+
+/* Source cards */
+.source-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.source-row {
+  background: var(--surface);
+  padding: 14px 18px;
+  display: grid;
+  grid-template-columns: 200px 1fr 80px;
+  gap: 16px;
+  align-items: start;
+}
+
+.source-lever {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.3;
+}
+
+.source-text {
+  font-size: 12px;
+  color: var(--ink2);
+  font-weight: 300;
+  line-height: 1.5;
+}
+
+.source-cite {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: var(--muted);
+  text-align: right;
+  line-height: 1.4;
+}
+
+/* Outcome mapping */
+.outcome-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.outcome-table { width: 100%; border-collapse: collapse; }
+
+.outcome-table th {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  background: #faf9f5;
+}
+
+.outcome-table td {
+  padding: 9px 14px;
+  font-size: 11px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  line-height: 1.5;
+  color: var(--ink2);
+}
+
+.outcome-table tr:last-child td { border-bottom: none; }
+
+.outcome-lever-name {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.outcome-dot-row {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-top: 2px;
+}
+
+.outcome-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  padding: 2px 6px;
+  border-radius: 2px;
+  letter-spacing: 0.04em;
+  background: #f2efe8;
+  color: var(--muted);
+  border: 1px solid var(--border);
+}
+
+/* Criteria detail box */
+.criteria-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.criteria-header {
+  background: #faf9f5;
+  border-bottom: 1px solid var(--border);
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.criteria-header h3 {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 13px;
+}
+
+.criteria-sector-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 2px;
+  background: var(--ink);
+  color: #f2efe8;
+}
+
+.criteria-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+}
+
+.criteria-col {
+  padding: 16px 18px;
+  border-right: 1px solid var(--border);
+}
+
+.criteria-col:last-child { border-right: none; }
+
+.criteria-level-head {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid;
+}
+
+.level-reactive .criteria-level-head { color: #c0392b; border-color: #c0392b; }
+.level-partial .criteria-level-head  { color: #d97706; border-color: #d97706; }
+.level-strategic .criteria-level-head { color: #1a6b3a; border-color: #1a6b3a; }
+
+.criteria-bullets {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.criteria-bullets li {
+  font-size: 12px;
+  color: var(--ink2);
+  line-height: 1.5;
+  padding-left: 12px;
+  position: relative;
+  font-weight: 300;
+}
+
+.criteria-bullets li::before {
+  content: '–';
+  position: absolute;
+  left: 0;
+  color: var(--muted);
+}
+
+.criteria-selector {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  background: #faf9f5;
+}
+
+.criteria-lever-btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.15s;
+}
+
+.criteria-lever-btn:hover { border-color: var(--ink); color: var(--ink); }
+.criteria-lever-btn.active { background: var(--ink); color: #f2efe8; border-color: var(--ink); }
+
+/* ── TRAJECTORY SECTION ── */
+.trajectory-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+}
+
+.traj-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.traj-head {
+  padding: 14px 16px 12px;
+  border-bottom: 3px solid;
+}
+
+.traj-period {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 15px;
+  letter-spacing: -0.01em;
+  margin-bottom: 2px;
+}
+
+.traj-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  color: var(--muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.traj-theme {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 8px;
+  font-weight: 600;
+}
+
+.traj-body {
+  padding: 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.traj-narrative {
+  font-size: 12px;
+  color: var(--ink2);
+  line-height: 1.7;
+  font-weight: 300;
+}
+
+.traj-signals {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 2px;
+}
+
+.traj-signal {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  font-size: 11px;
+  color: var(--ink2);
+  line-height: 1.4;
+}
+
+.traj-signal-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+/* ── RISK REGISTER ── */
+.risk-intro {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 18px 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+}
+
+.risk-intro p {
+  font-size: 12px;
+  color: var(--ink2);
+  line-height: 1.7;
+  font-weight: 300;
+  flex: 1;
+}
+
+.risk-summary-chips {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.risk-summary-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+}
+
+.risk-count-badge {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 20px;
+  line-height: 1;
+  min-width: 28px;
+  text-align: right;
+}
+
+.risk-heatmap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.risk-heatmap-head {
+  background: #faf9f5;
+  border-bottom: 1px solid var(--border);
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.risk-heatmap-head h3 {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 13px;
+}
+
+.risk-matrix-wrap {
+  padding: 20px 22px;
+}
+
+.risk-matrix {
+  display: grid;
+  grid-template-columns: 80px repeat(3, 1fr);
+  gap: 3px;
+}
+
+.risk-matrix-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 10px;
+  text-align: right;
+}
+
+.risk-matrix-col-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: center;
+  padding-bottom: 6px;
+}
+
+.risk-cell {
+  border-radius: 2px;
+  min-height: 52px;
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  transition: background 0.3s;
+}
+
+.risk-cell-empty { background: #f7f5f0; }
+.risk-cell-low    { background: #f0fdf4; border: 1px solid #bbf7d0; }
+.risk-cell-medium { background: #fffbeb; border: 1px solid #fde68a; }
+.risk-cell-high   { background: #fef2f2; border: 1px solid #fecaca; }
+.risk-cell-critical { background: #fff1f2; border: 1px solid #fda4af; }
+
+.risk-cell-item {
+  font-size: 9px;
+  line-height: 1.3;
+  color: var(--ink2);
+  font-weight: 400;
+}
+
+.risk-cell-item strong {
+  display: block;
+  font-size: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 1px;
+}
+
+/* Risk register table */
+.risk-register-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.risk-register-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.risk-register-table th {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  background: #faf9f5;
+}
+
+.risk-register-table td {
+  padding: 10px 14px;
+  font-size: 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+.risk-register-table tr:last-child td { border-bottom: none; }
+.risk-register-table tr:hover td { background: #fdfcf9; }
+.risk-register-table tr.risk-resolved td { opacity: 0.45; }
+
+.risk-category-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  padding: 2px 6px;
+  border-radius: 2px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.cat-regulatory { background: #eff6ff; color: #1d4ed8; }
+.cat-reputational { background: #fdf4ff; color: #7e22ce; }
+.cat-operational { background: #fff7ed; color: #c2410c; }
+.cat-ethical { background: #f0fdf4; color: #166534; }
+
+.risk-level-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  padding: 2px 8px;
+  border-radius: 2px;
+  letter-spacing: 0.04em;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.rl-critical { background: #fee2e2; color: #991b1b; }
+.rl-high     { background: #fef3c7; color: #92400e; }
+.rl-medium   { background: #dbeafe; color: #1e40af; }
+.rl-low      { background: #dcfce7; color: #166534; }
+.rl-mitigated { background: #f1f5f9; color: #64748b; text-decoration: line-through; }
+
+.risk-lever-name {
+  font-size: 11px;
+  color: var(--muted);
+  font-style: italic;
+  display: block;
+  margin-top: 2px;
+}
+
+/* PDF Export button */
+.export-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--ink);
+  color: #f2efe8;
+  border-radius: 3px;
+  padding: 14px 20px;
+}
+
+.export-bar-text {
+  font-size: 12px;
+  font-weight: 300;
+  color: #9a9488;
+}
+
+.export-bar-text strong {
+  color: #f2efe8;
+  font-weight: 500;
+}
+
+.export-btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 10px 20px;
+  background: #4ade80;
+  color: #0a1a0e;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.15s, transform 0.1s;
+  white-space: nowrap;
+}
+
+.export-btn:hover { background: #86efac; }
+.export-btn:active { transform: scale(0.97); }
+.export-btn:disabled { background: #333; color: #666; cursor: wait; }
+
+@media (max-width: 900px) {
+  .page { grid-template-columns: 1fr; }
+  .controls { position: static; height: auto; }
+  .horizons { grid-template-columns: 1fr; }
+  .scoring-grid { grid-template-columns: 1fr; }
+  .criteria-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="btn-tooltip" id="btn-tooltip">
+  <div class="btn-tooltip-level" id="tooltip-level"></div>
+  <div class="btn-tooltip-text" id="tooltip-text"></div>
+</div>
+<div class="page">
+
+<!-- ══ LEFT: Controls ══ -->
+<div class="controls">
+  <div class="controls-header">
+    <h1>Simple<br><em>AI</em><br>Strategy<br>Simulator</h1>
+    <p class="controls-sub"><span style="color:#666;">Clarity on your AI strategy.</span> <span style="color:#aaa;">And what to do next.</span></p>
+  </div>
+
+  <!-- Sector selector -->
+  <div class="sector-selector">
+    <div class="sector-label">Your sector</div>
+    <div class="sector-btns">
+      <button class="sector-btn active" data-sector="generic">Generic / Other</button>
+      <button class="sector-btn" data-sector="highered">Higher Education</button>
+      <button class="sector-btn" data-sector="healthcare">Healthcare</button>
+      <button class="sector-btn" data-sector="government">Government</button>
+    </div>
+  </div>
+
+  <!-- GROUP 1: Strategy -->
+  <div class="decision-group">
+    <div class="group-label">Strategy</div>
+    <div class="decision" data-id="0">
+      <div class="decision-header">
+        <div class="decision-name">AI vision & mission alignment</div>
+        <div class="decision-val val-0" id="dval-0">Reactive</div>
+      </div>
+      <div class="scale-row">
+        <button class="scale-btn active-0" data-d="0" data-v="0">Reactive</button>
+        <button class="scale-btn" data-d="0" data-v="1">Partial</button>
+        <button class="scale-btn" data-d="0" data-v="2">Strategic</button>
+      </div>
+      <div class="decision-desc" id="ddesc-0">No clear AI vision; initiatives are ad hoc and disconnected from institutional mission.</div>
+    </div>
+
+    <div class="decision" data-id="1">
+      <div class="decision-header">
+        <div class="decision-name">Portfolio & use-case focus</div>
+        <div class="decision-val val-0" id="dval-1">Reactive</div>
+      </div>
+      <div class="scale-row">
+        <button class="scale-btn active-0" data-d="1" data-v="0">Reactive</button>
+        <button class="scale-btn" data-d="1" data-v="1">Partial</button>
+        <button class="scale-btn" data-d="1" data-v="2">Strategic</button>
+      </div>
+      <div class="decision-desc" id="ddesc-1">AI projects are one-off experiments driven by individuals or vendors.</div>
+    </div>
+
+    <div class="decision" data-id="2">
+      <div class="decision-header">
+        <div class="decision-name">Investment & resourcing</div>
+        <div class="decision-val val-0" id="dval-2">Reactive</div>
+      </div>
+      <div class="scale-row">
+        <button class="scale-btn active-0" data-d="2" data-v="0">Reactive</button>
+        <button class="scale-btn" data-d="2" data-v="1">Partial</button>
+        <button class="scale-btn" data-d="2" data-v="2">Strategic</button>
+      </div>
+      <div class="decision-desc" id="ddesc-2">AI work is funded opportunistically from leftover or short-term funds.</div>
+    </div>
+  </div>
+
+  <!-- GROUP 2: Governance -->
+  <div class="decision-group">
+    <div class="group-label">Governance</div>
+    <div class="decision" data-id="3">
+      <div class="decision-header">
+        <div class="decision-name">Policy, principles & guardrails</div>
+        <div class="decision-val val-0" id="dval-3">Reactive</div>
+      </div>
+      <div class="scale-row">
+        <button class="scale-btn active-0" data-d="3" data-v="0">Reactive</button>
+        <button class="scale-btn" data-d="3" data-v="1">Partial</button>
+        <button class="scale-btn" data-d="3" data-v="2">Strategic</button>
+      </div>
+      <div class="decision-desc" id="ddesc-3">Little or no AI policy; decisions are made case by case.</div>
+    </div>
+
+    <div class="decision" data-id="4">
+      <div class="decision-header">
+        <div class="decision-name">Risk, compliance & assurance</div>
+        <div class="decision-val val-0" id="dval-4">Reactive</div>
+      </div>
+      <div class="scale-row">
+        <button class="scale-btn active-0" data-d="4" data-v="0">Reactive</button>
+        <button class="scale-btn" data-d="4" data-v="1">Partial</button>
+        <button class="scale-btn" data-d="4" data-v="2">Strategic</button>
+      </div>
+      <div class="decision-desc" id="ddesc-4">AI risks are not systematically identified, tracked, or mitigated.</div>
+    </div>
+
+    <div class="decision" data-id="5">
+      <div class="decision-header">
+        <div class="decision-name">Accountability & decision rights</div>
+        <div class="decision-val val-0" id="dval-5">Reactive</div>
+      </div>
+      <div class="scale-row">
+        <button class="scale-btn active-0" data-d="5" data-v="0">Reactive</button>
+        <button class="scale-btn" data-d="5" data-v="1">Partial</button>
+        <button class="scale-btn" data-d="5" data-v="2">Strategic</button>
+      </div>
+      <div class="decision-desc" id="ddesc-5">No defined owners; decisions are pushed to tech teams or made informally.</div>
+    </div>
+  </div>
+
+  <!-- GROUP 3: Execution -->
+  <div class="decision-group">
+    <div class="group-label">Execution</div>
+    <div class="decision" data-id="6">
+      <div class="decision-header">
+        <div class="decision-name">Operating model & processes</div>
+        <div class="decision-val val-0" id="dval-6">Reactive</div>
+      </div>
+      <div class="scale-row">
+        <button class="scale-btn active-0" data-d="6" data-v="0">Reactive</button>
+        <button class="scale-btn" data-d="6" data-v="1">Partial</button>
+        <button class="scale-btn" data-d="6" data-v="2">Strategic</button>
+      </div>
+      <div class="decision-desc" id="ddesc-6">Teams implement AI however they can; no standard way of working.</div>
+    </div>
+
+    <div class="decision" data-id="7">
+      <div class="decision-header">
+        <div class="decision-name">Skills, culture & change</div>
+        <div class="decision-val val-0" id="dval-7">Reactive</div>
+      </div>
+      <div class="scale-row">
+        <button class="scale-btn active-0" data-d="7" data-v="0">Reactive</button>
+        <button class="scale-btn" data-d="7" data-v="1">Partial</button>
+        <button class="scale-btn" data-d="7" data-v="2">Strategic</button>
+      </div>
+      <div class="decision-desc" id="ddesc-7">Little structured training; staff either avoid AI or experiment without support.</div>
+    </div>
+  </div>
+
+  <!-- Score -->
+  <div class="score-summary">
+    <div class="score-label">Strategic effectiveness score</div>
+    <div class="score-number" id="score-num" style="color:#c0392b">0</div>
+    <div class="score-tag" id="score-tag" style="color:#c0392b">/ 100 — Reactive</div>
+    <div class="score-bar-bg">
+      <div class="score-bar-fill" id="score-bar" style="width:0%;background:#c0392b;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ RIGHT: Output ══ -->
+<div class="output">
+  <div class="output-header">
+    <div>
+      <div class="output-title" id="output-title">Your path: <span id="output-path-label" style="color:#c0392b;">Reactive</span></div>
+      <div class="tab-nav" style="margin-top:14px;">
+        <button class="tab-btn active" data-tab="results">Results</button>
+        <button class="tab-btn" data-tab="transparency">How this works</button>
+        <button class="tab-btn" data-tab="criteria">Maturity criteria</button>
+        <button class="tab-btn" data-tab="risks">Risk register</button>
+        <button class="tab-btn" data-tab="export">Export PDF</button>
+      </div>
+    </div>
+    <div class="output-meta">
+    </div>
+  </div>
+
+  <!-- RESULTS TAB -->
+  <div class="tab-panel active" id="tab-results">
+    <div class="trajectory-section" id="trajectory-section"></div>
+
+    <div class="inaction-section">
+      <div class="section-title">Cost of current decisions — value left on table</div>
+      <div class="inaction-rows">
+        <div class="inaction-row"><div class="inaction-name">AI vision & alignment</div><div class="inaction-bar-bg"><div class="inaction-bar-fill" id="ibar-0" style="width:88%;background:#c0392b;"></div></div><div class="inaction-pct" id="ipct-0" style="color:#c0392b">–88%</div></div>
+        <div class="inaction-row"><div class="inaction-name">Portfolio & use-case focus</div><div class="inaction-bar-bg"><div class="inaction-bar-fill" id="ibar-1" style="width:85%;background:#c0392b;"></div></div><div class="inaction-pct" id="ipct-1" style="color:#c0392b">–85%</div></div>
+        <div class="inaction-row"><div class="inaction-name">Investment & resourcing</div><div class="inaction-bar-bg"><div class="inaction-bar-fill" id="ibar-2" style="width:82%;background:#c0392b;"></div></div><div class="inaction-pct" id="ipct-2" style="color:#c0392b">–82%</div></div>
+        <div class="inaction-row"><div class="inaction-name">Policy & guardrails</div><div class="inaction-bar-bg"><div class="inaction-bar-fill" id="ibar-3" style="width:78%;background:#c0392b;"></div></div><div class="inaction-pct" id="ipct-3" style="color:#c0392b">–78%</div></div>
+        <div class="inaction-row"><div class="inaction-name">Risk & assurance</div><div class="inaction-bar-bg"><div class="inaction-bar-fill" id="ibar-4" style="width:74%;background:#c0392b;"></div></div><div class="inaction-pct" id="ipct-4" style="color:#c0392b">–74%</div></div>
+        <div class="inaction-row"><div class="inaction-name">Accountability & decision rights</div><div class="inaction-bar-bg"><div class="inaction-bar-fill" id="ibar-5" style="width:86%;background:#c0392b;"></div></div><div class="inaction-pct" id="ipct-5" style="color:#c0392b">–86%</div></div>
+        <div class="inaction-row"><div class="inaction-name">Operating model & processes</div><div class="inaction-bar-bg"><div class="inaction-bar-fill" id="ibar-6" style="width:80%;background:#c0392b;"></div></div><div class="inaction-pct" id="ipct-6" style="color:#c0392b">–80%</div></div>
+        <div class="inaction-row"><div class="inaction-name">Skills, culture & change</div><div class="inaction-bar-bg"><div class="inaction-bar-fill" id="ibar-7" style="width:80%;background:#c0392b;"></div></div><div class="inaction-pct" id="ipct-7" style="color:#c0392b">–80%</div></div>
+      </div>
+    </div>
+
+    <div class="impact-section">
+      <table class="impact-table">
+        <thead>
+          <tr>
+            <th>Decision</th>
+            <th>Current choice</th>
+            <th>Research-backed impact</th>
+            <th>6-mo lift</th>
+            <th>5-yr multiplier</th>
+          </tr>
+        </thead>
+        <tbody id="impact-tbody"></tbody>
+      </table>
+    </div>
+
+    <div class="insight" id="insight-box">
+      <p>At current settings, <strong>you are on the reactive path</strong>. Resources are being deployed without a clear strategy.</p>
+      <span class="cite">Source: McKinsey State of AI 2024 · Gartner AI Maturity Model · Deloitte AI Institute · Google Cloud AI Adoption Study</span>
+    </div>
+  </div>
+
+  <!-- HOW THIS WORKS TAB -->
+  <div class="tab-panel" id="tab-transparency">
+    <div class="transparency-intro">
+      <h3>How the scoring model works</h3>
+      <p>Each lever is scored on a 0–2 scale (Reactive = 0, Partial = 1, Strategic = 2). Levers are weighted differently across three time horizons — because some decisions pay off quickly (e.g., policy clarity) while others compound over years (e.g., vision alignment, investment). The overall strategic effectiveness score is a weighted average normalized to 100. The "value left on table" bars show the proportional gap between your current setting and the strategic optimum for each lever.</p>
+    </div>
+
+    <div class="scoring-grid">
+      <div class="scoring-card">
+        <div class="scoring-card-title">Lever weights across horizons</div>
+        <div id="weight-viz"></div>
+      </div>
+      <div class="scoring-card">
+        <div class="scoring-card-title">Scoring methodology</div>
+        <div style="display:flex;flex-direction:column;gap:12px;margin-top:4px;">
+          <div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.1em;color:var(--muted);margin-bottom:4px;">LEVEL DEFINITIONS</div>
+            <div style="display:flex;flex-direction:column;gap:5px;">
+              <div style="display:flex;align-items:center;gap:8px;"><span style="width:10px;height:10px;border-radius:50%;background:#c0392b;display:inline-block;flex-shrink:0;"></span><span style="font-size:11px;color:var(--ink2);"><strong>Reactive</strong> — Ad hoc, fragmented, no shared direction</span></div>
+              <div style="display:flex;align-items:center;gap:8px;"><span style="width:10px;height:10px;border-radius:50%;background:#d97706;display:inline-block;flex-shrink:0;"></span><span style="font-size:11px;color:var(--ink2);"><strong>Partial</strong> — Emerging, recognized but inconsistent</span></div>
+              <div style="display:flex;align-items:center;gap:8px;"><span style="width:10px;height:10px;border-radius:50%;background:#1a6b3a;display:inline-block;flex-shrink:0;"></span><span style="font-size:11px;color:var(--ink2);"><strong>Strategic</strong> — Integrated, embedded in decisions</span></div>
+            </div>
+          </div>
+          <div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.1em;color:var(--muted);margin-bottom:4px;">SCORE BANDS</div>
+            <div style="display:flex;flex-direction:column;gap:4px;">
+              <div style="font-size:11px;color:var(--ink2);">0–29 → <span style="color:#c0392b;font-weight:500;">Reactive</span></div>
+              <div style="font-size:11px;color:var(--ink2);">30–59 → <span style="color:#d97706;font-weight:500;">Emerging</span></div>
+              <div style="font-size:11px;color:var(--ink2);">60–79 → <span style="color:#1a6b3a;font-weight:500;">Embedded</span></div>
+              <div style="font-size:11px;color:var(--ink2);">80–100 → <span style="color:#1a6b3a;font-weight:500;">Leading</span></div>
+            </div>
+          </div>
+          <div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.1em;color:var(--muted);margin-bottom:4px;">COMPOUNDING LOGIC</div>
+            <div style="font-size:11px;color:var(--ink2);line-height:1.6;font-weight:300;">Strategy levers (vision, portfolio, investment) carry higher 5-year weights because early alignment decisions determine which subsequent actions compound. Governance and execution levers have larger near-term weights because they create immediate drag when absent.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-bottom:8px;">Research sources by lever</div>
+    <div class="source-grid">
+      <div class="source-row" style="background:#faf9f5;border-bottom:1px solid var(--border);">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);">Lever</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);">Key finding</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);">Source</div>
+      </div>
+      <div class="source-row"><div class="source-lever">AI vision & alignment</div><div class="source-text">Organizations with a documented AI strategy linked to business objectives are 2.5× more likely to achieve measurable ROI from AI investments.</div><div class="source-cite">McKinsey State of AI 2024</div></div>
+      <div class="source-row"><div class="source-lever">Portfolio focus</div><div class="source-text">Orgs with a focused use-case portfolio are 3× more likely to scale AI successfully beyond pilot stage, vs. those with scattered initiatives.</div><div class="source-cite">Gartner AI Maturity Model 2024</div></div>
+      <div class="source-row"><div class="source-lever">Investment & resourcing</div><div class="source-text">Sustained multi-year AI funding (vs. project-by-project) produces dramatically better compounding returns; most value accrues in years 3–5.</div><div class="source-cite">Deloitte AI Institute 2023</div></div>
+      <div class="source-row"><div class="source-lever">Policy & guardrails</div><div class="source-text">Clear AI governance policies reduce decision latency by 30–40%, as teams stop relitigating boundaries on every project.</div><div class="source-cite">Gartner AI Governance Survey 2024</div></div>
+      <div class="source-row"><div class="source-lever">Risk & assurance</div><div class="source-text">Proactive AI risk governance reduces deployment failures and post-launch incidents by approximately 40% compared to reactive approaches.</div><div class="source-cite">Gartner 2024</div></div>
+      <div class="source-row"><div class="source-lever">Accountability</div><div class="source-text">Senior leadership ownership and clear RACI for AI decisions is a 3× performance multiplier for AI outcomes vs. tech-owned accountability.</div><div class="source-cite">McKinsey State of AI 2024</div></div>
+      <div class="source-row"><div class="source-lever">Operating model</div><div class="source-text">Without standard processes, AI deployment speed and quality vary wildly across teams, and failures generate no organizational learning.</div><div class="source-cite">Deloitte AI Institute 2023</div></div>
+      <div class="source-row"><div class="source-lever">Skills & culture</div><div class="source-text">Change management and adoption programs are the most underrated AI ROI variable — tools without adoption return nothing.</div><div class="source-cite">Google Cloud AI Adoption Study 2023</div></div>
+    </div>
+
+    <div class="section-title" style="margin-bottom:8px;">How levers map to outcomes</div>
+    <div class="outcome-section">
+      <table class="outcome-table">
+        <thead>
+          <tr>
+            <th>Lever</th>
+            <th>Primary outcomes when strategic</th>
+            <th>Primary drag when reactive</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="outcome-lever-name">AI vision & alignment</div></td>
+            <td>Investment prioritized by mission; clear "why"; leaders can explain AI direction</td>
+            <td>Scattered spending; initiatives contradict each other; no shared success definition</td>
+          </tr>
+          <tr>
+            <td><div class="outcome-lever-name">Portfolio focus</div></td>
+            <td>Use cases compound on each other; resource allocation is defensible</td>
+            <td>Energy and budget fragmented; no scaling path; duplicate efforts</td>
+          </tr>
+          <tr>
+            <td><div class="outcome-lever-name">Investment & resourcing</div></td>
+            <td>Multi-year compounding; infrastructure built once and reused</td>
+            <td>Each initiative restarts from zero; key talent can't be retained</td>
+          </tr>
+          <tr>
+            <td><div class="outcome-lever-name">Policy & guardrails</div></td>
+            <td>Faster decisions; reduced legal risk; trust with staff and stakeholders</td>
+            <td>Every decision relitigated; compliance exposure; staff uncertainty</td>
+          </tr>
+          <tr>
+            <td><div class="outcome-lever-name">Risk & assurance</div></td>
+            <td>Fewer post-launch failures; proactive ethics/privacy/security coverage</td>
+            <td>Reactive damage control; public incidents; regulatory exposure</td>
+          </tr>
+          <tr>
+            <td><div class="outcome-lever-name">Accountability</div></td>
+            <td>Clear ownership; executive investment; faster escalation</td>
+            <td>Diffused responsibility; tech teams blamed; no senior conviction</td>
+          </tr>
+          <tr>
+            <td><div class="outcome-lever-name">Operating model</div></td>
+            <td>Repeatable quality; deployment speed; organizational learning</td>
+            <td>Quality varies by team; failures don't generate lessons</td>
+          </tr>
+          <tr>
+            <td><div class="outcome-lever-name">Skills & culture</div></td>
+            <td>High adoption; AI-literate staff; change capacity built over time</td>
+            <td>Low tool adoption; fear or hype-driven behavior; value not realized</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- MATURITY CRITERIA TAB -->
+  <div class="tab-panel" id="tab-criteria">
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:16px 18px;">
+      <p style="font-size:12px;color:var(--ink2);line-height:1.7;font-weight:300;">Observable criteria for each lever and maturity level, adapted to your selected sector. Use these to calibrate your lever settings — or share with stakeholders to ground a conversation about where your organization actually sits.</p>
+    </div>
+
+    <div class="criteria-section">
+      <div class="criteria-selector" id="criteria-lever-btns"></div>
+      <div class="criteria-header">
+        <h3 id="criteria-lever-title">AI vision & mission alignment</h3>
+        <span class="criteria-sector-badge" id="criteria-sector-badge">Generic</span>
+      </div>
+      <div class="criteria-grid">
+        <div class="criteria-col level-reactive">
+          <div class="criteria-level-head">Reactive</div>
+          <ul class="criteria-bullets" id="criteria-reactive"></ul>
+        </div>
+        <div class="criteria-col level-partial">
+          <div class="criteria-level-head">Partial</div>
+          <ul class="criteria-bullets" id="criteria-partial"></ul>
+        </div>
+        <div class="criteria-col level-strategic">
+          <div class="criteria-level-head">Strategic</div>
+          <ul class="criteria-bullets" id="criteria-strategic"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RISK REGISTER TAB -->
+  <div class="tab-panel" id="tab-risks">
+
+    <div class="risk-intro">
+      <p>Each lever gap generates specific, named risks. This register maps your current settings to risk categories, likelihood, and impact — giving risk managers and leadership a structured view of what the current state exposes the organization to.</p>
+      <div class="risk-summary-chips" id="risk-summary-chips"></div>
+    </div>
+
+    <!-- Risk heatmap -->
+    <div class="risk-heatmap">
+      <div class="risk-heatmap-head">
+        <h3>Risk exposure heatmap</h3>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);">Likelihood → / Impact ↓</span>
+      </div>
+      <div class="risk-matrix-wrap">
+        <div class="risk-matrix" id="risk-matrix"></div>
+      </div>
+    </div>
+
+    <!-- Risk register table -->
+    <div class="risk-register-section">
+      <table class="risk-register-table">
+        <thead>
+          <tr>
+            <th>Risk statement</th>
+            <th>Category</th>
+            <th>Source lever</th>
+            <th>Likelihood</th>
+            <th>Impact</th>
+            <th>Level</th>
+          </tr>
+        </thead>
+        <tbody id="risk-tbody"></tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <!-- EXPORT PDF TAB -->
+  <div class="tab-panel" id="tab-export">
+
+    <div class="export-bar">
+      <div class="export-bar-text">
+        <strong>Export your AI strategy assessment</strong><br>
+        Generates a clean PDF with your scores, risk register, and top priorities.
+      </div>
+      <button class="export-btn" id="export-btn" onclick="exportPDF()">↓ Download PDF</button>
+    </div>
+
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:20px 24px;">
+      <div class="section-title" style="margin-bottom:14px;">PDF will include</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div style="display:flex;gap:10px;align-items:flex-start;">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:16px;color:#4ade80;line-height:1.2;">01</span>
+          <div><div style="font-size:13px;font-weight:500;color:var(--ink);margin-bottom:3px;">Strategic effectiveness score</div><div style="font-size:11px;color:var(--muted);font-weight:300;">Overall score, sector, and maturity band</div></div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:16px;color:#4ade80;line-height:1.2;">02</span>
+          <div><div style="font-size:13px;font-weight:500;color:var(--ink);margin-bottom:3px;">Lever-by-lever assessment</div><div style="font-size:11px;color:var(--muted);font-weight:300;">Current state and value gap for all 8 levers</div></div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:16px;color:#4ade80;line-height:1.2;">03</span>
+          <div><div style="font-size:13px;font-weight:500;color:var(--ink);margin-bottom:3px;">Risk register</div><div style="font-size:11px;color:var(--muted);font-weight:300;">All active risks with category, likelihood, impact</div></div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:16px;color:#4ade80;line-height:1.2;">04</span>
+          <div><div style="font-size:13px;font-weight:500;color:var(--ink);margin-bottom:3px;">Time-horizon projections</div><div style="font-size:11px;color:var(--muted);font-weight:300;">Value index at 6mo, 18mo, and 5yr</div></div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:16px;color:#4ade80;line-height:1.2;">05</span>
+          <div><div style="font-size:13px;font-weight:500;color:var(--ink);margin-bottom:3px;">Top 3 priority actions</div><div style="font-size:11px;color:var(--muted);font-weight:300;">Highest-leverage levers to move first</div></div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:16px;color:#4ade80;line-height:1.2;">06</span>
+          <div><div style="font-size:13px;font-weight:500;color:var(--ink);margin-bottom:3px;">Strategic insight</div><div style="font-size:11px;color:var(--muted);font-weight:300;">Synthesized narrative from the model</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:#faf9f5;border:1px solid var(--border);border-radius:3px;padding:16px 20px;">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Preview — your current state</div>
+      <div id="pdf-preview" style="display:flex;flex-direction:column;gap:8px;"></div>
+    </div>
+
+  </div>
+
+</div><!-- /output -->
+</div><!-- /page -->
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────
+
+const DECISIONS = [
+  {
+    name: 'AI vision & mission alignment',
+    shortName: 'AI Vision',
+    weight6: 0.18, weight18: 0.20, weight5y: 0.24,
+    impactLabels: ['Disconnected from what matters', 'Direction without accountability', 'Investment guided by mission'],
+    lift6: ['+0%', '+6%', '+18%'],
+    mult5y: ['1.0×', '1.5×', '2.6×'],
+    costBase: 88,
+  },
+  {
+    name: 'Portfolio & use-case focus',
+    shortName: 'Portfolio Focus',
+    weight6: 0.16, weight18: 0.18, weight5y: 0.20,
+    impactLabels: ['Scattered; no compounding', 'Partially prioritized', 'Clear value per use case'],
+    lift6: ['+0%', '+6%', '+18%'],
+    mult5y: ['1.0×', '1.4×', '2.5×'],
+    costBase: 85,
+  },
+  {
+    name: 'Investment & resourcing',
+    shortName: 'Investment',
+    weight6: 0.14, weight18: 0.16, weight5y: 0.20,
+    impactLabels: ["Reactive; can't sustain", 'Planned but fragmented', 'Sustained compounding returns'],
+    lift6: ['+0%', '+5%', '+16%'],
+    mult5y: ['1.0×', '1.4×', '2.6×'],
+    costBase: 82,
+  },
+  {
+    name: 'Policy, principles & guardrails',
+    shortName: 'Policy',
+    weight6: 0.10, weight18: 0.12, weight5y: 0.14,
+    impactLabels: ['Legal & trust exposure', 'Partial protection', 'Decisions move faster + safer'],
+    lift6: ['+0%', '+3%', '+10%'],
+    mult5y: ['1.0×', '1.2×', '1.8×'],
+    costBase: 78,
+  },
+  {
+    name: 'Risk, compliance & assurance',
+    shortName: 'Risk',
+    weight6: 0.08, weight18: 0.10, weight5y: 0.12,
+    impactLabels: ['Failure-prone; reactive', 'Somewhat managed', 'Proactive; ~40% fewer failures'],
+    lift6: ['+0%', '+3%', '+9%'],
+    mult5y: ['1.0×', '1.2×', '1.7×'],
+    costBase: 74,
+  },
+  {
+    name: 'Accountability & decision rights',
+    shortName: 'Accountability',
+    weight6: 0.12, weight18: 0.14, weight5y: 0.16,
+    impactLabels: ['No one accountable', 'Soft ownership', 'Executive-owned outcomes'],
+    lift6: ['+0%', '+4%', '+13%'],
+    mult5y: ['1.0×', '1.3×', '2.1×'],
+    costBase: 86,
+  },
+  {
+    name: 'Operating model & processes',
+    shortName: 'Operating Model',
+    weight6: 0.12, weight18: 0.14, weight5y: 0.16,
+    impactLabels: ['Inconsistent; no learning', 'Variable quality', 'Speed + quality at scale'],
+    lift6: ['+0%', '+5%', '+14%'],
+    mult5y: ['1.0×', '1.4×', '2.2×'],
+    costBase: 80,
+  },
+  {
+    name: 'Skills, culture & change',
+    shortName: 'Skills & Culture',
+    weight6: 0.14, weight18: 0.16, weight5y: 0.18,
+    impactLabels: ['Low adoption; tools wasted', 'Moderate uptake', 'High adoption + AI-literate org'],
+    lift6: ['+0%', '+5%', '+15%'],
+    mult5y: ['1.0×', '1.4×', '2.3×'],
+    costBase: 80,
+  },
+];
+
+// Sector-specific short descriptors for the left panel
+const SECTOR_DESCS = {
+  generic: [
+    ['No clear AI vision; initiatives are ad hoc and disconnected from institutional mission.',
+     'High-level AI aspirations exist, but are not consistently tied to mission, priorities, or KPIs.',
+     'A documented AI vision is explicitly linked to mission, strategic priorities, and success metrics.'],
+    ['AI projects are one-off experiments driven by individuals or vendors.',
+     'There is a loose list of use cases, but prioritization and resourcing are inconsistent.',
+     'Focused AI portfolio with clear prioritization criteria, owners, and expected value per use case.'],
+    ['AI work is funded opportunistically from leftover or short-term funds.',
+     'Some budget and roles are allocated to AI, but they are fragile or fragmented.',
+     'Multi-year funding, roles, and enabling infrastructure planned as part of core strategy.'],
+    ['Little or no AI policy; decisions are made case by case.',
+     'Draft principles or policies exist but are incomplete or unevenly applied.',
+     'Clear, accessible AI principles and policies are embedded in decision processes.'],
+    ['AI risks are not systematically identified, tracked, or mitigated.',
+     'Some risk and compliance checks exist but are inconsistent across projects.',
+     'Structured AI risk and assurance process applied across the full system lifecycle.'],
+    ['No defined owners; decisions are pushed to tech teams or made informally.',
+     'Some committees or roles touch AI, but responsibilities overlap or leave gaps.',
+     'Clear roles, RACI, and escalation paths exist for AI decisions, with executive sponsorship.'],
+    ['Teams implement AI however they can; no standard way of working.',
+     'Some repeatable processes exist, but they vary by team.',
+     'Standardized processes cover intake, evaluation, deployment, monitoring, and retirement.'],
+    ['Little structured training; staff either avoid AI or experiment without support.',
+     'Some training, champions, or pilot teams exist, but efforts are siloed.',
+     'Deliberate program builds literacy, skills, and change capacity across roles.'],
+  ],
+  highered: [
+    ['AI use appears in isolated courses, departments, or offices with no shared institutional direction.',
+     'A high-level statement references AI, but units are not aligned institution-wide.',
+     'Documented institutional AI vision explicitly connects AI to academic mission, equity, and strategic priorities.'],
+    ['Individual faculty or departments run AI pilots with no coordination or shared criteria.',
+     'A loose list of AI use cases exists (e.g., advising, grading, admin), but priority and resourcing vary widely.',
+     'Focused portfolio of AI use cases with academic and administrative owners, value rationale, and responsible use criteria.'],
+    ['AI projects funded from departmental discretionary funds or vendor pilots, not institutional budget.',
+     'Some central budget and staff exist for AI, but fragmented across IT, provost office, and schools.',
+     'Multi-year institutional AI budget with dedicated roles (e.g., AI director, instructional designers) in core operating plan.'],
+    ['No institution-wide policy on AI in teaching, research, or operations; handled by individual faculty or units.',
+     'An AI use policy or academic integrity guidance exists but is unevenly enforced or outdated.',
+     'Accessible AI principles covering academic integrity, student data, equity, and vendor use — embedded in faculty and staff processes.'],
+    ['AI risks (e.g., student data exposure, biased admissions tools) not tracked or reviewed centrally.',
+     'Some privacy or IRB reviews happen, but no consistent risk framework across AI tools.',
+     'Structured review process covering privacy (FERPA), bias, accessibility, and ethics applied to all institutional AI systems.'],
+    ['AI decisions made by IT, individual deans, or vendors without defined institutional authority.',
+     'Committees (e.g., academic technology, faculty senate) have overlapping AI roles with unclear escalation.',
+     'Clear RACI for institutional AI decisions with executive sponsor (e.g., Provost or CIO) and documented approval process.'],
+    ['Each school or office procures and deploys AI tools independently, with no shared evaluation process.',
+     'Some shared processes exist (e.g., IT procurement review), but adoption and monitoring are inconsistent.',
+     'Standardized institutional process for evaluating, piloting, deploying, and reviewing AI tools across academic and admin functions.'],
+    ['Faculty and staff experiment with AI individually; no shared training or support structures.',
+     'Some faculty development workshops or pilot cohorts exist, but largely voluntary and uncoordinated.',
+     'Institution-wide AI literacy program across faculty, staff, and students, with incentives for responsible adoption and shared learning.'],
+  ],
+  healthcare: [
+    ['Clinicians, departments, or IT adopt AI tools independently with no shared strategic direction.',
+     'AI mentioned in digital health strategy, but mainly as aspiration without mission linkage.',
+     'Documented AI vision connects AI to care quality, patient safety, equity, and system-wide strategic priorities.'],
+    ['AI adoption is opportunistic — driven by vendor relationships, department heads, or individual clinical champions.',
+     'Some service lines (e.g., radiology, revenue cycle) have AI goals, but they are not linked to system-wide priorities.',
+     'Focused clinical and operational AI portfolio with service line owners, patient outcome rationale, and governance linkage.'],
+    ['AI tools funded through capital requests, grants, or department budgets — no system-level AI investment plan.',
+     'Some enterprise funding exists, but split across IT, clinical informatics, and operations without coordination.',
+     'Multi-year system-level AI investment with dedicated clinical informatics and data infrastructure roles in operating budget.'],
+    ['No enterprise policy on AI in clinical or operational settings; each department manages its own risk.',
+     'Draft guidance on AI clinical decision support or documentation tools exists, but not consistently applied.',
+     'Enterprise AI policy covering clinical use standards, patient notification, regulatory compliance (e.g., ONC, FDA), and ethical use.'],
+    ['AI risks (e.g., diagnostic errors, health equity bias, HIPAA exposure) not tracked or reviewed systematically.',
+     'Some compliance checks (security, privacy) happen, but clinical performance and bias risks are not consistently reviewed.',
+     'Structured AI assurance process covering safety, equity, privacy (HIPAA), clinical validation, and post-deployment monitoring.'],
+    ['AI decisions made ad hoc by IT, clinical champions, or vendors with no defined enterprise authority.',
+     'CMO, CIO, and clinical informatics roles touch AI but with overlapping and unclear decision rights.',
+     'Clear RACI for clinical AI decisions with executive clinical sponsor, defined approval authority, and escalation path for safety issues.'],
+    ['Departments implement AI tools independently with no standard evaluation, onboarding, or performance review.',
+     'Some shared vendor review and credentialing processes exist, but monitoring and incident response vary.',
+     'Standardized system-wide process for clinical AI evaluation, deployment, monitoring, incident response, and retirement.'],
+    ['Clinicians and staff encounter AI tools without structured training, workflow integration, or change support.',
+     'Some training programs exist (e.g., for EHR-embedded AI), but not coordinated across the organization.',
+     'Enterprise AI literacy and change program across clinical, administrative, and leadership roles, with workflow integration and outcome tracking.'],
+  ],
+  government: [
+    ['Agencies use AI tools for individual efficiency gains with no shared public sector AI direction.',
+     'AI mentioned in digital transformation plans, but not linked to service delivery priorities or public value.',
+     'Documented government AI vision explicitly connects AI to service quality, equity, accountability, and policy outcomes.'],
+    ['Departments procure AI tools independently with no shared criteria or coordination across government.',
+     'A list of AI initiatives exists, but prioritization is driven by vendor access or political cycles, not service value.',
+     'Focused government AI portfolio with departmental owners, public value rationale, and citizen impact assessment.'],
+    ['AI funded through one-off capital bids or department budgets without central coordination.',
+     'Some central digital/AI funding exists, but split across departments and not sustained beyond electoral cycles.',
+     'Multi-year government AI investment in shared data infrastructure, talent, and enabling platforms embedded in budget process.'],
+    ['No whole-of-government policy on AI use, procurement, or citizen rights; agencies decide independently.',
+     'Draft AI principles or guidance exist but are advisory, inconsistently applied, and not linked to procurement.',
+     'Clear government AI policy covering acceptable use, algorithmic transparency, citizen rights, and vendor accountability — embedded in decision processes.'],
+    ['AI risks (e.g., algorithmic bias in benefits, public data exposure, accountability gaps) not tracked centrally.',
+     'Some legal and privacy checks occur, but no consistent risk framework across government AI systems.',
+     'Structured government AI assurance process covering equity, transparency, security, legal compliance, and public accountability.'],
+    ['AI decisions made by ICT teams or individual ministers without defined whole-of-government authority.',
+     'Some cross-agency AI committees exist, but roles overlap and escalation paths are unclear.',
+     'Clear RACI for government AI decisions with senior responsible owner, ministerial accountability, and cross-agency coordination.'],
+    ['Each agency develops AI processes independently, with no shared standards for evaluation or deployment.',
+     'Some shared procurement frameworks exist (e.g., whole-of-government contracts), but implementation and monitoring vary.',
+     'Standardized government-wide process for AI evaluation, deployment, performance monitoring, and decommissioning.'],
+    ['Public servants experiment with AI tools individually with no structured capability building.',
+     'Some training initiatives exist (e.g., digital academies), but AI-specific literacy is inconsistent.',
+     'Deliberate government-wide AI literacy and change program across policy, service delivery, and leadership roles, with incentives for responsible adoption.'],
+  ],
+};
+
+// Full maturity criteria for the criteria tab
+const MATURITY_CRITERIA = {
+  generic: [
+    {
+      reactive: ['AI use appears in isolated departments with no shared direction.','There is no institutional statement on AI\'s role.','Leadership reacts to AI issues case by case, without an overarching stance.'],
+      partial: ['A high-level statement references AI in general terms.','Some units articulate their own AI goals but they are not aligned.','AI shows up in parts of the strategic plan without clear links to KPIs.'],
+      strategic: ['Documented AI vision explicitly connects AI to mission, values, and strategic priorities.','The AI vision is used to prioritize which use cases get support.','Leaders can consistently explain "what AI is for here" in concrete terms.'],
+    },
+    {
+      reactive: ['AI projects are one-off experiments with no shared pipeline.','Individual contributors or vendors drive adoption opportunistically.','No shared criteria for which problems are worth solving with AI.'],
+      partial: ['A loose list of AI use cases exists but priority is inconsistent.','Some teams have use-case backlogs, others have none.','Resourcing decisions happen case by case with no portfolio view.'],
+      strategic: ['A focused AI portfolio exists with explicit prioritization criteria.','Each use case has a named owner and expected value definition.','Portfolio is reviewed and updated on a defined cadence.'],
+    },
+    {
+      reactive: ['AI work is funded opportunistically from leftover or short-term funds.','No dedicated AI budget line; each initiative seeks its own funding.','Key talent can\'t be retained due to funding uncertainty.'],
+      partial: ['Some budget and dedicated roles exist for AI, but they are fragile or fragmented.','Budget is allocated year-to-year rather than multi-year.','Roles are split across functions with no clear AI team.'],
+      strategic: ['Multi-year AI budget is embedded in the core operating plan.','Dedicated roles and enabling infrastructure are resourced together.','Long-term investment logic is tied to compounding returns, not just pilots.'],
+    },
+    {
+      reactive: ['Little or no AI policy; decisions are made case by case.','No guidance on acceptable use, data handling, or vendor standards.','Legal and compliance exposure grows with each ungoverned tool.'],
+      partial: ['Draft principles or policies exist but are incomplete or unevenly applied.','Guidance is hard to find or not referenced in procurement.','Some teams follow principles; others don\'t know they exist.'],
+      strategic: ['Clear, accessible AI principles and policies are documented and current.','Policies cover acceptable use, data rights, vendor accountability, and restrictions.','Policies are embedded in procurement, onboarding, and project approval processes.'],
+    },
+    {
+      reactive: ['AI risks (bias, privacy, failure) are not identified or tracked.','No escalation path when an AI system causes harm.','Compliance is handled reactively when an issue surfaces.'],
+      partial: ['Some risk and compliance checks happen (e.g., security, privacy) but inconsistently.','Different teams apply different standards.','No common framework or risk register for AI systems.'],
+      strategic: ['Structured AI risk and assurance process applied across the full system lifecycle.','Legal, security, privacy, and ethics are all part of the review process.','Post-deployment monitoring and incident response are defined and tested.'],
+    },
+    {
+      reactive: ['No defined owners for AI decisions; responsibility defaults to tech teams.','Accountability is diffuse — everyone and no one is responsible.','There is no executive who is personally accountable for AI outcomes.'],
+      partial: ['Some committees or roles exist but responsibilities overlap or leave gaps.','Accountability is soft — people can point to intentions, not decisions.','Escalation path for AI issues is unclear or untested.'],
+      strategic: ['Clear roles, RACI, and escalation paths are documented for AI decisions.','Executive sponsorship provides senior accountability and decision authority.','Governance structures are tested and refined over time.'],
+    },
+    {
+      reactive: ['Teams implement AI however they can; there is no standard way of working.','Every new AI project reinvents procurement, deployment, and review.','Failures generate no institutional learning.'],
+      partial: ['Some repeatable processes exist (e.g., procurement review) but vary by team.','Process quality depends on which team is leading.','No common intake, monitoring, or retirement process across the organization.'],
+      strategic: ['Standardized processes cover intake, evaluation, deployment, monitoring, and retirement.','Teams can follow a defined path for new AI initiatives.','Failures feed back into process improvement systematically.'],
+    },
+    {
+      reactive: ['Staff either avoid AI or experiment without support or guidance.','No structured training; adoption depends on individual initiative.','Fear, confusion, or hype drives behavior rather than informed choice.'],
+      partial: ['Some training, champions, or pilot teams exist but efforts are siloed.','Training is available but not mandatory or systematically tracked.','Change management is treated as a one-time activity, not a capability.'],
+      strategic: ['Deliberate program builds AI literacy, skills, and change capacity across roles.','Incentives and recognition reward responsible adoption.','The organization has a growing capacity to absorb and adapt to new AI capabilities.'],
+    },
+  ],
+  highered: [
+    {
+      reactive: ['AI use appears in isolated courses, departments, or offices with no shared institutional direction.','There is no institutional statement on AI\'s role in teaching, research, or operations.','Leadership reacts to AI issues (e.g., plagiarism, vendor pitches) one by one, without an overarching stance.'],
+      partial: ['A high-level statement or memo references AI (e.g., "we will explore AI to enhance learning and operations").','Some schools/units articulate their own AI goals, but they are not aligned or prioritized institution-wide.','AI shows up in parts of the strategic plan, but without clear links to student success, research priorities, or equity commitments.'],
+      strategic: ['A documented institutional AI vision explicitly connects AI to academic mission (learning, research, student success).','The vision links AI to institutional values (equity, ethics, academic integrity, inclusion).','AI vision is used to prioritize which use cases get support and investment and which are deprioritized or restricted.'],
+    },
+    {
+      reactive: ['Individual faculty or departments run AI pilots with no coordination or shared criteria.','Vendor demos drive adoption more than institutional need.','No shared framework for evaluating which AI applications are worth pursuing.'],
+      partial: ['A loose list of AI use cases exists (e.g., advising, grading, admin), but priority and resourcing vary widely.','Some units have AI roadmaps, others have none.','There is no portfolio view across academic and administrative AI investments.'],
+      strategic: ['Focused portfolio of AI use cases with academic and administrative owners, value rationale, and responsible use criteria.','Prioritization criteria include educational impact, equity implications, and operational efficiency.','Portfolio is reviewed by governance bodies on a defined cadence.'],
+    },
+    {
+      reactive: ['AI projects funded from departmental discretionary funds or vendor pilots, not institutional budget.','No central AI budget line; each initiative seeks its own funding.','Key talent (data scientists, instructional designers) can\'t be retained due to funding uncertainty.'],
+      partial: ['Some central budget and staff exist for AI, but fragmented across IT, provost office, and schools.','Year-to-year funding doesn\'t allow multi-year infrastructure investment.','Roles are split with no clear institutional home for AI capability.'],
+      strategic: ['Multi-year institutional AI budget with dedicated roles (e.g., AI director, instructional designers) in core operating plan.','Enabling infrastructure (data platforms, compute, integration) is budgeted alongside staff.','Investment logic is tied to educational outcomes, not just pilot success.'],
+    },
+    {
+      reactive: ['No institution-wide policy on AI in teaching, research, or operations; handled by individual faculty or units.','Academic integrity guidance doesn\'t address AI-generated content.','No vendor standards or data protection requirements for AI tools.'],
+      partial: ['An AI use policy or academic integrity guidance exists but is unevenly enforced or outdated.','Faculty know policies exist but they are hard to find or interpret.','Some procurement standards exist but don\'t cover AI-specific risks.'],
+      strategic: ['Accessible AI principles covering academic integrity, student data, equity, and vendor use — embedded in faculty and staff processes.','Policy is reviewed and updated as AI capabilities evolve.','Clear guidance exists for students, faculty, and staff on responsible AI use in context.'],
+    },
+    {
+      reactive: ['AI risks (e.g., student data exposure, biased admissions tools) not tracked or reviewed centrally.','No IRB or ethics process adapted for AI research and learning applications.','Compliance happens reactively when an incident occurs.'],
+      partial: ['Some privacy or IRB reviews happen, but no consistent risk framework across AI tools.','FERPA considerations are sometimes addressed, but not systematically.','Equity and bias risks in student-facing AI tools are largely unexamined.'],
+      strategic: ['Structured review process covering privacy (FERPA), bias, accessibility, and ethics applied to all institutional AI systems.','Post-deployment monitoring tracks educational equity outcomes.','Incident response process is defined and tested for student-facing AI failures.'],
+    },
+    {
+      reactive: ['AI decisions made by IT, individual deans, or vendors without defined institutional authority.','No senior leader is personally accountable for institutional AI outcomes.','Escalation path for AI harms to students or faculty is unclear.'],
+      partial: ['Committees (e.g., academic technology, faculty senate) have overlapping AI roles with unclear escalation.','Accountability is soft — people can identify AI owners but not decision rights.','Executive engagement is episodic rather than sustained.'],
+      strategic: ['Clear RACI for institutional AI decisions with executive sponsor (e.g., Provost or CIO) and documented approval process.','Faculty governance has a defined role in AI decisions affecting academic programs.','Escalation paths are tested and refined after real decisions or incidents.'],
+    },
+    {
+      reactive: ['Each school or office procures and deploys AI tools independently, with no shared evaluation process.','Every new AI initiative restarts from scratch without shared learning.','No common monitoring or review process after AI tools are deployed.'],
+      partial: ['Some shared processes exist (e.g., IT procurement review), but adoption and monitoring are inconsistent.','Process quality depends on which unit is leading.','Deployment often happens without a plan for monitoring educational outcomes or risks.'],
+      strategic: ['Standardized institutional process for evaluating, piloting, deploying, and reviewing AI tools across academic and admin functions.','Tools are monitored for educational effectiveness, equity impact, and safety post-deployment.','Decommissioning process exists for tools that underperform or create risk.'],
+    },
+    {
+      reactive: ['Faculty and staff experiment with AI individually; no shared training or support structures.','Students receive no institutional guidance on responsible AI use.','Fear of plagiarism consequences or hype-driven experimentation dominate.'],
+      partial: ['Some faculty development workshops or pilot cohorts exist, but largely voluntary and uncoordinated.','Training is available in pockets but not tracked or systematically assessed.','Student AI literacy is left to individual instructors.'],
+      strategic: ['Institution-wide AI literacy program across faculty, staff, and students, with incentives for responsible adoption and shared learning.','AI literacy is integrated into curriculum frameworks, faculty development cycles, and staff onboarding.','The institution has a growing capacity to evaluate and adapt to new AI capabilities in education.'],
+    },
+  ],
+  healthcare: [
+    {
+      reactive: ['Individual clinicians, departments, or IT teams adopt AI tools without a shared strategic direction.','There is no formal statement on AI\'s role in care quality, safety, equity, or patient experience.','Leadership responds to vendor pitches and regulatory developments case by case.'],
+      partial: ['AI is mentioned in the digital health or innovation strategy, but mainly as a general aspiration.','Some service lines (e.g., radiology, revenue cycle) define their own AI objectives, but they are not clearly linked to system-wide goals.','AI projects are sometimes justified in terms of quality or efficiency, but there is no consistent framework tying them to mission.'],
+      strategic: ['A documented AI vision explicitly connects AI to clinical mission (care quality, safety, outcomes, equity).','The vision links AI to organizational values (patient-centered care, ethics, transparency, trust).','Executives and clinical leaders can articulate "how AI fits into our care strategy" in consistent language.'],
+    },
+    {
+      reactive: ['AI adoption is opportunistic — driven by vendor relationships or individual clinical champions.','No shared criteria for which clinical problems are worth solving with AI.','Different departments pursue AI independently without awareness of each other\'s work.'],
+      partial: ['Some service lines have AI goals, but they are not linked to system-wide priorities.','A loose inventory of AI tools exists, but it is not managed as a portfolio.','Resourcing is fragmented across clinical, IT, and operations.'],
+      strategic: ['Focused clinical and operational AI portfolio with service line owners, patient outcome rationale, and governance linkage.','Prioritization explicitly considers health equity, clinical safety, and operational efficiency.','Portfolio is reviewed by clinical and operational leadership on a defined cadence.'],
+    },
+    {
+      reactive: ['AI tools funded through capital requests, grants, or department budgets — no system-level AI investment plan.','No dedicated AI infrastructure (data platforms, compute, integration) is budgeted.','Clinical informatics capacity is insufficient to sustain AI programs across their lifecycle.'],
+      partial: ['Some enterprise funding exists, but split across IT, clinical informatics, and operations without coordination.','Budget cycles don\'t align with the multi-year nature of AI program development.','Roles exist but lack the mandate or resources to span the full AI lifecycle.'],
+      strategic: ['Multi-year system-level AI investment with dedicated clinical informatics and data infrastructure roles in operating budget.','Enabling infrastructure (EHR integration, data lakes, compute) is budgeted alongside clinical programs.','Investment logic is tied to clinical outcomes and population health goals, not just efficiency.'],
+    },
+    {
+      reactive: ['No enterprise policy on AI in clinical or operational settings; each department manages its own risk.','No guidance for clinicians on when AI recommendations should be overridden.','Vendor contracts don\'t address AI-specific data rights or performance accountability.'],
+      partial: ['Draft guidance on AI clinical decision support or documentation tools exists, but not consistently applied.','Some procurement standards address AI, but they are advisory and not enforced.','Policies don\'t cover emerging uses like generative AI in clinical documentation.'],
+      strategic: ['Enterprise AI policy covering clinical use standards, patient notification, regulatory compliance (e.g., ONC, FDA), and ethical use.','Policies define how AI recommendations are presented to clinicians and documented in the medical record.','Vendor accountability requirements address performance, bias, explainability, and data rights.'],
+    },
+    {
+      reactive: ['AI risks (e.g., diagnostic errors, health equity bias, HIPAA exposure) are not tracked or reviewed systematically.','No process for detecting when deployed AI models degrade or introduce bias.','Compliance happens reactively when a patient safety or regulatory incident occurs.'],
+      partial: ['Some compliance checks (security, privacy) happen, but clinical performance and bias risks are not consistently reviewed.','Risk assessment is applied to some AI tools but not others, depending on the team.','Post-deployment monitoring is limited to technical uptime, not clinical performance.'],
+      strategic: ['Structured AI assurance process covering safety, equity, privacy (HIPAA), clinical validation, and post-deployment monitoring.','AI models are monitored for performance drift, demographic bias, and patient outcome impact.','Incident response process is defined for AI-related clinical near-misses and adverse events.'],
+    },
+    {
+      reactive: ['AI decisions made ad hoc by IT, clinical champions, or vendors with no defined enterprise authority.','No senior clinical leader is personally accountable for AI outcomes.','Escalation path for AI-related patient safety concerns is unclear.'],
+      partial: ['CMO, CIO, and clinical informatics roles touch AI but with overlapping and unclear decision rights.','Clinical governance bodies (e.g., medical executive committee) have no formal AI role.','Accountability is soft — people can identify AI owners but not authority over high-stakes decisions.'],
+      strategic: ['Clear RACI for clinical AI decisions with executive clinical sponsor, defined approval authority, and escalation path for safety issues.','Clinical governance has a formal role in approving AI tools used in patient care.','Accountability structures are tested through real incidents and refined over time.'],
+    },
+    {
+      reactive: ['Departments implement AI tools independently with no standard evaluation, onboarding, or performance review.','Every new AI initiative restarts from scratch with no shared methodology.','Clinical staff have no consistent process for reporting AI-related concerns.'],
+      partial: ['Some shared vendor review and credentialing processes exist, but monitoring and incident response vary.','Deployment processes differ between clinical, administrative, and IT-led AI initiatives.','Post-deployment review often doesn\'t happen or focuses only on cost, not clinical impact.'],
+      strategic: ['Standardized system-wide process for clinical AI evaluation, deployment, monitoring, incident response, and retirement.','Clinical validation requirements are applied before deployment of patient-facing AI.','Performance data is regularly reviewed by clinical and operational leadership.'],
+    },
+    {
+      reactive: ['Clinicians and staff encounter AI tools without structured training, workflow integration, or change support.','AI-related concerns (overreliance, alert fatigue, bias) are not addressed in training.','No feedback loop from frontline staff about AI tool performance.'],
+      partial: ['Some training programs exist (e.g., for EHR-embedded AI), but not coordinated across the organization.','Clinician AI literacy is uneven across specialties and roles.','Change management is treated as a one-time activity at deployment, not an ongoing capability.'],
+      strategic: ['Enterprise AI literacy and change program across clinical, administrative, and leadership roles, with workflow integration and outcome tracking.','Clinicians understand when to trust, question, and override AI recommendations.','Feedback mechanisms capture frontline experience and feed into AI governance and improvement processes.'],
+    },
+  ],
+  government: [
+    {
+      reactive: ['Agencies use AI tools for individual efficiency gains with no shared public sector AI direction.','There is no government policy statement on AI\'s role in public service delivery.','Leadership responds to technology trends and vendor proposals without a whole-of-government stance.'],
+      partial: ['AI is mentioned in digital transformation plans, but not linked to service delivery priorities or public value.','Some departments articulate their own AI goals, but they are not aligned across government.','AI appears in innovation strategies without clear links to citizen outcomes or accountability.'],
+      strategic: ['Documented government AI vision explicitly connects AI to service quality, equity, public accountability, and policy outcomes.','The vision guides which AI use cases government pursues and which are deprioritized or prohibited.','Ministers and agency heads can consistently explain "what AI is for in government" in terms of citizen value.'],
+    },
+    {
+      reactive: ['Departments procure AI tools independently with no shared criteria or coordination.','AI adoption is driven by vendor relationships, individual champions, or political cycles.','No cross-government view of AI investments or their combined impact on service delivery.'],
+      partial: ['A list of AI initiatives exists, but prioritization is driven by departmental interests rather than citizen value.','Some shared procurement frameworks exist, but they don\'t constitute a portfolio with clear priorities.','Resourcing is fragmented across central digital teams and individual agencies.'],
+      strategic: ['Focused government AI portfolio with departmental owners, public value rationale, and citizen impact assessment.','Prioritization criteria include service equity, accountability, efficiency, and democratic values.','Portfolio is reviewed at whole-of-government level on a defined cadence.'],
+    },
+    {
+      reactive: ['AI funded through one-off capital bids or department budgets without central coordination.','No whole-of-government AI infrastructure (shared data platforms, shared compute, interoperability).','Capability is rebuilt in each department without shared investment or learning.'],
+      partial: ['Some central digital or AI funding exists, but split across departments and not sustained beyond electoral cycles.','Infrastructure investments are siloed; departments build duplicate capabilities.','Roles exist in some agencies but not others; no central coordination function.'],
+      strategic: ['Multi-year government AI investment in shared data infrastructure, talent, and enabling platforms embedded in the budget process.','Central coordination function ensures investment compounds across agencies.','Long-term investment logic is tied to service transformation outcomes, not just pilots.'],
+    },
+    {
+      reactive: ['No whole-of-government policy on AI use, procurement, or citizen rights; agencies decide independently.','No guidance on algorithmic transparency, automated decision-making, or citizen redress.','Procurement contracts don\'t include AI-specific accountability requirements.'],
+      partial: ['Draft AI principles or guidance exist but are advisory, inconsistently applied, and not linked to procurement.','Some agencies have internal AI policies; others have none.','Guidance doesn\'t cover emerging AI capabilities like generative AI or autonomous systems.'],
+      strategic: ['Clear government AI policy covering acceptable use, algorithmic transparency, citizen rights, and vendor accountability — embedded in decision processes.','Policy has legal or regulatory backing and applies to all government AI, including outsourced systems.','Citizens have clear rights and redress mechanisms when AI is used in decisions that affect them.'],
+    },
+    {
+      reactive: ['AI risks (e.g., algorithmic bias in benefits, public data exposure, accountability gaps) are not tracked centrally.','No process for auditing AI systems used in high-stakes public decisions (welfare, policing, immigration).','Risk management happens reactively when a public incident or legal challenge occurs.'],
+      partial: ['Some legal and privacy checks occur, but no consistent risk framework across government AI systems.','Risk assessment is applied to some high-profile AI systems but not routinely.','Post-deployment monitoring is limited to technical performance, not equity or accountability outcomes.'],
+      strategic: ['Structured government AI assurance process covering equity, transparency, security, legal compliance, and public accountability.','AI systems used in high-stakes decisions are subject to independent audit and public reporting.','Incident response and redress processes are defined, tested, and publicized.'],
+    },
+    {
+      reactive: ['AI decisions made by ICT teams or individual ministers without defined whole-of-government authority.','No senior official is personally accountable for AI systems that affect citizens.','Escalation path for AI failures in public services is unclear.'],
+      partial: ['Some cross-agency AI committees exist, but roles overlap and escalation paths are unclear.','Accountability is soft — people can identify AI owners but not authority over high-stakes decisions.','Ministerial accountability for AI is not clearly defined in legislation or policy.'],
+      strategic: ['Clear RACI for government AI decisions with senior responsible owner, ministerial accountability, and cross-agency coordination.','Governance structures are formalized in legislation or whole-of-government policy.','Accountability is tested through real incidents and parliamentary scrutiny.'],
+    },
+    {
+      reactive: ['Each agency develops AI processes independently, with no shared standards for evaluation or deployment.','Every new AI initiative restarts from scratch with no shared methodology or learning.','No common process for public consultation or transparency about government AI use.'],
+      partial: ['Some shared procurement frameworks exist (e.g., whole-of-government contracts), but implementation and monitoring vary.','Process quality depends on the agency leading the initiative.','Transparency reporting on government AI use is inconsistent.'],
+      strategic: ['Standardized government-wide process for AI evaluation, deployment, performance monitoring, and decommissioning.','Transparency requirements (e.g., algorithmic registers, impact assessments) are applied consistently.','Processes include public consultation mechanisms for high-impact AI systems.'],
+    },
+    {
+      reactive: ['Public servants experiment with AI tools individually with no structured capability building.','No government-wide AI literacy program for civil servants.','Risk of ungoverned AI use grows as tools proliferate without guidance.'],
+      partial: ['Some training initiatives exist (e.g., digital academies), but AI-specific literacy is inconsistent.','Training is available but not mandatory for roles where AI decisions affect citizens.','Change management is treated as a one-time activity, not a sustained capability.'],
+      strategic: ['Deliberate government-wide AI literacy and change program across policy, service delivery, and leadership roles.','Training addresses both technical literacy and ethical judgment for public sector AI use.','Feedback loops capture frontline experience and feed into policy and governance improvements.'],
+    },
+  ],
+};
+
+const SECTOR_LABELS = { generic: 'Generic / Other', highered: 'Higher Education', healthcare: 'Healthcare', government: 'Government' };
+
+let CURRENT_SECTOR = 'generic';
+let CURRENT_CRITERIA_LEVER = 0;
+const VALS = [0, 0, 0, 0, 0, 0, 0, 0];
+
+const SCORE_LABELS = ['Reactive', 'Emerging', 'Embedded', 'Leading'];
+const SCORE_COLORS = ['#c0392b', '#d97706', '#1a6b3a', '#1a6b3a'];
+
+// ── HELPERS ──────────────────────────────────────────────────────────────
+
+function getColor(v) {
+  return v === 0 ? '#c0392b' : v === 1 ? '#d97706' : '#1a6b3a';
+}
+
+function getValLabel(v) {
+  return v === 0 ? 'Reactive' : v === 1 ? 'Partial' : 'Strategic';
+}
+
+function calcScore() {
+  let total = 0;
+  DECISIONS.forEach((d, i) => {
+    total += (VALS[i] / 2) * (d.weight6 + d.weight18 + d.weight5y) / 3 * 100;
+  });
+  const max = DECISIONS.reduce((s, d) => s + (d.weight6 + d.weight18 + d.weight5y) / 3 * 100, 0);
+  return Math.round((total / max) * 100);
+}
+
+function calcHorizon(weightKey, baseReactive) {
+  let score = 0, maxScore = 0;
+  DECISIONS.forEach((d, i) => {
+    const w = d[weightKey];
+    score += (VALS[i] / 2) * w;
+    maxScore += w;
+  });
+  const pct = score / maxScore;
+  return Math.round(baseReactive + pct * (100 - baseReactive));
+}
+
+function makePath(val100, horizon) {
+  const startY = 85;
+  const endY = Math.max(5, Math.min(90, 100 - val100));
+  const shapes = {
+    '6': (eY) => `M0,${startY} C50,${startY} 100,${(startY + eY) / 2} 200,${eY}`,
+    '18': (eY) => `M0,${startY} C30,${startY - 5} 80,${(startY + eY) / 2 + 5} 140,${eY + 5} C160,${eY + 2} 180,${eY} 200,${eY}`,
+    '5y': (eY) => `M0,${startY} C20,${startY} 60,${startY - 10} 100,${eY + 10} C140,${eY + 3} 170,${eY} 200,${eY}`,
+  };
+  return shapes[horizon](endY);
+}
+
+function getAreaFill(col) {
+  const map = { '#c0392b': 'rgba(192,57,43,0.07)', '#d97706': 'rgba(217,119,6,0.07)', '#1a6b3a': 'rgba(26,107,58,0.07)' };
+  return map[col] || 'rgba(100,100,100,0.07)';
+}
+
+function getStrokeColor(val) {
+  if (val < 35) return '#c0392b';
+  if (val < 65) return '#d97706';
+  return '#1a6b3a';
+}
+
+// ── RENDER ───────────────────────────────────────────────────────────────
+
+function renderAll() {
+  const score = calcScore();
+
+  // Score
+  const si = score < 30 ? 0 : score < 60 ? 1 : score < 80 ? 2 : 3;
+  const sc = SCORE_COLORS[si];
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-num').style.color = sc;
+  document.getElementById('score-tag').textContent = `/ 100 — ${SCORE_LABELS[si]}`;
+  document.getElementById('score-tag').style.color = sc;
+  document.getElementById('score-bar').style.width = score + '%';
+  document.getElementById('score-bar').style.background = sc;
+
+  const pathLabel = document.getElementById('output-path-label');
+  pathLabel.textContent = SCORE_LABELS[si];
+  pathLabel.style.color = sc;
+
+  // Decisions
+  const descs = SECTOR_DESCS[CURRENT_SECTOR];
+  DECISIONS.forEach((d, i) => {
+    const v = VALS[i];
+    document.getElementById(`dval-${i}`).textContent = getValLabel(v);
+    document.getElementById(`dval-${i}`).className = `decision-val val-${v}`;
+    document.getElementById(`ddesc-${i}`).textContent = descs[i][v];
+
+    document.querySelectorAll(`[data-d="${i}"]`).forEach(btn => {
+      const bv = parseInt(btn.dataset.v);
+      btn.className = 'scale-btn' + (bv === v ? ` active-${v}` : '');
+    });
+
+    const cost = v === 0 ? d.costBase : v === 1 ? Math.round(d.costBase * 0.45) : 0;
+    const bar = document.getElementById(`ibar-${i}`);
+    const pct = document.getElementById(`ipct-${i}`);
+    const bc = cost > 60 ? '#c0392b' : cost > 20 ? '#d97706' : '#1a6b3a';
+    bar.style.width = cost + '%';
+    bar.style.background = bc;
+    pct.textContent = cost === 0 ? '✓ Optimized' : `-${cost}%`;
+    pct.style.color = bc;
+  });
+
+  // Impact table
+  const tbody = document.getElementById('impact-tbody');
+  tbody.innerHTML = DECISIONS.map((d, i) => {
+    const v = VALS[i];
+    const col = getColor(v);
+    const chipClass = v === 2 ? 'chip-high' : v === 1 ? 'chip-med' : 'chip-low';
+    return `<tr>
+      <td><span class="decision-dot" style="background:${col}"></span>${d.name}</td>
+      <td style="color:${col};font-family:'JetBrains Mono',monospace;font-size:11px;">${getValLabel(v)}</td>
+      <td style="color:var(--muted);font-size:11px;">${d.impactLabels[v]}</td>
+      <td><span class="impact-chip ${chipClass}">${d.lift6[v]}</span></td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:11px;color:${col}">${d.mult5y[v]}</td>
+    </tr>`;
+  }).join('');
+
+  // Insight
+  const allReactive = VALS.every(v => v === 0);
+  const allStrategic = VALS.every(v => v === 2);
+  const topOpp = DECISIONS.reduce((best, d, i) => {
+    const gain = (2 - VALS[i]) * (d.weight6 + d.weight18 + d.weight5y);
+    return gain > best.gain ? { gain, name: d.name, idx: i } : best;
+  }, { gain: -1, name: '', idx: 0 });
+
+  let txt = '';
+  if (allStrategic) {
+    txt = `<strong>Every lever is strategic.</strong> Your AI strategy is documented, governed, and operationalized. The compounding effect becomes most visible at the 2–5 year horizon — the gap between you and reactive orgs widens dramatically over time. The question now is execution fidelity.`;
+  } else if (score > 60) {
+    txt = `You're in embedded territory, but meaningful value is still left on the table. <strong>Your highest-leverage remaining decision is ${topOpp.name.toLowerCase()}</strong> — shifting this single lever generates more long-term value than any other change available right now.`;
+  } else if (allReactive) {
+    txt = `AI is happening here, but it isn't compounding yet. The missing ingredient isn't effort — it's alignment. A documented AI vision tied to your mission is what turns isolated activity into a strategy. Start there.`;
+  } else {
+    txt = `You've moved some levers but gaps are compressing your returns. <strong>The biggest opportunity is ${topOpp.name.toLowerCase()}</strong> — it carries the highest long-term weight in the model and is currently dragging your 5-year trajectory.`;
+  }
+  document.getElementById('insight-box').querySelector('p').innerHTML = txt;
+
+  // Trajectory
+  renderTrajectory(score);
+
+  // Weight viz
+  renderWeightViz();
+
+  // Criteria panel
+  renderCriteria();
+
+  // Risk register
+  renderRiskRegister();
+
+  // PDF preview
+  renderPDFPreview();
+}
+
+function renderTrajectory(score) {
+  // Diagnose which domains are weakest
+  const strategyScore = (VALS[0] + VALS[1] + VALS[2]) / 6; // 0–1
+  const govScore      = (VALS[3] + VALS[4] + VALS[5]) / 6;
+  const execScore     = (VALS[6] + VALS[7]) / 4;
+
+  const strategyWeak  = strategyScore < 0.4;
+  const govWeak       = govScore < 0.4;
+  const execWeak      = execScore < 0.4;
+  const noVision      = VALS[0] === 0;
+  const noPolicy      = VALS[3] === 0;
+  const noAccountability = VALS[5] === 0;
+  const noPeople      = VALS[7] === 0;
+  const noPortfolio   = VALS[1] === 0;
+  const noProcess     = VALS[6] === 0;
+  const noInvestment  = VALS[2] === 0;
+
+  // Determine overall band
+  const band = score < 30 ? 'reactive' : score < 60 ? 'emerging' : score < 80 ? 'embedded' : 'leading';
+
+  // ── TRAJECTORY COPY ──────────────────────────────────────────────────
+  // Each horizon: { theme, color, narrative, signals[] }
+
+  const trajectories = {
+    reactive: {
+      h6: {
+        theme: 'Activity without direction',
+        color: '#c0392b',
+        narrative: 'AI activity is happening — tools are being tried, vendors are pitching, individuals are experimenting. But none of it is connected to a shared direction. Leadership is fielding questions about AI it can\'t answer consistently. Each new initiative starts from scratch and produces results that can\'t be compared, measured, or built upon.',
+        signals: [
+          'Decisions about AI tools are being made by whoever asks first',
+          'No shared language for what AI is supposed to accomplish here',
+          'Every vendor conversation starts with "so, what are you trying to do with AI?"',
+          'Staff enthusiasm is real but unguided — and beginning to create compliance exposure',
+        ],
+      },
+      h18: {
+        theme: 'Fragmentation compounds',
+        color: '#c0392b',
+        narrative: 'The lack of foundation is becoming expensive. Duplicate investments are surfacing. Promising early experiments have hit a ceiling because no one committed to scale them. The people doing the most interesting AI work are doing it around the organization, not through it — and some have already moved on.',
+        signals: [
+          'Multiple teams have independently built similar AI tools with no coordination',
+          'The best early pilots are stalled — not for lack of interest, but lack of resourcing commitment',
+          'Risk incidents are starting to appear; responses are improvised case-by-case',
+          'Leadership is being asked by boards and peers "what\'s your AI strategy?" and has no crisp answer',
+        ],
+      },
+      h5y: {
+        theme: 'Structural gap opens',
+        color: '#c0392b',
+        narrative: 'The gap between your organization and those that invested in AI foundations is now structural. They have institutional AI capability that compounds — trained staff, embedded processes, governed infrastructure, a track record. Yours resets with every budget cycle and every leadership change. Catching up from this position requires disproportionate investment to close a gap that didn\'t have to exist.',
+        signals: [
+          'Competitors or peer institutions have AI capability embedded in how they operate — not as a special project',
+          'Your AI narrative for funders, partners, and talent is weak relative to peers',
+          'The cost of catching up is now substantially higher than the cost of building foundations would have been',
+          'Staff with strong AI skills are not choosing you when they have options',
+        ],
+      },
+    },
+
+    emerging: {
+      h6: {
+        theme: 'Momentum without traction',
+        color: '#d97706',
+        narrative: noVision
+          ? 'Some parts of the organization have moved — training exists, pilots are running, maybe a policy is in draft. But without a clear AI vision, these efforts are pulling in different directions. Energy is present but not compounding. The same conversations about "what AI is for here" keep happening in different rooms.'
+          : noPolicy
+          ? 'There\'s direction and intent, but teams are operating without guardrails. Each initiative is making its own judgment calls about what\'s acceptable. The organization is moving fast enough that the absence of policy is starting to create real exposure — not just theoretical risk.'
+          : 'Progress is real but uneven. Some levers are working; others are creating drag on the ones that are. The overall picture is of an organization that knows what it needs to do but hasn\'t yet made the commitments required to do it consistently.',
+        signals: [
+          strategyWeak ? 'No shared criteria for which AI initiatives to prioritize — good ideas compete on politics, not value' : 'Vision exists but doesn\'t yet drive resource decisions in practice',
+          govWeak ? 'Governance questions arise ad hoc — each project relitigates boundaries that should already be settled' : 'Policy exists in draft; teams are aware of it but don\'t consistently reference it',
+          execWeak ? 'Process quality varies dramatically by team — some AI initiatives are well-run, others aren\'t' : 'Operating procedures are established in some areas but not yet standard across the organization',
+          'Staff who want to use AI responsibly often can\'t get clear answers about what\'s allowed',
+        ],
+      },
+      h18: {
+        theme: 'The scaling ceiling',
+        color: '#d97706',
+        narrative: noInvestment
+          ? 'The organization has demonstrated that AI can work here — but without sustained funding commitment, the next phase stalls. Pilots that proved their value can\'t be resourced for scale. The talent that made early work successful can\'t be retained on project-by-project funding. The gap between "this works" and "we do this" is a resourcing and commitment gap, not a technical one.'
+          : noAccountability
+          ? 'Progress has been real, but the absence of clear ownership is becoming a blocker. When decisions need to be made — about which use case to prioritize, what level of risk is acceptable, who resolves a disagreement — there\'s no defined authority. Momentum slows at the exact moments it should accelerate.'
+          : 'The foundations laid in the first phase are creating some compounding, but the gaps are damping it. Organizations with complete foundations are pulling ahead not because they\'re doing more, but because each of their investments builds on a prior one. Yours are still somewhat isolated.',
+        signals: [
+          noPortfolio ? 'No portfolio view — resource allocation is political rather than value-driven' : 'Portfolio exists but isn\'t being used to make real trade-offs',
+          noPeople ? 'Low adoption is the limiting factor — tools exist but aren\'t changing how work gets done' : 'Adoption is growing but not systematically tracked or supported',
+          'The organizations pulling ahead aren\'t smarter — they made commitment decisions you haven\'t made yet',
+          govWeak ? 'Risk incidents are being handled reactively; each one costs more than proactive governance would have' : 'Governance is catching up but still reactive to issues rather than ahead of them',
+        ],
+      },
+      h5y: {
+        theme: 'Divergence is directional',
+        color: '#d97706',
+        narrative: 'At the five-year mark, emerging organizations face a choice that becomes harder to make over time. The cost of closing the remaining gaps is still manageable, but it requires decisions that have been deferred — on investment, on accountability, on operating model. Organizations that make those decisions in the next 18 months will compound strongly. Those that don\'t will find the gap to leading organizations widens in ways that are increasingly difficult to explain to boards, funders, and talent.',
+        signals: [
+          'You have real AI capability — but it\'s person-dependent, not institutionally embedded',
+          'The narrative gap to leading peers is starting to matter for partnerships, talent, and reputation',
+          'Your highest-leverage action is whichever lever is still reactive — that\'s what\'s capping your compounding',
+          'The cost of full AI maturity from here is lower than it will be in two years',
+        ],
+      },
+    },
+
+    embedded: {
+      h6: {
+        theme: 'Coordinated progress',
+        color: '#1a6b3a',
+        narrative: 'The foundations are working. AI initiatives are being evaluated against shared criteria, governed by clear principles, and resourced with commitment. Staff know where to go with questions. Leadership can explain the AI direction consistently. The organization isn\'t just doing AI — it\'s building a capacity to do AI.',
+        signals: [
+          'New AI proposals are evaluated against a clear portfolio and prioritization framework',
+          'Governance questions get answered quickly because the principles are already settled',
+          'Staff confidence in AI use is growing — not because guardrails have been removed, but because they\'re clear',
+          'Early use cases are generating learning that\'s being applied to subsequent ones',
+        ],
+      },
+      h18: {
+        theme: 'Compounding begins',
+        color: '#1a6b3a',
+        narrative: noProcess
+          ? 'Strong strategy and governance are compounding well, but the absence of standardized processes means each new use case still requires significant setup effort. The value that should be coming from accumulated operational learning isn\'t fully materializing yet. The gap between good intent and consistent execution is a process gap.'
+          : noPeople
+          ? 'The infrastructure for AI is solid, but the human side is the constraint. Adoption is uneven because change management hasn\'t kept pace with capability. Tools are available; the organizational capacity to use them well is still being built.'
+          : 'The second and third use cases are building on the infrastructure of the first. Deployment is faster, risk reviews are drawing on established frameworks, and the organization is accumulating genuine AI institutional knowledge. This is what compounding looks like at the organizational level.',
+        signals: [
+          'Deployment timelines are shortening because procurement, review, and onboarding processes are established',
+          'Governance processes are being used proactively — not just to prevent problems, but to enable faster decisions',
+          'Staff in multiple functions are developing genuine AI fluency, not just awareness',
+          'Leadership has a clear story about AI progress that holds up to scrutiny',
+        ],
+      },
+      h5y: {
+        theme: 'Institutional advantage',
+        color: '#1a6b3a',
+        narrative: 'The organization has built something reactive organizations can\'t quickly replicate: embedded AI capability. Trained staff, proven processes, accumulated institutional knowledge about what works in this context. The question at the five-year mark isn\'t "how do we get started" — it\'s "how do we stay ahead of the next wave." The remaining gaps are known and manageable; closing them determines whether you stay embedded or reach leading.',
+        signals: [
+          'AI literacy is a real organizational capability, not a training checkbox',
+          'The cost of new AI initiatives has come down significantly because infrastructure and processes are reusable',
+          'Your AI narrative is credible and differentiated relative to peers',
+          'The primary risk is complacency — resting on foundations as the environment continues to shift',
+        ],
+      },
+    },
+
+    leading: {
+      h6: {
+        theme: 'Execution fidelity',
+        color: '#1a6b3a',
+        narrative: 'Every lever is set. The strategy is documented, the governance is embedded, the processes are standardized, and the people are equipped. The risk at this stage isn\'t strategic — it\'s operational. The question is whether the organization can maintain the quality of these foundations under pressure: budget cycles, leadership transitions, the next wave of AI capability changes.',
+        signals: [
+          'AI decisions are being made faster and better because the infrastructure for making them is solid',
+          'New capabilities are being absorbed into existing frameworks rather than creating governance exceptions',
+          'Staff across functions are genuine contributors to AI strategy, not just users of tools chosen by others',
+          'The organization can evaluate vendor claims critically because it understands its own context',
+        ],
+      },
+      h18: {
+        theme: 'The compounding flywheel',
+        color: '#1a6b3a',
+        narrative: 'At full strategic alignment, the compounding effect is real and accelerating. Each AI initiative builds on shared infrastructure, informed by accumulated institutional knowledge, governed by embedded processes that no longer require heroic individual effort. The distance between this organization and reactive peers is widening — not because of investment size, but because of investment quality and continuity.',
+        signals: [
+          'AI capability has become a genuine competitive and reputational differentiator',
+          'The organization is attracting talent specifically because of its AI maturity',
+          'Risk incidents are rare and handled with established processes — not improvised responses',
+          'The value of AI work is visible and attributable, making the case for continued investment straightforward',
+        ],
+      },
+      h5y: {
+        theme: 'Distance from the field',
+        color: '#1a6b3a',
+        narrative: 'Five years of compounding investment on solid foundations creates institutional AI capability that reactive organizations cannot quickly replicate — not because the tools aren\'t available to them, but because the people, processes, culture, and accumulated knowledge aren\'t. The question this organization faces is how to sustain and evolve foundations as the AI landscape continues to shift, and how to use its position to set standards rather than follow them.',
+        signals: [
+          'The organization is shaping sector norms on AI use, not just responding to them',
+          'AI literacy is embedded deeply enough that it survives leadership and staff turnover',
+          'The infrastructure and processes in place create a moat — not from secrecy, but from accumulated institutional knowledge',
+          'The primary strategic question is how to extend the foundation, not how to build it',
+        ],
+      },
+    },
+  };
+
+  const t = trajectories[band];
+  const horizons = [
+    { key: 'h6', period: '0 – 6 months', label: 'Immediate', data: t.h6 },
+    { key: 'h18', period: '6 – 18 months', label: 'Medium-term', data: t.h18 },
+    { key: 'h5y', period: '2 – 5 years', label: 'Compounding', data: t.h5y },
+  ];
+
+  document.getElementById('trajectory-section').innerHTML = horizons.map(h => `
+    <div class="traj-card">
+      <div class="traj-head" style="border-color:${h.data.color};background:${h.data.color}08;">
+        <div class="traj-period">${h.period}</div>
+        <div class="traj-label">${h.label}</div>
+        <div class="traj-theme" style="color:${h.data.color};">${h.data.theme}</div>
+      </div>
+      <div class="traj-body">
+        <div class="traj-narrative">${h.data.narrative}</div>
+        <div class="traj-signals">
+          ${h.data.signals.map(s => `
+            <div class="traj-signal">
+              <div class="traj-signal-dot" style="background:${h.data.color};"></div>
+              <span>${s}</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderWeightViz() {
+  const container = document.getElementById('weight-viz');
+  container.innerHTML = DECISIONS.map((d, i) => {
+    const total = d.weight6 + d.weight18 + d.weight5y;
+    const pct6 = Math.round((d.weight6 / total) * 100);
+    const pct18 = Math.round((d.weight18 / total) * 100);
+    const pct5y = 100 - pct6 - pct18;
+    const totalPct = Math.round(total / 0.58 * 100); // normalize relative to total possible weight
+    return `<div class="weight-row">
+      <div class="weight-name">${d.shortName}</div>
+      <div class="weight-bars">
+        <div class="weight-bar-seg" style="width:${pct6 * 0.6}px;background:#e5e0d8;" title="0-6mo"></div>
+        <div class="weight-bar-seg" style="width:${pct18 * 0.6}px;background:#9a9488;" title="6-18mo"></div>
+        <div class="weight-bar-seg" style="width:${pct5y * 0.6}px;background:${getColor(VALS[i])};" title="2-5yr"></div>
+      </div>
+      <div class="weight-num">${(total / 0.58 * 100).toFixed(0)}%</div>
+    </div>`;
+  }).join('');
+}
+
+function renderCriteria() {
+  const data = MATURITY_CRITERIA[CURRENT_SECTOR][CURRENT_CRITERIA_LEVER];
+  document.getElementById('criteria-lever-title').textContent = DECISIONS[CURRENT_CRITERIA_LEVER].name;
+  document.getElementById('criteria-sector-badge').textContent = SECTOR_LABELS[CURRENT_SECTOR];
+
+  ['reactive', 'partial', 'strategic'].forEach(level => {
+    const ul = document.getElementById(`criteria-${level}`);
+    ul.innerHTML = data[level].map(item => `<li>${item}</li>`).join('');
+  });
+
+  // Lever selector buttons
+  const btns = document.getElementById('criteria-lever-btns');
+  if (!btns.children.length) {
+    btns.innerHTML = DECISIONS.map((d, i) =>
+      `<button class="criteria-lever-btn${i === 0 ? ' active' : ''}" data-lever="${i}">${d.shortName}</button>`
+    ).join('');
+    btns.querySelectorAll('.criteria-lever-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        CURRENT_CRITERIA_LEVER = parseInt(btn.dataset.lever);
+        btns.querySelectorAll('.criteria-lever-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderCriteria();
+      });
+    });
+  } else {
+    btns.querySelectorAll('.criteria-lever-btn').forEach(btn => {
+      btn.classList.toggle('active', parseInt(btn.dataset.lever) === CURRENT_CRITERIA_LEVER);
+    });
+  }
+}
+
+// ── RISK REGISTER DATA ───────────────────────────────────────────────────
+
+// Each lever has risks at each maturity level (0=reactive,1=partial)
+// risks: { statement, category, likelihood (1-3), impact (1-3) }
+// likelihood: 1=Low, 2=Medium, 3=High
+// impact: 1=Low, 2=Medium, 3=High
+const RISK_DATA = [
+  // 0: AI Vision & Mission Alignment
+  {
+    reactive: [
+      { statement: 'AI investments are misaligned with institutional priorities, generating activity without strategic value.', category: 'operational', likelihood: 3, impact: 3 },
+      { statement: 'No basis for evaluating which AI initiatives to fund, leading to politically-driven rather than value-driven decisions.', category: 'operational', likelihood: 3, impact: 2 },
+      { statement: 'Leadership cannot articulate a coherent AI position to regulators, funders, or boards.', category: 'reputational', likelihood: 2, impact: 3 },
+    ],
+    partial: [
+      { statement: 'AI aspirations are not translated into accountable priorities, making progress difficult to measure or defend.', category: 'operational', likelihood: 2, impact: 2 },
+      { statement: 'Siloed AI goals across units create inconsistent messaging to external stakeholders.', category: 'reputational', likelihood: 2, impact: 1 },
+    ],
+  },
+  // 1: Portfolio & Use-Case Focus
+  {
+    reactive: [
+      { statement: 'Duplicate AI investments across units go undetected, wasting resources and creating conflicting outputs.', category: 'operational', likelihood: 3, impact: 2 },
+      { statement: 'Vendor-driven AI adoption introduces tools without institutional vetting, creating security and compliance gaps.', category: 'regulatory', likelihood: 3, impact: 3 },
+      { statement: 'No shared criteria for AI use cases means high-risk applications receive the same treatment as low-risk ones.', category: 'ethical', likelihood: 3, impact: 3 },
+    ],
+    partial: [
+      { statement: 'Incomplete portfolio view makes it impossible to demonstrate AI ROI to leadership or funders.', category: 'operational', likelihood: 2, impact: 2 },
+      { statement: 'High-value use cases are deprioritized due to lack of structured evaluation against lower-value experiments.', category: 'operational', likelihood: 2, impact: 2 },
+    ],
+  },
+  // 2: Investment & Resourcing
+  {
+    reactive: [
+      { statement: 'AI capability cannot be sustained; talent leaves and institutional knowledge is lost between projects.', category: 'operational', likelihood: 3, impact: 3 },
+      { statement: 'Short-term funding cycles prevent infrastructure investment, creating technical debt and vendor dependency.', category: 'operational', likelihood: 3, impact: 2 },
+      { statement: 'No budget for AI risk management or compliance activities, increasing regulatory exposure.', category: 'regulatory', likelihood: 2, impact: 3 },
+    ],
+    partial: [
+      { statement: 'Fragmented AI roles create coordination failures; no single owner can drive cross-functional progress.', category: 'operational', likelihood: 2, impact: 2 },
+      { statement: 'Year-to-year funding prevents multi-year vendor or infrastructure commitments needed for scale.', category: 'operational', likelihood: 2, impact: 1 },
+    ],
+  },
+  // 3: Policy & Guardrails
+  {
+    reactive: [
+      { statement: 'Use of AI tools in ways that violate data protection law (GDPR, HIPAA, FERPA) is undetected and unmanaged.', category: 'regulatory', likelihood: 3, impact: 3 },
+      { statement: 'Staff using AI for sensitive decisions (hiring, grading, triage) without documented standards creates legal liability.', category: 'regulatory', likelihood: 3, impact: 3 },
+      { statement: 'No acceptable use policy means the organization cannot demonstrate due diligence if an AI incident occurs.', category: 'reputational', likelihood: 3, impact: 3 },
+      { statement: 'Inconsistent AI ethics standards expose the organization to discrimination or harm claims.', category: 'ethical', likelihood: 2, impact: 3 },
+    ],
+    partial: [
+      { statement: 'Unevenly applied policies create compliance gaps; some teams are exposed while others are protected.', category: 'regulatory', likelihood: 2, impact: 2 },
+      { statement: 'Draft policies without enforcement mechanisms provide false assurance to leadership.', category: 'reputational', likelihood: 2, impact: 2 },
+    ],
+  },
+  // 4: Risk, Compliance & Assurance
+  {
+    reactive: [
+      { statement: 'AI systems with bias in high-stakes decisions (admissions, lending, clinical triage) go undetected until an incident.', category: 'ethical', likelihood: 3, impact: 3 },
+      { statement: 'No monitoring for AI model degradation; systems produce incorrect outputs over time without detection.', category: 'operational', likelihood: 3, impact: 2 },
+      { statement: 'Security vulnerabilities in AI integrations are not assessed, creating attack surface for data breaches.', category: 'regulatory', likelihood: 2, impact: 3 },
+      { statement: 'Inability to provide audit trail for AI-assisted decisions exposes org to regulatory investigation.', category: 'regulatory', likelihood: 2, impact: 3 },
+    ],
+    partial: [
+      { statement: 'Inconsistent risk assessment means highest-risk AI systems may receive less scrutiny than lower-risk ones.', category: 'operational', likelihood: 2, impact: 2 },
+      { statement: 'Post-deployment monitoring gaps allow performance issues to accumulate before discovery.', category: 'operational', likelihood: 2, impact: 2 },
+    ],
+  },
+  // 5: Accountability & Decision Rights
+  {
+    reactive: [
+      { statement: 'When an AI system causes harm, no defined owner exists to respond — creating crisis management chaos.', category: 'reputational', likelihood: 3, impact: 3 },
+      { statement: 'AI decisions are effectively made by vendors or junior technical staff without appropriate authority.', category: 'regulatory', likelihood: 3, impact: 2 },
+      { statement: 'No executive accountability for AI means board and funders have no reliable line of sight into AI risk.', category: 'reputational', likelihood: 2, impact: 3 },
+    ],
+    partial: [
+      { statement: 'Overlapping committee responsibilities slow AI decision-making and create escalation ambiguity.', category: 'operational', likelihood: 2, impact: 2 },
+      { statement: 'Accountability gaps between IT, legal, and operational leaders allow risky AI decisions to fall through.', category: 'ethical', likelihood: 2, impact: 2 },
+    ],
+  },
+  // 6: Operating Model & Processes
+  {
+    reactive: [
+      { statement: 'No standard AI procurement process means unvetted tools with unknown data handling practices enter the org.', category: 'regulatory', likelihood: 3, impact: 3 },
+      { statement: 'AI deployments have no defined retirement process; outdated or harmful models remain in production.', category: 'ethical', likelihood: 2, impact: 2 },
+      { statement: 'Failures in one team\'s AI system generate no learning — other teams repeat the same mistakes.', category: 'operational', likelihood: 3, impact: 2 },
+    ],
+    partial: [
+      { statement: 'Variable process quality across teams creates inconsistent AI outcomes and unequal risk exposure.', category: 'operational', likelihood: 2, impact: 2 },
+      { statement: 'Monitoring standards vary; some deployed AI systems have no performance review cadence.', category: 'regulatory', likelihood: 2, impact: 2 },
+    ],
+  },
+  // 7: Skills, Culture & Change
+  {
+    reactive: [
+      { statement: 'Staff using AI tools without training make consequential errors that go unrecognized and uncorrected.', category: 'operational', likelihood: 3, impact: 2 },
+      { statement: 'Low AI literacy means policy violations occur through ignorance, not malice — but with the same legal consequences.', category: 'regulatory', likelihood: 3, impact: 2 },
+      { statement: 'Resistance to AI adoption means significant investment produces near-zero realized value.', category: 'operational', likelihood: 2, impact: 3 },
+      { statement: 'No feedback culture around AI means harmful uses are not surfaced until an external incident occurs.', category: 'ethical', likelihood: 2, impact: 2 },
+    ],
+    partial: [
+      { statement: 'Siloed training means AI literacy varies dramatically across teams, creating uneven risk profiles.', category: 'operational', likelihood: 2, impact: 1 },
+      { statement: 'Without reinforcement and incentives, initial training does not translate to changed behavior.', category: 'operational', likelihood: 2, impact: 2 },
+    ],
+  },
+];
+
+const RISK_LEVEL_MAP = {
+  '3-3': { label: 'Critical', cls: 'rl-critical', cell: 'risk-cell-critical' },
+  '3-2': { label: 'High', cls: 'rl-high', cell: 'risk-cell-high' },
+  '2-3': { label: 'High', cls: 'rl-high', cell: 'risk-cell-high' },
+  '2-2': { label: 'Medium', cls: 'rl-medium', cell: 'risk-cell-medium' },
+  '3-1': { label: 'Medium', cls: 'rl-medium', cell: 'risk-cell-medium' },
+  '1-3': { label: 'Medium', cls: 'rl-medium', cell: 'risk-cell-medium' },
+  '2-1': { label: 'Low', cls: 'rl-low', cell: 'risk-cell-low' },
+  '1-2': { label: 'Low', cls: 'rl-low', cell: 'risk-cell-low' },
+  '1-1': { label: 'Low', cls: 'rl-low', cell: 'risk-cell-low' },
+};
+
+const CATEGORY_META = {
+  regulatory: { label: 'Regulatory', cls: 'cat-regulatory' },
+  reputational: { label: 'Reputational', cls: 'cat-reputational' },
+  operational: { label: 'Operational', cls: 'cat-operational' },
+  ethical: { label: 'Ethical', cls: 'cat-ethical' },
+};
+
+function getActiveRisks() {
+  const risks = [];
+  DECISIONS.forEach((d, i) => {
+    const v = VALS[i];
+    if (v < 2) {
+      const levelRisks = v === 0 ? RISK_DATA[i].reactive : RISK_DATA[i].partial;
+      levelRisks.forEach(r => {
+        const levelKey = `${r.likelihood}-${r.impact}`;
+        const levelMeta = RISK_LEVEL_MAP[levelKey];
+        risks.push({ ...r, lever: d.name, leverIdx: i, levelMeta, resolved: v === 2 });
+      });
+    }
+  });
+  // Sort: critical first
+  const order = { 'Critical': 0, 'High': 1, 'Medium': 2, 'Low': 3 };
+  return risks.sort((a, b) => order[a.levelMeta.label] - order[b.levelMeta.label]);
+}
+
+function renderRiskRegister() {
+  const risks = getActiveRisks();
+  const counts = { Critical: 0, High: 0, Medium: 0, Low: 0 };
+  risks.forEach(r => counts[r.levelMeta.label]++);
+
+  // Summary chips
+  const chipsEl = document.getElementById('risk-summary-chips');
+  const chipColors = { Critical: '#991b1b', High: '#92400e', Medium: '#1e40af', Low: '#166534' };
+  chipsEl.innerHTML = Object.entries(counts).map(([level, count]) =>
+    `<div class="risk-summary-chip">
+      <span class="risk-count-badge" style="color:${chipColors[level]}">${count}</span>
+      <span style="color:${chipColors[level]}">${level} risks</span>
+    </div>`
+  ).join('');
+
+  // Heatmap
+  const matrixEl = document.getElementById('risk-matrix');
+  const likelihoodLabels = ['', 'Low likelihood', 'Med likelihood', 'High likelihood'];
+  const impactLabels = ['High impact', 'Med impact', 'Low impact'];
+
+  // Build a map of what risks fall in each cell
+  const cellMap = {};
+  risks.forEach(r => {
+    const key = `${r.likelihood}-${r.impact}`;
+    if (!cellMap[key]) cellMap[key] = [];
+    cellMap[key].push(r);
+  });
+
+  let html = '';
+  // Header row
+  likelihoodLabels.forEach(lbl => {
+    html += `<div class="risk-matrix-col-label">${lbl}</div>`;
+  });
+  // Data rows (impact descending: 3, 2, 1)
+  [3, 2, 1].forEach((imp, impIdx) => {
+    html += `<div class="risk-matrix-label">${impactLabels[impIdx]}</div>`;
+    [1, 2, 3].forEach(lik => {
+      const key = `${lik}-${imp}`;
+      const cellRisks = cellMap[key] || [];
+      const meta = RISK_LEVEL_MAP[key];
+      const cellClass = cellRisks.length > 0 ? meta.cell : 'risk-cell-empty';
+      html += `<div class="risk-cell ${cellClass}">`;
+      cellRisks.slice(0, 3).forEach(r => {
+        html += `<div class="risk-cell-item"><strong>${CATEGORY_META[r.category].label}</strong>${r.lever.split('&')[0].trim()}</div>`;
+      });
+      if (cellRisks.length > 3) html += `<div style="font-size:8px;color:var(--muted);font-family:'JetBrains Mono',monospace;">+${cellRisks.length - 3} more</div>`;
+      html += `</div>`;
+    });
+  });
+  matrixEl.innerHTML = html;
+
+  // Risk table
+  const tbody = document.getElementById('risk-tbody');
+  if (risks.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:24px;font-size:12px;">All levers are strategic — no active risks identified.</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = risks.map(r => {
+    const catMeta = CATEGORY_META[r.category];
+    const likLabel = r.likelihood === 3 ? 'High' : r.likelihood === 2 ? 'Medium' : 'Low';
+    const impLabel = r.impact === 3 ? 'High' : r.impact === 2 ? 'Medium' : 'Low';
+    return `<tr>
+      <td style="color:var(--ink);font-weight:400;">${r.statement}<span class="risk-lever-name">${r.lever}</span></td>
+      <td><span class="risk-category-tag ${catMeta.cls}">${catMeta.label}</span></td>
+      <td style="font-size:11px;color:var(--muted);">${r.lever}</td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:11px;">${likLabel}</td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:11px;">${impLabel}</td>
+      <td><span class="risk-level-tag ${r.levelMeta.cls}">${r.levelMeta.label}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+// ── PDF EXPORT ────────────────────────────────────────────────────────────
+
+function renderPDFPreview() {
+  const score = calcScore();
+  const si = score < 30 ? 0 : score < 60 ? 1 : score < 80 ? 2 : 3;
+  const risks = getActiveRisks();
+  const critCount = risks.filter(r => r.levelMeta.label === 'Critical').length;
+  const highCount = risks.filter(r => r.levelMeta.label === 'High').length;
+
+  const topPriorities = DECISIONS
+    .map((d, i) => ({ name: d.name, gain: (2 - VALS[i]) * (d.weight6 + d.weight18 + d.weight5y), val: VALS[i] }))
+    .filter(d => d.val < 2)
+    .sort((a, b) => b.gain - a.gain)
+    .slice(0, 3);
+
+  document.getElementById('pdf-preview').innerHTML = `
+    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+      <div style="background:white;border:1px solid var(--border);border-radius:2px;padding:12px 16px;flex:1;min-width:120px;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;">Score</div>
+        <div style="font-family:'Archivo Black',sans-serif;font-size:28px;color:${SCORE_COLORS[si]};">${score}</div>
+        <div style="font-size:11px;color:var(--muted);">${SCORE_LABELS[si]} · ${SECTOR_LABELS[CURRENT_SECTOR]}</div>
+      </div>
+      <div style="background:white;border:1px solid var(--border);border-radius:2px;padding:12px 16px;flex:1;min-width:120px;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;">Trajectory</div>
+        <div style="font-size:11px;color:var(--ink2);line-height:1.8;">${SCORE_LABELS[si]} path · ${si < 2 ? 'Gap widening over time' : 'Compounding advantage'}</div>
+      </div>
+      <div style="background:white;border:1px solid var(--border);border-radius:2px;padding:12px 16px;flex:1;min-width:120px;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;">Active risks</div>
+        <div style="font-size:11px;color:var(--ink2);line-height:1.8;"><span style="color:#991b1b;font-weight:600;">${critCount} critical</span> · <span style="color:#92400e;font-weight:600;">${highCount} high</span> · ${risks.length} total</div>
+      </div>
+    </div>
+    <div style="background:white;border:1px solid var(--border);border-radius:2px;padding:12px 16px;">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Top 3 priorities to move</div>
+      ${topPriorities.map((p, i) => `<div style="font-size:12px;color:var(--ink);margin-bottom:4px;"><span style="font-family:'JetBrains Mono',monospace;color:#4ade80;margin-right:8px;">${i+1}.</span>${p.name} <span style="color:var(--muted);font-style:italic;">(currently ${getValLabel(p.val)})</span></div>`).join('')}
+      ${topPriorities.length === 0 ? '<div style="font-size:12px;color:var(--muted);">All levers are strategic.</div>' : ''}
+    </div>
+  `;
+}
+
+function exportPDF() {
+  const score = calcScore();
+  const si = score < 30 ? 0 : score < 60 ? 1 : score < 80 ? 2 : 3;
+  const scoreHex = ['#c0392b','#d97706','#1a6b3a','#1a6b3a'][si];
+  const risks = getActiveRisks();
+  const riskCounts = { Critical: 0, High: 0, Medium: 0, Low: 0 };
+  risks.forEach(r => riskCounts[r.levelMeta.label]++);
+
+  const topPriorities = DECISIONS
+    .map((d, i) => ({ name: d.name, gain: (2 - VALS[i]) * (d.weight6 + d.weight18 + d.weight5y), val: VALS[i] }))
+    .filter(d => d.val < 2)
+    .sort((a, b) => b.gain - a.gain)
+    .slice(0, 3);
+
+  const date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+  const leverRows = DECISIONS.map((d, i) => {
+    const v = VALS[i];
+    const cost = v === 0 ? d.costBase : v === 1 ? Math.round(d.costBase * 0.45) : 0;
+    const costStr = cost === 0 ? '<span style="color:#1a6b3a;">✓ Optimized</span>' : '-' + cost + '%';
+    return `<tr>
+      <td>${d.name}</td>
+      <td style="color:${col};font-weight:600;">${getValLabel(v)}</td>
+      <td>${costStr}</td>
+      <td>${d.lift6[v]}</td>
+      <td>${d.mult5y[v]}</td>
+    </tr>`;
+  }).join('');
+
+  const riskRows = risks.map(r => {
+    const catMeta = CATEGORY_META[r.category];
+    const likLabel = r.likelihood === 3 ? 'High' : r.likelihood === 2 ? 'Med' : 'Low';
+    const impLabel = r.impact === 3 ? 'High' : r.impact === 2 ? 'Med' : 'Low';
+    const levelColors = { Critical: '#991b1b', High: '#92400e', Medium: '#1e40af', Low: '#166534' };
+    return `<tr>
+      <td>${r.statement}</td>
+      <td>${catMeta.label}</td>
+      <td>${r.lever.split('&')[0].trim()}</td>
+      <td>${likLabel}</td>
+      <td>${impLabel}</td>
+      <td style="color:${levelColors[r.levelMeta.label]};font-weight:600;">${r.levelMeta.label}</td>
+    </tr>`;
+  }).join('');
+
+  const priorityItems = topPriorities.map((p, i) =>
+    `<div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:8px;">
+      <span style="background:#1a6b3a;color:white;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;">${i+1}</span>
+      <div><strong>${p.name}</strong><br><span style="color:#888;font-size:11px;">Currently: ${getValLabel(p.val)}</span></div>
+    </div>`
+  ).join('');
+
+  const prioritiesSection = topPriorities.length > 0
+    ? '<div class="section"><div class="section-head">Top Priority Actions</div>' + priorityItems + '</div>'
+    : '';
+
+  const html = `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>SASS — AI Strategy Assessment</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;700&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Archivo',sans-serif; color:#1a1a1a; background:white; font-size:12px; }
+  .page { padding: 0; }
+
+  .header { background:#0e0e0e; color:#f2efe8; padding:24px 32px; display:flex; justify-content:space-between; align-items:center; }
+  .header-left { }
+  .header-eyebrow { font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:#666; margin-bottom:6px; }
+  .header-title { font-size:22px; font-weight:700; }
+  .header-sub { font-size:11px; color:#888; margin-top:4px; }
+  .score-box { background:${scoreHex}; color:white; border-radius:4px; padding:12px 20px; text-align:center; }
+  .score-num { font-size:32px; font-weight:700; line-height:1; }
+  .score-sub { font-size:10px; margin-top:2px; opacity:0.85; }
+
+  .body { padding:28px 32px; }
+  .section { margin-bottom:28px; }
+  .section-head { font-size:10px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:#0e0e0e; padding-bottom:6px; border-bottom:2px solid #0e0e0e; margin-bottom:14px; }
+
+  .meta-row { display:flex; gap:12px; margin-bottom:24px; }
+  .meta-box { background:#f7f5f0; border-radius:3px; padding:12px 16px; flex:1; }
+  .meta-label { font-size:9px; letter-spacing:0.1em; text-transform:uppercase; color:#888; margin-bottom:4px; }
+  .meta-val { font-size:18px; font-weight:700; color:${scoreHex}; }
+  .meta-val-sm { font-size:12px; font-weight:500; color:#3a3830; }
+
+  table { width:100%; border-collapse:collapse; font-size:11px; }
+  th { background:#0e0e0e; color:#f2efe8; padding:7px 10px; text-align:left; font-size:9px; letter-spacing:0.1em; text-transform:uppercase; font-weight:600; }
+  td { padding:7px 10px; border-bottom:1px solid #ebe8e0; vertical-align:top; line-height:1.4; }
+  tr:nth-child(even) td { background:#faf9f5; }
+
+  .risk-counts { display:flex; gap:10px; margin-bottom:14px; }
+  .risk-count { background:#f7f5f0; border-radius:3px; padding:8px 14px; }
+  .risk-count-num { font-size:20px; font-weight:700; line-height:1; }
+  .risk-count-label { font-size:9px; color:#888; text-transform:uppercase; letter-spacing:0.08em; }
+
+  .footer { margin-top:32px; padding-top:12px; border-top:1px solid #ebe8e0; font-size:9px; color:#aaa; display:flex; justify-content:space-between; }
+
+  @media print {
+    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .page-break { page-break-before: always; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="header-left">
+      <div class="header-eyebrow">Simple AI Strategy Simulator</div>
+      <div class="header-title">AI Strategy Assessment</div>
+      <div class="header-sub">${SECTOR_LABELS[CURRENT_SECTOR]} · ${date}</div>
+    </div>
+    <div class="score-box">
+      <div class="score-num">${score}</div>
+      <div class="score-sub">/ 100 · ${SCORE_LABELS[si]}</div>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <div class="meta-row">
+      <div class="meta-box">
+        <div class="meta-label">Maturity path</div>
+        <div class="meta-val">${SCORE_LABELS[si]}</div>
+      </div>
+      <div class="meta-box">
+        <div class="meta-label">Sector</div>
+        <div class="meta-val-sm" style="margin-top:4px;">${SECTOR_LABELS[CURRENT_SECTOR]}</div>
+      </div>
+      <div class="meta-box">
+        <div class="meta-label">Active risks</div>
+        <div class="meta-val" style="color:#991b1b;">${risks.length}</div>
+      </div>
+      <div class="meta-box">
+        <div class="meta-label">Critical / High</div>
+        <div class="meta-val" style="color:#991b1b;">${riskCounts.Critical + riskCounts.High}</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">Lever Assessment</div>
+      <table>
+        <thead><tr><th>Decision</th><th>Current state</th><th>Value gap</th><th>6-mo lift</th><th>5-yr mult.</th></tr></thead>
+        <tbody>${leverRows}</tbody>
+      </table>
+    </div>
+
+    ${prioritiesSection}
+
+    <div class="page-break"></div>
+
+    <div class="section">
+      <div class="section-head">Risk Register</div>
+      <div class="risk-counts">
+        <div class="risk-count"><div class="risk-count-num" style="color:#991b1b;">${riskCounts.Critical}</div><div class="risk-count-label">Critical</div></div>
+        <div class="risk-count"><div class="risk-count-num" style="color:#92400e;">${riskCounts.High}</div><div class="risk-count-label">High</div></div>
+        <div class="risk-count"><div class="risk-count-num" style="color:#1e40af;">${riskCounts.Medium}</div><div class="risk-count-label">Medium</div></div>
+        <div class="risk-count"><div class="risk-count-num" style="color:#166534;">${riskCounts.Low}</div><div class="risk-count-label">Low</div></div>
+      </div>
+      <table>
+        <thead><tr><th>Risk statement</th><th>Category</th><th>Lever</th><th>Likelihood</th><th>Impact</th><th>Level</th></tr></thead>
+        <tbody>${riskRows || '<tr><td colspan="6" style="text-align:center;color:#888;padding:20px;">No active risks — all levers are strategic.</td></tr>'}</tbody>
+      </table>
+    </div>
+
+    <div class="footer">
+      <span>Simple AI Strategy Simulator · SASS</span>
+      <span>Based on McKinsey State of AI 2024, Gartner AI Maturity Model, Deloitte AI Institute</span>
+    </div>
+
+  </div>
+</div>
+<scr' + 'ipt>window.onload = function() { window.print(); }</scr' + 'ipt>
+</body>
+</html>`;
+
+  const encoded = 'data:text/html;charset=utf-8,' + encodeURIComponent(html);
+  const a = document.createElement('a');
+  a.href = encoded;
+  a.download = 'sass-assessment-' + new Date().toISOString().slice(0,10) + '.html';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+// ── WIRE UP ───────────────────────────────────────────────────────────────
+
+// Scale buttons
+document.querySelectorAll('.scale-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    VALS[parseInt(btn.dataset.d)] = parseInt(btn.dataset.v);
+    renderAll();
+  });
+
+  btn.addEventListener('mouseenter', (e) => {
+    const d = parseInt(btn.dataset.d);
+    const v = parseInt(btn.dataset.v);
+    const desc = SECTOR_DESCS[CURRENT_SECTOR][d][v];
+    const levelNames = ['Reactive', 'Partial', 'Strategic'];
+    const levelClasses = ['tooltip-reactive', 'tooltip-partial', 'tooltip-strategic'];
+
+    const tooltip = document.getElementById('btn-tooltip');
+    const levelEl = document.getElementById('tooltip-level');
+    const textEl = document.getElementById('tooltip-text');
+
+    levelEl.textContent = levelNames[v];
+    levelEl.className = 'btn-tooltip-level ' + levelClasses[v];
+    textEl.textContent = desc;
+
+    // Position: to the right of the controls panel
+    const rect = btn.getBoundingClientRect();
+    const tooltipW = 220;
+    let left = rect.right + 12;
+    let top = rect.top;
+
+    // Keep within viewport
+    if (left + tooltipW > window.innerWidth) left = rect.left - tooltipW - 12;
+    if (top + 100 > window.innerHeight) top = window.innerHeight - 120;
+
+    tooltip.style.left = left + 'px';
+    tooltip.style.top = top + 'px';
+    tooltip.classList.add('visible');
+  });
+
+  btn.addEventListener('mouseleave', () => {
+    document.getElementById('btn-tooltip').classList.remove('visible');
+  });
+});
+
+// Sector buttons
+document.querySelectorAll('.sector-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    try {
+      CURRENT_SECTOR = btn.dataset.sector;
+      document.querySelectorAll('.sector-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderAll();
+    } catch(e) {
+      console.error('Sector switch error:', e);
+    }
+  });
+});
+
+// Tab buttons
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const tab = btn.dataset.tab;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(`tab-${tab}`).classList.add('active');
+  });
+});
+
+// Auto-fit subhead to one line
+function fitSubhead() {
+  const el = document.querySelector('.controls-sub');
+  if (!el) return;
+  let size = 18;
+  el.style.whiteSpace = 'nowrap';
+  el.style.fontSize = size + 'px';
+  while (el.scrollWidth > el.clientWidth && size > 10) {
+    size -= 0.5;
+    el.style.fontSize = size + 'px';
+  }
+}
+
+fitSubhead();
+window.addEventListener('resize', fitSubhead);
+
+// Init
+renderAll();
+</script>
+</body>
+</html>
