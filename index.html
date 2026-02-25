@@ -1566,7 +1566,7 @@ body {
         <strong>Export your AI strategy assessment</strong><br>
         Generates a clean PDF with your scores, risk register, and top priorities.
       </div>
-      <button class="export-btn" id="export-btn" onclick="exportPDF()">↓ Download PDF</button>
+      <button class="export-btn" id="export-btn" onclick="exportPDF()">↗ Open print view</button>
     </div>
 
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:20px 24px;">
@@ -2814,13 +2814,10 @@ function exportPDF() {
 </body>
 </html>`;
 
-  const encoded = 'data:text/html;charset=utf-8,' + encodeURIComponent(html);
-  const a = document.createElement('a');
-  a.href = encoded;
-  a.download = 'sass-assessment-' + new Date().toISOString().slice(0,10) + '.html';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
+  const printWindow = window.open('', '_blank', 'width=900,height=700');
+  printWindow.document.open();
+  printWindow.document.write(html);
+  printWindow.document.close();
 }
 
 // ── WIRE UP ───────────────────────────────────────────────────────────────
@@ -2829,10 +2826,12 @@ function exportPDF() {
 document.querySelectorAll('.scale-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     VALS[parseInt(btn.dataset.d)] = parseInt(btn.dataset.v);
+    document.getElementById('btn-tooltip').classList.remove('visible');
     renderAll();
   });
 
   btn.addEventListener('mouseenter', (e) => {
+    if (window.matchMedia('(hover: none)').matches) return; // skip on touch devices
     const d = parseInt(btn.dataset.d);
     const v = parseInt(btn.dataset.v);
     const desc = SECTOR_DESCS[CURRENT_SECTOR][d][v];
@@ -2847,14 +2846,13 @@ document.querySelectorAll('.scale-btn').forEach(btn => {
     levelEl.className = 'btn-tooltip-level ' + levelClasses[v];
     textEl.textContent = desc;
 
-    // Position: to the right of the controls panel
     const rect = btn.getBoundingClientRect();
     const tooltipW = 220;
     let left = rect.right + 12;
     let top = rect.top;
 
-    // Keep within viewport
     if (left + tooltipW > window.innerWidth) left = rect.left - tooltipW - 12;
+    if (left < 0) left = 8;
     if (top + 100 > window.innerHeight) top = window.innerHeight - 120;
 
     tooltip.style.left = left + 'px';
