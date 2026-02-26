@@ -20,6 +20,7 @@
   --partial: #d29922;
   --strategic: #3fb950;
   --accent: #e6edf3;
+  --heading: #8b9dc4;
 }
 
 /* Optional warmer light theme overrides */
@@ -34,6 +35,7 @@ body.theme-light {
   --partial: #c68a1f;
   --strategic: #2f855a;
   --accent: #111827;
+  --heading: #1e3a5f;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -66,7 +68,7 @@ body {
   font-weight: 800;
   font-size: 32px;
   line-height: 0.88;
-  color: var(--accent);
+  color: var(--heading);
   letter-spacing: -0.03em;
   margin: 0;
   cursor: pointer;
@@ -433,7 +435,7 @@ body {
   font-size: clamp(26px, 4vw, 38px);
   font-weight: 600;
   line-height: 1.25;
-  color: var(--accent);
+  color: var(--heading);
   margin-bottom: 20px;
   letter-spacing: -0.5px;
 }
@@ -502,7 +504,7 @@ body {
 .pillar-title {
   font-size: 14px;
   font-weight: 600;
-  color: var(--accent);
+  color: var(--heading);
   margin-bottom: 6px;
   line-height: 1.3;
 }
@@ -741,7 +743,7 @@ body {
   font-size: 9px;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--heading);
   margin-bottom: 8px;
 }
 
@@ -798,7 +800,7 @@ body {
   letter-spacing: 0.06em;
   text-transform: uppercase;
   margin-bottom: 0;
-  color: var(--ink);
+  color: var(--heading);
 }
 
 /* Tab nav */
@@ -823,8 +825,8 @@ body {
   transition: all 0.15s;
 }
 
-.tab-btn:hover { color: var(--ink); }
-.tab-btn.active { color: var(--ink); border-bottom-color: var(--strategic); }
+.tab-btn:hover { color: var(--heading); }
+.tab-btn.active { color: var(--heading); border-bottom-color: var(--strategic); }
 
 .tab-panel { display: none; }
 .tab-panel.active { display: flex; flex-direction: column; gap: 24px; }
@@ -915,7 +917,7 @@ body.theme-light .results-hint-label {
 .wts-title {
   font-family: 'Archivo Black', sans-serif;
   font-size: 15px;
-  color: var(--ink);
+  color: var(--heading);
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
@@ -1026,7 +1028,7 @@ body.theme-light .results-hint-label {
   font-size: 9px;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--heading);
 }
 
 .lever-rows {
@@ -1201,7 +1203,7 @@ body.theme-light .results-hint-label {
 .criteria-header h3 {
   font-family: 'Archivo Black', sans-serif;
   font-size: 13px;
-  color: var(--ink);
+  color: var(--heading);
 }
 
 .criteria-sector-badge {
@@ -1330,7 +1332,7 @@ body.theme-light .results-hint-label {
 .risk-heatmap-head h3 {
   font-family: 'Archivo Black', sans-serif;
   font-size: 13px;
-  color: var(--ink);
+  color: var(--heading);
 }
 
 .risk-matrix-wrap { padding: 20px 22px; }
@@ -1501,7 +1503,7 @@ body.theme-light .risk-matrix-col-label {
   font-family: 'Archivo Black', sans-serif;
   font-size: 15px;
   margin-bottom: 10px;
-  color: var(--ink);
+  color: var(--heading);
 }
 
 .transparency-intro p {
@@ -1653,25 +1655,25 @@ body.theme-light .risk-matrix-col-label {
   .decision-desc { font-size: 13px; color: #8a96a8; line-height: 1.55; }
   .decision-val { font-size: 13px; }
   .scale-btn { font-size: 11px; padding: 10px 12px; }
-  .maturity-label { font-size: 10px; color: #7b88a1; }
+  .maturity-label { font-size: 10px; color: var(--heading); }
   .maturity-band { font-size: 24px; }
   .maturity-desc { font-size: 13px; color: #8a96a8; }
 
   .output { padding: 24px 20px 40px; }
-  .output-title { font-size: 24px; color: #c9d1d9; }
+  .output-title { font-size: 24px; color: var(--heading); }
   .maturity-summary .maturity-band { font-size: 24px; }
   .maturity-summary .maturity-desc { font-size: 13px; color: #8a96a8; }
   .tab-btn { font-size: 10px; padding: 10px 12px 12px; }
   .diagnostic-intro { padding: 20px 20px; }
-  .diagnostic-band { font-size: 14px; color: #a8b4c4; }
+  .diagnostic-band { font-size: 14px; }
   .diagnostic-narrative { font-size: 16px; line-height: 1.7; color: #9ca8bb; }
   .diagnostic-narrative strong { color: var(--strategic); }
-  .wts-title { font-size: 16px; color: #9ca8bb; }
+  .wts-title { font-size: 16px; color: var(--heading); }
   .wts-sub { font-size: 13px; color: #8a96a8; }
   .priority-lever { font-size: 15px; color: #9ca8bb; }
   .priority-why { font-size: 14px; color: #8a96a8; line-height: 1.6; }
   .priority-action span:last-child { font-size: 14px; color: #9ca8bb; }
-  .lever-overview-head { font-size: 10px; color: #7b88a1; }
+  .lever-overview-head { font-size: 10px; color: var(--heading); }
   .lever-row-name { font-size: 14px; color: #9ca8bb; }
   .lever-row-note { display: block; font-size: 13px; color: #8a96a8; }
   .section-title { font-size: 10px; color: #8a96a8; }
