@@ -182,7 +182,7 @@ body {
 }
 
 .val-0 { background: #2d1818; color: var(--reactive); }
-.val-1 { background: #2a2000; color: #f5c842; }
+.val-1 { background: #2a2000; color: var(--partial); }
 .val-2 { background: #0d2818; color: var(--strategic); }
 
 .scale-row {
@@ -208,7 +208,7 @@ body {
 
 .scale-btn:hover { border-color: var(--muted); color: var(--ink2); }
 .scale-btn.active-0 { background: #2d1818; border-color: var(--reactive); color: var(--reactive); }
-.scale-btn.active-1 { background: #2a2000; border-color: #f5c842; color: #f5c842; }
+.scale-btn.active-1 { background: #2a2000; border-color: var(--partial); color: var(--partial); }
 .scale-btn.active-2 { background: #0d2818; border-color: var(--strategic); color: var(--strategic); }
 
 /* Hover tooltip — slim, minimal */
@@ -235,7 +235,7 @@ body {
   font-weight: 600;
 }
 .tooltip-reactive { color: var(--reactive); }
-.tooltip-partial   { color: #f5c842; }
+.tooltip-partial   { color: var(--partial); }
 .tooltip-strategic { color: var(--strategic); }
 .btn-tooltip-text {
   font-size: 10px;
@@ -492,7 +492,7 @@ body {
 }
 
 .tag-now  { background: #2a1515; color: var(--reactive); }
-.tag-soon { background: #2a1a00; color: #f5c842; }
+.tag-soon { background: #2a1a00; color: var(--partial); }
 .tag-then { background: #0a1a2a; color: #60a5fa; }
 
 /* Lever status overview */
@@ -546,7 +546,7 @@ body {
 }
 
 .badge-reactive  { background: #2d1818; color: var(--reactive); }
-.badge-partial   { background: #2a2000; color: #f5c842; }
+.badge-partial   { background: #2a2000; color: var(--partial); }
 .badge-strategic { background: #0d2818; color: var(--strategic); }
 
 .lever-row-note {
@@ -726,7 +726,7 @@ body {
 }
 
 .level-reactive .criteria-level-head { color: var(--reactive); border-color: var(--reactive); }
-.level-partial .criteria-level-head  { color: #f5c842; border-color: #f5c842; }
+.level-partial .criteria-level-head  { color: var(--partial); border-color: var(--partial); }
 .level-strategic .criteria-level-head { color: var(--strategic); border-color: var(--strategic); }
 
 .criteria-bullets {
@@ -938,7 +938,7 @@ body {
 }
 
 .rl-critical { background: #2d1818; color: var(--reactive); }
-.rl-high     { background: #2a1a00; color: #f5c842; }
+.rl-high     { background: #2a1a00; color: var(--partial); }
 .rl-medium   { background: #0a1a2a; color: #60a5fa; }
 .rl-low      { background: #0d2818; color: var(--strategic); }
 
@@ -1075,7 +1075,7 @@ body {
   <div class="sector-selector">
     <div class="sector-label">Your sector</div>
     <div class="sector-btns">
-      <button class="sector-btn active" data-sector="generic">Generic / Other</button>
+      <button class="sector-btn active" data-sector="generic">No Sector</button>
       <button class="sector-btn" data-sector="highered">Higher Education</button>
       <button class="sector-btn" data-sector="healthcare">Healthcare</button>
       <button class="sector-btn" data-sector="government">Government</button>
@@ -1266,7 +1266,7 @@ body {
       <div class="criteria-selector" id="criteria-lever-btns"></div>
       <div class="criteria-header">
         <h3 id="criteria-lever-title">AI vision & mission alignment</h3>
-        <span class="criteria-sector-badge" id="criteria-sector-badge">Generic</span>
+        <span class="criteria-sector-badge" id="criteria-sector-badge">No Sector</span>
       </div>
       <div class="criteria-grid">
         <div class="criteria-col level-reactive">
@@ -1686,7 +1686,7 @@ MATURITY_CRITERIA.highered  = MATURITY_CRITERIA.generic;
 MATURITY_CRITERIA.healthcare = MATURITY_CRITERIA.generic;
 MATURITY_CRITERIA.government = MATURITY_CRITERIA.generic;
 
-const SECTOR_LABELS = { generic: 'Generic / Other', highered: 'Higher Education', healthcare: 'Healthcare', government: 'Government' };
+const SECTOR_LABELS = { generic: 'No Sector', highered: 'Higher Education', healthcare: 'Healthcare', government: 'Government' };
 
 let CURRENT_SECTOR = 'generic';
 let CURRENT_CRITERIA_LEVER = 0;
@@ -1799,8 +1799,8 @@ const CATEGORY_META = {
 
 const MATURITY_BANDS = [
   { label: 'Reactive',  color: '#d4897e', desc: 'AI is happening here, but nothing is compounding yet.' },
-  { label: 'Emerging',  color: '#d97706', desc: 'Momentum exists but gaps are limiting the return.' },
-  { label: 'Embedded',  color: '#1a6b3a', desc: 'Foundations are working. Compounding is beginning.' },
+  { label: 'Emerging',  color: '#d29922', desc: 'Momentum exists but gaps are limiting the return.' },
+  { label: 'Embedded',  color: '#3fb950', desc: 'Foundations are working. Compounding is beginning.' },
   { label: 'Leading',   color: 'var(--strategic)', desc: 'AI capability is institutionalized and self-reinforcing.' },
 ];
 
@@ -1912,7 +1912,7 @@ function renderPriorities() {
   document.getElementById('priority-list').innerHTML = opportunities.map((opp, rank) => {
     const rec = recs[opp.idx];
     const recLevel = opp.val === 0 ? rec.reactive : rec.partial;
-    const stateColor = opp.val === 0 ? 'var(--reactive)' : '#f5c842';
+    const stateColor = opp.val === 0 ? 'var(--reactive)' : 'var(--partial)';
     const stateBg = opp.val === 0 ? '#2d1818' : '#2a2000';
 
     return `<div class="priority-item priority-${rank + 1}">
@@ -1980,7 +1980,7 @@ function renderTrajectory(bandIdx, band) {
       },
     },
     emerging: {
-      h6: { theme: 'Momentum without traction', color: '#d97706',
+      h6: { theme: 'Momentum without traction', color: '#d29922',
         narrative: noVision
           ? 'Some parts of the organization have moved — training exists, pilots are running, maybe a policy is in draft. But without a clear AI vision, these efforts are pulling in different directions. Energy is present but not compounding.'
           : noPolicy
@@ -1993,7 +1993,7 @@ function renderTrajectory(bandIdx, band) {
           'Staff who want to use AI responsibly often can\'t get clear answers about what\'s allowed',
         ],
       },
-      h18: { theme: 'The scaling ceiling', color: '#d97706',
+      h18: { theme: 'The scaling ceiling', color: '#d29922',
         narrative: noInvestment
           ? 'The organization has demonstrated that AI can work here — but without sustained funding commitment, the next phase stalls. Pilots that proved their value can\'t be resourced for scale. The gap between "this works" and "we do this" is a resourcing and commitment gap, not a technical one.'
           : noAccountability
@@ -2006,17 +2006,17 @@ function renderTrajectory(bandIdx, band) {
           govWeak ? 'Risk incidents handled reactively; each costs more than proactive governance would have' : 'Governance catching up but still reactive to issues',
         ],
       },
-      h5y: { theme: 'Divergence is directional', color: '#d97706',
+      h5y: { theme: 'Divergence is directional', color: '#d29922',
         narrative: 'At the five-year mark, emerging organizations face a choice that becomes harder to make over time. The cost of closing the remaining gaps is still manageable, but it requires decisions that have been deferred. Organizations that make those decisions in the next 18 months will compound strongly. Those that don\'t will find the gap to leading organizations widens in ways increasingly difficult to explain to boards and funders.',
         signals: ['You have real AI capability — but it\'s person-dependent, not institutionally embedded', 'The narrative gap to leading peers is starting to matter for partnerships and talent', 'Your highest-leverage action is whichever lever is still reactive', 'The cost of full AI maturity from here is lower than it will be in two years'],
       },
     },
     embedded: {
-      h6: { theme: 'Coordinated progress', color: '#1a6b3a',
+      h6: { theme: 'Coordinated progress', color: '#3fb950',
         narrative: 'The foundations are working. AI initiatives are being evaluated against shared criteria, governed by clear principles, and resourced with commitment. The organization isn\'t just doing AI — it\'s building a capacity to do AI.',
         signals: ['New AI proposals evaluated against a clear portfolio and prioritization framework', 'Governance questions get answered quickly because principles are already settled', 'Staff confidence in AI use is growing because guardrails are clear', 'Early use cases are generating learning applied to subsequent ones'],
       },
-      h18: { theme: 'Compounding begins', color: '#1a6b3a',
+      h18: { theme: 'Compounding begins', color: '#3fb950',
         narrative: noProcess
           ? 'Strong strategy and governance are compounding well, but the absence of standardized processes means each new use case still requires significant setup effort. The value that should come from accumulated operational learning isn\'t fully materializing.'
           : noPeople
@@ -2024,7 +2024,7 @@ function renderTrajectory(bandIdx, band) {
           : 'The second and third use cases are building on the infrastructure of the first. Deployment is faster, risk reviews draw on established frameworks, and the organization is accumulating genuine AI institutional knowledge.',
         signals: ['Deployment timelines shortening because procurement and review processes are established', 'Governance processes being used proactively to enable faster decisions', 'Staff in multiple functions developing genuine AI fluency', 'Leadership has a clear story about AI progress that holds up to scrutiny'],
       },
-      h5y: { theme: 'Institutional advantage', color: '#1a6b3a',
+      h5y: { theme: 'Institutional advantage', color: '#3fb950',
         narrative: 'The organization has built something reactive organizations can\'t quickly replicate: embedded AI capability. Trained staff, proven processes, accumulated institutional knowledge. The remaining gaps are known and manageable; closing them determines whether you stay embedded or reach leading.',
         signals: ['AI literacy is a real organizational capability, not a training checkbox', 'The cost of new AI initiatives has come down because infrastructure and processes are reusable', 'Your AI narrative is credible and differentiated relative to peers', 'The primary risk is complacency as the environment continues to shift'],
       },
@@ -2127,7 +2127,7 @@ function renderRiskRegister() {
   risks.forEach(r => counts[r.levelMeta.label]++);
 
   const chipsEl = document.getElementById('risk-summary-chips');
-  const chipColors = { Critical: 'var(--reactive)', High: '#f5c842', Medium: '#60a5fa', Low: 'var(--strategic)' };
+  const chipColors = { Critical: 'var(--reactive)', High: 'var(--partial)', Medium: '#60a5fa', Low: 'var(--strategic)' };
   chipsEl.innerHTML = Object.entries(counts).map(([level, count]) =>
     `<div class="risk-summary-chip">
       <span class="risk-count-badge" style="color:${chipColors[level]}">${count}</span>
@@ -2203,7 +2203,7 @@ function buildExportHTML(forPrint) {
 
   const leverRows = DECISIONS.map((d, i) => {
     const v = VALS[i];
-    const col = v === 0 ? '#991b1b' : v === 1 ? '#854d0e' : '#166534';
+    const col = v === 0 ? '#991b1b' : v === 1 ? '#d29922' : '#3fb950';
     return `<tr><td>${d.name}</td><td style="color:${col};font-weight:600;">${getValLabel(v)}</td><td style="color:var(--ink2);">${d.group}</td></tr>`;
   }).join('');
 
@@ -2213,11 +2213,11 @@ function buildExportHTML(forPrint) {
     const tagMap = { now: 'Right now', soon: 'Within 30 days', then: 'Next quarter' };
     return `<div style="margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #ebe8e0;">
       <div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:8px;">
-        <span style="background:#1a6b3a;color:white;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;line-height:20px;text-align:center;">${i+1}</span>
+        <span style="background:#3fb950;color:white;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;line-height:20px;text-align:center;">${i+1}</span>
         <div><strong style="font-size:14px;">${p.name}</strong><span style="font-size:11px;color:var(--ink2);margin-left:8px;">Currently: ${getValLabel(p.val)}</span></div>
       </div>
       <p style="font-size:12px;color:var(--muted);line-height:1.7;margin-bottom:8px;margin-left:30px;">${recLevel.why}</p>
-      ${recLevel.actions.map(a => `<div style="display:flex;gap:8px;margin-bottom:5px;margin-left:30px;"><span style="font-family:monospace;font-size:9px;background:#f0fdf4;color:#166534;padding:2px 6px;border-radius:6px;white-space:nowrap;font-weight:600;text-transform:uppercase;flex-shrink:0;margin-top:1px;">${tagMap[a.tag]}</span><span style="font-size:12px;color:#3a3830;line-height:1.5;">${a.text}</span></div>`).join('')}
+      ${recLevel.actions.map(a => `<div style="display:flex;gap:8px;margin-bottom:5px;margin-left:30px;"><span style="font-family:monospace;font-size:9px;background:#f0fdf4;color:#3fb950;padding:2px 6px;border-radius:6px;white-space:nowrap;font-weight:600;text-transform:uppercase;flex-shrink:0;margin-top:1px;">${tagMap[a.tag]}</span><span style="font-size:12px;color:#3a3830;line-height:1.5;">${a.text}</span></div>`).join('')}
     </div>`;
   }).join('');
 
@@ -2225,7 +2225,7 @@ function buildExportHTML(forPrint) {
     const catMeta = CATEGORY_META[r.category];
     const likLabel = r.likelihood === 3 ? 'High' : r.likelihood === 2 ? 'Med' : 'Low';
     const impLabel = r.impact === 3 ? 'High' : r.impact === 2 ? 'Med' : 'Low';
-    const levelColors = { Critical: '#991b1b', High: '#92400e', Medium: '#1e40af', Low: '#166534' };
+    const levelColors = { Critical: '#991b1b', High: '#d29922', Medium: '#1e40af', Low: '#3fb950' };
     return `<tr><td>${r.statement}</td><td>${catMeta.label}</td><td>${r.lever.split('&')[0].trim()}</td><td>${likLabel}</td><td>${impLabel}</td><td style="color:${levelColors[r.levelMeta.label]};font-weight:600;">${r.levelMeta.label}</td></tr>`;
   }).join('');
 
