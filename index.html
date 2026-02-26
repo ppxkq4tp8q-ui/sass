@@ -9,7 +9,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;500&family=Bricolage+Grotesque:wght@400;700;800&display=swap');
 
 :root {
-  /* Cursor Dark Midnight theme */
+  /* Cursor Dark Midnight theme (default) */
   --bg: #1e2127;
   --surface: #191c22;
   --ink: #7b88a1;
@@ -20,6 +20,20 @@
   --partial: #d29922;
   --strategic: #3fb950;
   --accent: #e6edf3;
+}
+
+/* Optional warmer light theme overrides */
+body.theme-light {
+  --bg: #f5f0ea;
+  --surface: #ffffff;
+  --ink: #273549;
+  --ink2: #111827;
+  --muted: #6b7280;
+  --border: #d4cbbf;
+  --reactive: #c0594b;
+  --partial: #c68a1f;
+  --strategic: #2f855a;
+  --accent: #111827;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -76,6 +90,63 @@ body {
 }
 
 .site-header-sub strong { font-weight: 700; color: var(--ink2); }
+
+/* Theme switcher: both options visible, foolproof for executives */
+.theme-switcher {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-left: auto;
+}
+
+.theme-opt {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  background: transparent;
+  color: var(--ink2);
+  font-family: 'Archivo', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.theme-opt:last-child {
+  border-bottom: none;
+}
+
+.theme-opt:hover {
+  background: var(--bg);
+  color: var(--accent);
+}
+
+.theme-opt.active {
+  background: var(--border);
+  color: var(--accent);
+  cursor: default;
+}
+
+.theme-opt.active:hover {
+  background: var(--border);
+  color: var(--accent);
+}
+
+.theme-opt-icon {
+  font-size: 13px;
+  opacity: 0.9;
+}
+
+.theme-opt-label {
+  display: inline-block;
+}
 
 .page {
   display: grid;
@@ -1254,7 +1325,7 @@ body {
   font-size: 8px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--ink2);
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -1267,7 +1338,7 @@ body {
   font-size: 8px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--ink2);
   text-align: center;
   padding-bottom: 6px;
 }
@@ -1290,7 +1361,7 @@ body {
 .risk-cell-item {
   font-size: 9px;
   line-height: 1.3;
-  color: var(--ink2);
+  color: var(--accent);
 }
 
 .risk-cell-item strong {
@@ -1300,6 +1371,38 @@ body {
   letter-spacing: 0.04em;
   text-transform: uppercase;
   margin-bottom: 1px;
+}
+
+/* Light theme overrides to keep the heatmap legible */
+body.theme-light .risk-heatmap {
+  background: #f9fafb;
+}
+
+body.theme-light .risk-heatmap-head {
+  background: #f3f4f6;
+}
+
+body.theme-light .risk-matrix-wrap {
+  padding: 20px 22px;
+}
+
+body.theme-light .risk-cell-empty    { background: #f3f4f6; border-radius: 6px; }
+body.theme-light .risk-cell-low      { background: #ecfdf3; border: 1px solid #4ade80; border-radius: 6px; }
+body.theme-light .risk-cell-medium   { background: #fffbeb; border: 1px solid #facc15; border-radius: 6px; }
+body.theme-light .risk-cell-high     { background: #fef2f2; border: 1px solid #f97373; border-radius: 6px; }
+body.theme-light .risk-cell-critical { background: #fee2e2; border: 1px solid #ef4444; border-radius: 6px; }
+
+body.theme-light .risk-cell-item {
+  color: #111827;
+}
+
+body.theme-light .risk-cell-item strong {
+  color: #1f2937;
+}
+
+body.theme-light .risk-matrix-label,
+body.theme-light .risk-matrix-col-label {
+  color: #6b7280;
 }
 
 .risk-register-section {
@@ -1566,7 +1669,7 @@ body {
 </style>
 
 </head>
-<body>
+<body class="theme-light">
 <div class="btn-tooltip" id="btn-tooltip">
   <div class="btn-tooltip-level" id="tooltip-level"></div>
   <div class="btn-tooltip-text" id="tooltip-text"></div>
@@ -1576,6 +1679,16 @@ body {
   <h1 class="site-header-title">Simple<br><em>AI</em><br>Strategy<br>Simulator</h1>
   <div class="site-header-divider" aria-hidden="true"></div>
   <p class="site-header-sub">Clarity on your AI strategy.<br><strong>And what to do next.</strong></p>
+  <div class="theme-switcher" role="group" aria-label="Choose theme">
+    <button type="button" class="theme-opt active" id="theme-opt-light" data-theme="light">
+      <span class="theme-opt-icon" aria-hidden="true">☀︎</span>
+      <span class="theme-opt-label">Light</span>
+    </button>
+    <button type="button" class="theme-opt" id="theme-opt-dark" data-theme="dark">
+      <span class="theme-opt-icon" aria-hidden="true">☾</span>
+      <span class="theme-opt-label">Dark</span>
+    </button>
+  </div>
 </header>
 
 <!-- ── INTRO SECTION ── -->
@@ -1891,7 +2004,7 @@ body {
     <div class="risk-heatmap">
       <div class="risk-heatmap-head">
         <h3>Risk exposure heatmap</h3>
-        <span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);">Likelihood → / Impact ↓</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink2);">Likelihood → / Impact ↓</span>
       </div>
       <div class="risk-matrix-wrap">
         <div class="risk-matrix" id="risk-matrix"></div>
@@ -2790,7 +2903,7 @@ function renderRiskRegister() {
       cellRisks.slice(0, 3).forEach(r => {
         html += `<div class="risk-cell-item"><strong>${CATEGORY_META[r.category].label}</strong>${r.lever.split('&')[0].trim()}</div>`;
       });
-      if (cellRisks.length > 3) html += `<div style="font-size:8px;color:var(--muted);font-family:'JetBrains Mono',monospace;">+${cellRisks.length - 3} more</div>`;
+      if (cellRisks.length > 3) html += `<div style="font-size:8px;color:var(--accent);font-family:'JetBrains Mono',monospace;">+${cellRisks.length - 3} more</div>`;
       html += `</div>`;
     });
   });
@@ -3092,6 +3205,39 @@ if (headerTitle) {
     showIntro();
   });
 }
+
+// Theme switcher: both options visible (Light / Dark)
+const bodyEl = document.body;
+const themeOptLight = document.getElementById('theme-opt-light');
+const themeOptDark = document.getElementById('theme-opt-dark');
+
+function setTheme(useLight) {
+  bodyEl.classList.toggle('theme-light', useLight);
+  window.localStorage.setItem('sassTheme', useLight ? 'light' : 'dark');
+  if (themeOptLight) {
+    themeOptLight.classList.toggle('active', useLight);
+    themeOptLight.setAttribute('aria-pressed', useLight ? 'true' : 'false');
+  }
+  if (themeOptDark) {
+    themeOptDark.classList.toggle('active', !useLight);
+    themeOptDark.setAttribute('aria-pressed', !useLight ? 'true' : 'false');
+  }
+}
+
+function applyThemeFromPreference() {
+  const stored = window.localStorage.getItem('sassTheme');
+  const useLight = stored !== 'dark';
+  setTheme(useLight);
+}
+
+if (themeOptLight) {
+  themeOptLight.addEventListener('click', () => setTheme(true));
+}
+if (themeOptDark) {
+  themeOptDark.addEventListener('click', () => setTheme(false));
+}
+
+applyThemeFromPreference();
 
 // Initialize wizard on first load; dashboard renders when wizard completes or is skipped
 initWizard();
