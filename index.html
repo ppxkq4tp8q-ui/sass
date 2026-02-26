@@ -55,6 +55,7 @@ body {
   color: var(--accent);
   letter-spacing: -0.03em;
   margin: 0;
+  cursor: pointer;
 }
 
 .site-header-title em { font-style: normal; color: var(--strategic); }
@@ -80,6 +81,401 @@ body {
   display: grid;
   grid-template-columns: 380px 1fr;
   min-height: calc(100vh - 128px);
+}
+
+/* Wizard layout */
+#app-wizard {
+  padding: 128px 36px 40px;
+}
+
+.wizard-shell {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.wizard-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 24px 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.wizard-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.wizard-sector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.wizard-sector-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.wizard-sector-options {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.wizard-sector-btn {
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.wizard-sector-btn:hover {
+  border-color: var(--muted);
+  color: var(--ink2);
+}
+
+.wizard-sector-btn.active {
+  background: var(--bg);
+  border-color: var(--strategic);
+  color: var(--ink2);
+}
+
+.wizard-title {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 22px;
+  color: var(--accent);
+  letter-spacing: -0.01em;
+}
+
+.wizard-sub {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--ink2);
+  font-weight: 300;
+}
+
+.wizard-questions {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.wizard-question {
+  padding: 12px 12px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: #11182766;
+}
+
+.wizard-question-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+.wizard-question-desc {
+  font-size: 12px;
+  color: var(--ink2);
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+.wizard-scale {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.wizard-scale-btn {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.wizard-scale-btn:hover {
+  border-color: var(--muted);
+  color: var(--ink2);
+}
+
+.wizard-scale-btn.active-0 {
+  background: #2d1818;
+  border-color: var(--reactive);
+  color: var(--reactive);
+}
+
+.wizard-scale-btn.active-1 {
+  background: #2a2000;
+  border-color: var(--partial);
+  color: var(--partial);
+}
+
+.wizard-scale-btn.active-2 {
+  background: #0d2818;
+  border-color: var(--strategic);
+  color: var(--strategic);
+}
+
+.wizard-helper {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.wizard-progress {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.wizard-step-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.wizard-step-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.wizard-step-dots span {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--border);
+}
+
+.wizard-step-dots span.active {
+  background: var(--strategic);
+}
+
+.wizard-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.wizard-nav-btn {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--ink2);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.wizard-nav-btn.ghost:hover {
+  border-color: var(--muted);
+  color: var(--accent);
+}
+
+.wizard-nav-btn.primary {
+  background: var(--strategic);
+  border-color: var(--strategic);
+  color: #020617;
+  font-weight: 500;
+}
+
+.wizard-nav-btn.primary:hover {
+  filter: brightness(1.05);
+}
+
+.wizard-secondary-link {
+  margin-top: 10px;
+  align-self: flex-start;
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 12px;
+  color: var(--muted);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ── INTRO SECTION (landing) ── */
+.intro {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 64px 40px 72px;
+  animation: fadeUp 0.6s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.intro-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--strategic);
+  margin-bottom: 20px;
+}
+
+.intro-headline {
+  font-family: 'Archivo', sans-serif;
+  font-size: clamp(26px, 4vw, 38px);
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--accent);
+  margin-bottom: 20px;
+  letter-spacing: -0.5px;
+}
+
+.intro-headline em {
+  font-style: normal;
+  color: var(--reactive);
+}
+
+.intro-body {
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--ink2);
+  max-width: 680px;
+  margin-bottom: 40px;
+  font-weight: 300;
+}
+
+.intro-body strong {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.pillars {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 44px;
+  animation: fadeUp 0.6s 0.15s ease both;
+}
+
+@media (max-width: 600px) {
+  .pillars { grid-template-columns: 1fr; }
+}
+
+.pillar {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 20px 18px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.pillar::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--strategic);
+  opacity: 0.5;
+}
+
+.pillar:hover { border-color: #444; }
+
+.pillar-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--strategic);
+  margin-bottom: 8px;
+}
+
+.pillar-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+
+.pillar-desc {
+  font-size: 13px;
+  color: var(--ink2);
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+.intro-cta {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  animation: fadeUp 0.6s 0.25s ease both;
+}
+
+.btn-primary {
+  font-family: 'Archivo', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #020617;
+  background: var(--strategic);
+  border: none;
+  border-radius: 3px;
+  padding: 13px 28px;
+  cursor: pointer;
+  letter-spacing: 0.01em;
+  transition: opacity 0.15s, transform 0.15s;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+
+.intro-note {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+}
+
+.intro-note span {
+  color: var(--ink2);
+}
+
+.section-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 0 40px 32px;
+  opacity: 0.5;
 }
 
 /* ── LEFT PANEL ── */
@@ -360,6 +756,33 @@ body {
   color: #e8e4dc;
   border-radius: 8px;
   padding: 22px 26px;
+}
+
+.results-hint {
+  margin-top: 10px;
+  margin-bottom: 8px;
+  padding: 10px 14px;
+  border-radius: 6px;
+  border: 1px dashed var(--border);
+  background: rgba(15,23,42,0.85);
+  font-size: 12px;
+  color: var(--ink2);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.results-hint-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--strategic);
+}
+
+.results-hint-text {
+  font-size: 12px;
+  line-height: 1.6;
 }
 
 .diagnostic-band {
@@ -1051,6 +1474,19 @@ body {
   .criteria-grid { grid-template-columns: 1fr; }
   .lever-row { grid-template-columns: 1fr 80px; }
   .lever-row-note { display: none; }
+
+  /* On results view, show diagnostic/output above questionnaire on mobile */
+  body.results-mode #app-dashboard {
+    display: flex;
+    flex-direction: column;
+  }
+  body.results-mode #app-dashboard .output {
+    order: 1;
+  }
+  body.results-mode #app-dashboard .controls {
+    order: 2;
+    margin-top: 16px;
+  }
 }
 
 /* Mobile: larger text and higher contrast for readability */
@@ -1124,7 +1560,85 @@ body {
   <p class="site-header-sub">Clarity on your AI strategy.<br><strong>And what to do next.</strong></p>
 </header>
 
-<div class="page">
+<!-- ── INTRO SECTION ── -->
+<section class="intro">
+
+  <p class="intro-eyebrow">What this tool does</p>
+
+  <h1 class="intro-headline">
+    See where your current strategy is taking you.<br>
+    <em>And what it takes to get where you want to go.</em>
+  </h1>
+
+  <p class="intro-body">
+    This simulator helps leaders of complex organizations in higher education, healthcare, and government get an honest read on where their AI strategy actually stands. Based on current research, it assesses your maturity across <strong>strategy, governance, and capability</strong>, then shows you how different choices compound over time and where to focus first.
+  </p>
+
+  <div class="pillars">
+    <div class="pillar">
+      <div class="pillar-label">Assess</div>
+      <div class="pillar-title">Where you are today</div>
+      <div class="pillar-desc">A diagnostic across the dimensions that actually determine strategic AI readiness.</div>
+    </div>
+    <div class="pillar">
+      <div class="pillar-label">Understand</div>
+      <div class="pillar-title">What your stage means</div>
+      <div class="pillar-desc">Plain-language context for your maturity level and the risks of staying there.</div>
+    </div>
+    <div class="pillar">
+      <div class="pillar-label">Act</div>
+      <div class="pillar-title">High-leverage next steps</div>
+      <div class="pillar-desc">Realistic actions tailored to your sector — not aspirational, but immediately usable.</div>
+    </div>
+  </div>
+
+  <div class="intro-cta">
+    <a href="#app-wizard" class="btn-primary">Start the diagnostic →</a>
+    <p class="intro-note">Takes about <span>5 minutes</span> · No sign-up required</p>
+  </div>
+
+</section>
+
+<hr class="section-divider">
+
+<!-- ── ASSESSMENT WIZARD (step-by-step) ── -->
+<div id="app-wizard">
+  <div class="wizard-shell">
+    <div class="wizard-card">
+      <div class="wizard-eyebrow">Assessment · 8 questions</div>
+      <div class="wizard-sector">
+        <span class="wizard-sector-label">Your sector</span>
+        <div class="wizard-sector-options">
+          <button class="wizard-sector-btn" data-sector="generic">No Sector</button>
+          <button class="wizard-sector-btn" data-sector="highered">Higher Ed</button>
+          <button class="wizard-sector-btn" data-sector="healthcare">Healthcare</button>
+          <button class="wizard-sector-btn" data-sector="government">Government</button>
+        </div>
+      </div>
+      <h2 class="wizard-title" id="wizard-title"></h2>
+      <p class="wizard-sub" id="wizard-sub"></p>
+      <div class="wizard-questions" id="wizard-questions"></div>
+
+      <p class="wizard-helper" id="wizard-helper"></p>
+
+      <div class="wizard-progress">
+        <div class="wizard-step-label" id="wizard-step-label">Step 1 of 8</div>
+        <div class="wizard-step-dots" id="wizard-step-dots"></div>
+      </div>
+
+      <div class="wizard-actions">
+        <button class="wizard-nav-btn ghost" id="wizard-skip-btn">Skip for now</button>
+        <button class="wizard-nav-btn primary" id="wizard-next-btn">Next</button>
+      </div>
+
+      <button class="wizard-secondary-link" id="wizard-skip-to-results">
+        Skip assessment and go straight to full dashboard
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="app-dashboard" class="page" style="display:none">
 
 <!-- ══ LEFT: Controls ══ -->
 
@@ -1287,6 +1801,13 @@ body {
       <div class="diagnostic-band" id="diagnostic-band">Reactive stage</div>
       <div class="diagnostic-narrative" id="diagnostic-narrative">
         AI is showing up across the organization, but things haven't quite come together yet. A documented AI vision connected to your broader mission gives every initiative a shared baseline and somewhere to build from. Without it, results stay scattered and the lessons learned in one corner rarely make it anywhere else.
+      </div>
+    </div>
+
+    <div class="results-hint">
+      <div class="results-hint-label">Interactive</div>
+      <div class="results-hint-text">
+        Change any setting in the assessment — your maturity stage, narrative, risks, and the “What you’re building” trajectory all update instantly so you can see where different choices take you.
       </div>
     </div>
 
@@ -1749,6 +2270,8 @@ let CURRENT_SECTOR = 'generic';
 let CURRENT_CRITERIA_LEVER = 0;
 const VALS = [0, 0, 0, 0, 0, 0, 0, 0];
 
+let CURRENT_MODE = 'wizard'; // 'wizard' | 'dashboard'
+
 const RISK_DATA = [
   { reactive: [
       { statement: 'AI investments are misaligned with institutional priorities, generating activity without strategic value.', category: 'operational', likelihood: 3, impact: 3 },
@@ -1906,6 +2429,39 @@ function renderAll() {
   renderCriteria();
   renderRiskRegister();
   renderPDFPreview(bandIdx, band);
+}
+
+function showDashboard() {
+  CURRENT_MODE = 'dashboard';
+  const wizard = document.getElementById('app-wizard');
+  const dash = document.getElementById('app-dashboard');
+  const intro = document.querySelector('.intro');
+  const divider = document.querySelector('.section-divider');
+
+  if (wizard) wizard.style.display = 'none';
+  if (intro) intro.style.display = 'none';
+  if (divider) divider.style.display = 'none';
+  if (dash) dash.style.display = 'grid';
+
+  renderAll();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  document.body.classList.add('results-mode');
+}
+
+function showIntro() {
+  CURRENT_MODE = 'wizard';
+  const wizard = document.getElementById('app-wizard');
+  const dash = document.getElementById('app-dashboard');
+  const intro = document.querySelector('.intro');
+  const divider = document.querySelector('.section-divider');
+
+  if (dash) dash.style.display = 'none';
+  if (intro) intro.style.display = 'block';
+  if (divider) divider.style.display = 'block';
+  if (wizard) wizard.style.display = 'block';
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  document.body.classList.remove('results-mode');
 }
 
 function renderDiagnostic(bandIdx, band) {
@@ -2333,6 +2889,130 @@ function exportPDF() {
 
 // ── WIRE UP ───────────────────────────────────────────────────────────────
 
+// ── INTERACTIONS ──────────────────────────────────────────────────────────
+
+// Wizard state: 3 pages (Strategy, Governance, Execution)
+let WIZARD_SECTION_INDEX = 0;
+
+const WIZARD_SECTIONS = [
+  { key: 'strategy', label: 'Strategy levers', indices: [0, 1, 2] },
+  { key: 'governance', label: 'Governance levers', indices: [3, 4, 5] },
+  { key: 'execution', label: 'Execution levers', indices: [6, 7] },
+];
+
+function initWizard() {
+  const titleEl = document.getElementById('wizard-title');
+  const subEl = document.getElementById('wizard-sub');
+  const helperEl = document.getElementById('wizard-helper');
+  const stepLabel = document.getElementById('wizard-step-label');
+  const dotsEl = document.getElementById('wizard-step-dots');
+  const questionsEl = document.getElementById('wizard-questions');
+
+  if (!titleEl || !subEl || !helperEl || !questionsEl) return;
+
+  function renderSection() {
+    const section = WIZARD_SECTIONS[WIZARD_SECTION_INDEX];
+    const descsForSector = SECTOR_DESCS[CURRENT_SECTOR];
+
+    titleEl.textContent = section.label;
+    subEl.textContent = `Answer these to capture the ${section.key} side of your AI strategy.`;
+    helperEl.textContent = 'Pick the option that best matches where you are today. You can refine levers later on the full dashboard.';
+
+    // Step label + dots
+    stepLabel.textContent = `Step ${WIZARD_SECTION_INDEX + 1} of ${WIZARD_SECTIONS.length}`;
+    dotsEl.innerHTML = '';
+    for (let i = 0; i < WIZARD_SECTIONS.length; i++) {
+      const dot = document.createElement('span');
+      if (i === WIZARD_SECTION_INDEX) dot.classList.add('active');
+      dotsEl.appendChild(dot);
+    }
+
+    // Highlight current sector
+    document.querySelectorAll('.wizard-sector-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.sector === CURRENT_SECTOR);
+    });
+
+    // Render questions for this section
+    questionsEl.innerHTML = section.indices.map(i => {
+      const d = DECISIONS[i];
+      const v = VALS[i];
+      const descs = descsForSector[i];
+      const descText = descs ? descs[v] : '';
+      return `
+        <div class="wizard-question" data-lever="${i}">
+          <div class="wizard-question-title">${d.name}</div>
+          <p class="wizard-question-desc">${descText}</p>
+          <div class="wizard-scale">
+            <button class="wizard-scale-btn ${v === 0 ? 'active-0' : ''}" data-d="${i}" data-v="0">Reactive</button>
+            <button class="wizard-scale-btn ${v === 1 ? 'active-1' : ''}" data-d="${i}" data-v="1">Partial</button>
+            <button class="wizard-scale-btn ${v === 2 ? 'active-2' : ''}" data-d="${i}" data-v="2">Strategic</button>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    // Wire up buttons for this section
+    questionsEl.querySelectorAll('.wizard-scale-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const leverIdx = parseInt(btn.dataset.d);
+        const v = parseInt(btn.dataset.v);
+        VALS[leverIdx] = v;
+        renderSection();
+      });
+    });
+
+    const nextBtn = document.getElementById('wizard-next-btn');
+    const skipBtn = document.getElementById('wizard-skip-btn');
+
+    if (WIZARD_SECTION_INDEX === WIZARD_SECTIONS.length - 1) {
+      nextBtn.textContent = 'See your AI strategy diagnostic';
+    } else {
+      nextBtn.textContent = 'Next section';
+    }
+
+    // Back/skip button label
+    if (WIZARD_SECTION_INDEX === 0) {
+      skipBtn.disabled = true;
+      skipBtn.style.opacity = '0.5';
+      skipBtn.textContent = 'Previous';
+    } else {
+      skipBtn.disabled = false;
+      skipBtn.style.opacity = '1';
+      skipBtn.textContent = 'Previous';
+    }
+
+    nextBtn.onclick = () => {
+      if (WIZARD_SECTION_INDEX === WIZARD_SECTIONS.length - 1) {
+        showDashboard();
+      } else {
+        WIZARD_SECTION_INDEX++;
+        renderSection();
+      }
+    };
+
+    skipBtn.onclick = () => {
+      if (WIZARD_SECTION_INDEX > 0) {
+        WIZARD_SECTION_INDEX--;
+        renderSection();
+      }
+    };
+
+    const skipResults = document.getElementById('wizard-skip-to-results');
+    skipResults.onclick = () => showDashboard();
+  }
+
+  // Sector switching within wizard
+  document.querySelectorAll('.wizard-sector-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      CURRENT_SECTOR = btn.dataset.sector;
+      renderSection();
+    });
+  });
+
+  renderSection();
+}
+
+// Existing control wiring
 document.querySelectorAll('.scale-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     VALS[parseInt(btn.dataset.d)] = parseInt(btn.dataset.v);
@@ -2387,7 +3067,16 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
   });
 });
 
-renderAll();
+// Clicking the main header logo/title returns to intro + wizard
+const headerTitle = document.querySelector('.site-header-title');
+if (headerTitle) {
+  headerTitle.addEventListener('click', () => {
+    showIntro();
+  });
+}
+
+// Initialize wizard on first load; dashboard renders when wizard completes or is skipped
+initWizard();
 </script>
 
 </body>
