@@ -9,84 +9,96 @@
 @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;500&family=Bricolage+Grotesque:wght@400;700;800&display=swap');
 
 :root {
-  --bg: #0e0e0e;
-  --surface: #161616;
-  --ink: #88e788;
-  --ink2: #c8c4bc;
-  --muted: #666055;
-  --border: #2a2720;
-  --reactive: #c0392b;
-  --partial: #d97706;
-  --strategic: #1a6b3a;
-  --accent: #f2efe8;
+  /* Cursor Dark Midnight theme */
+  --bg: #1e2127;
+  --surface: #191c22;
+  --ink: #7b88a1;
+  --ink2: #9ca3b4;
+  --muted: #5c6370;
+  --border: #2d323d;
+  --reactive: #d4897e;
+  --partial: #d29922;
+  --strategic: #3fb950;
+  --accent: #e6edf3;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-  background: var(--);
+  background: var(--bg);
   color: var(--ink);
   font-family: 'Archivo', sans-serif;
   min-height: 100vh;
+  padding-top: 128px;
 }
+
+/* Fixed site header */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 36px 16px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.site-header-title {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 800;
+  font-size: 32px;
+  line-height: 0.88;
+  color: var(--accent);
+  letter-spacing: -0.03em;
+  margin: 0;
+}
+
+.site-header-title em { font-style: normal; color: var(--strategic); }
+
+.site-header-divider {
+  width: 1px;
+  align-self: stretch;
+  min-height: 44px;
+  background: var(--border);
+}
+
+.site-header-sub {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  font-weight: 300;
+  color: var(--muted);
+}
+
+.site-header-sub strong { font-weight: 700; color: var(--ink2); }
 
 .page {
   display: grid;
   grid-template-columns: 380px 1fr;
-  min-height: 100vh;
+  min-height: calc(100vh - 128px);
 }
 
 /* ── LEFT PANEL ── */
 .controls {
-  background: #0a0a0a;
-  color: var(--bg);
-  padding: 32px 28px 40px;
+  background: var(--surface);
+  color: var(--ink);
+  padding: 28px 28px 40px;
   display: flex;
   flex-direction: column;
   gap: 0;
-  overflow-y: auto;
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  border-right: 1px solid #1a1a1a;
-}
-
-.controls-header { margin-bottom: 20px; }
-
-.eyebrow {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: #666;
-  margin-bottom: 8px;
-}
-
-.controls h1 {
-  font-family: 'Bricolage Grotesque', sans-serif;
-  font-weight: 800;
-  font-size: 40px;
-  line-height: 1.0;
-  color: #f2efe8;
-  letter-spacing: -0.03em;
-}
-
-.controls h1 em { font-style: normal; color: #4ade80; }
-
-.controls-sub {
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.6;
-  font-weight: 300;
-  color: #888;
+  border-right: 1px solid var(--border);
 }
 
 /* Sector selector */
 .sector-selector {
   margin-bottom: 20px;
   padding: 12px 0;
-  border-top: 1px solid #222;
-  border-bottom: 1px solid #222;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
 
 .sector-label {
@@ -94,7 +106,7 @@ body {
   font-size: 8px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #444;
+  color: var(--muted);
   margin-bottom: 8px;
 }
 
@@ -109,20 +121,20 @@ body {
   font-family: 'JetBrains Mono', monospace;
   font-size: 9px;
   letter-spacing: 0.06em;
-  border: 1px solid #222;
-  background: #111;
-  color: #444;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--muted);
   cursor: pointer;
-  border-radius: 2px;
+  border-radius: 6px;
   transition: all 0.15s;
   text-align: center;
 }
 
-.sector-btn:hover { border-color: #444; color: #888; }
+.sector-btn:hover { border-color: var(--muted); color: var(--ink2); }
 .sector-btn.active {
-  background: #1a1a1a;
-  border-color: #4ade80;
-  color: #4ade80;
+  background: var(--surface);
+  border-color: var(--strategic);
+  color: var(--strategic);
 }
 
 /* Decision groups */
@@ -133,15 +145,15 @@ body {
   font-size: 13px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #c8c4bc;
+  color: var(--ink2);
   padding: 10px 0 7px;
-  border-top: 1px solid #333;
+  border-top: 1px solid var(--border);
   margin-bottom: 4px;
 }
 
 .decision {
   padding: 10px 0;
-  border-bottom: 1px solid #1a1a1a;
+  border-bottom: 1px solid var(--border);
 }
 
 .decision-header {
@@ -164,14 +176,14 @@ body {
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
   padding: 2px 7px;
-  border-radius: 2px;
+  border-radius: 6px;
   white-space: nowrap;
   transition: background 0.2s, color 0.2s;
 }
 
-.val-0 { background: #3a1010; color: #ff8070; }
+.val-0 { background: #2d1818; color: var(--reactive); }
 .val-1 { background: #2a2000; color: #f5c842; }
-.val-2 { background: #0a2a14; color: #4ade80; }
+.val-2 { background: #0d2818; color: var(--strategic); }
 
 .scale-row {
   display: grid;
@@ -184,66 +196,68 @@ body {
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
   letter-spacing: 0.03em;
-  border: 1px solid #222;
-  background: #111;
-  color: #444;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--muted);
   cursor: pointer;
-  border-radius: 2px;
+  border-radius: 6px;
   transition: all 0.15s;
   text-align: center;
   line-height: 1.3;
 }
 
-.scale-btn:hover { border-color: #444; color: #888; }
-.scale-btn.active-0 { background: #3a1010; border-color: #ff4d2e; color: #ff8070; }
+.scale-btn:hover { border-color: var(--muted); color: var(--ink2); }
+.scale-btn.active-0 { background: #2d1818; border-color: var(--reactive); color: var(--reactive); }
 .scale-btn.active-1 { background: #2a2000; border-color: #f5c842; color: #f5c842; }
-.scale-btn.active-2 { background: #0a2a14; border-color: #4ade80; color: #4ade80; }
+.scale-btn.active-2 { background: #0d2818; border-color: var(--strategic); color: var(--strategic); }
 
-/* Hover tooltip */
+/* Hover tooltip — slim, minimal */
 .btn-tooltip {
   display: none;
   position: fixed;
   z-index: 9999;
-  width: 220px;
-  background: #1a1a1a;
-  border: 1px solid #333;
-  border-radius: 3px;
-  padding: 10px 12px;
+  max-width: 160px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 10px;
   pointer-events: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(8px);
 }
 .btn-tooltip.visible { display: block; }
 .btn-tooltip-level {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 8px;
-  letter-spacing: 0.15em;
+  font-size: 7px;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  margin-bottom: 6px;
+  margin-bottom: 3px;
   font-weight: 600;
 }
-.tooltip-reactive { color: #ff8070; }
+.tooltip-reactive { color: var(--reactive); }
 .tooltip-partial   { color: #f5c842; }
-.tooltip-strategic { color: #4ade80; }
+.tooltip-strategic { color: var(--strategic); }
 .btn-tooltip-text {
-  font-size: 11px;
-  color: #aaa;
-  line-height: 1.55;
+  font-size: 10px;
+  color: var(--ink2);
+  line-height: 1.4;
   font-weight: 300;
   font-family: 'Archivo', sans-serif;
 }
 
 .decision-desc {
   font-size: 11px;
-  color: #555;
+  color: var(--muted);
   margin-top: 6px;
   line-height: 1.5;
   font-style: italic;
 }
 
-/* Maturity summary in left panel */
+/* Maturity summary — right panel, under main header */
 .maturity-summary {
-  margin-top: auto;
-  padding-top: 20px;
-  border-top: 1px solid #222;
+  padding: 6px 0 20px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 4px;
 }
 
 .maturity-label {
@@ -251,7 +265,7 @@ body {
   font-size: 9px;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: #444;
+  color: var(--muted);
   margin-bottom: 8px;
 }
 
@@ -260,11 +274,12 @@ body {
   font-size: 28px;
   line-height: 1;
   transition: color 0.3s;
+  color: var(--reactive);
 }
 
 .maturity-desc {
   font-size: 11px;
-  color: #666;
+  color: var(--muted);
   margin-top: 6px;
   line-height: 1.5;
   font-weight: 300;
@@ -279,9 +294,13 @@ body {
 .maturity-dot {
   height: 4px;
   flex: 1;
-  border-radius: 2px;
-  background: #222;
+  border-radius: 6px;
+  background: var(--border);
   transition: background 0.3s;
+}
+
+.maturity-dots .maturity-dot:first-child {
+  background: var(--reactive);
 }
 
 /* ── RIGHT PANEL ── */
@@ -294,15 +313,15 @@ body {
 }
 
 .output-header {
-  border-bottom: 2px solid var(--border);
-  padding-bottom: 16px;
+  padding-bottom: 0;
 }
 
 .output-title {
   font-family: 'Archivo Black', sans-serif;
-  font-size: 22px;
-  letter-spacing: -0.01em;
-  margin-bottom: 14px;
+  font-size: 28px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 0;
   color: var(--ink);
 }
 
@@ -329,17 +348,17 @@ body {
 }
 
 .tab-btn:hover { color: var(--ink); }
-.tab-btn.active { color: var(--ink); border-bottom-color: #4ade80; }
+.tab-btn.active { color: var(--ink); border-bottom-color: var(--strategic); }
 
 .tab-panel { display: none; }
 .tab-panel.active { display: flex; flex-direction: column; gap: 24px; }
 
 /* ── DIAGNOSTIC SECTION ── */
 .diagnostic-intro {
-  background: #161616;
+  background: var(--surface);
   border: 1px solid var(--border);
   color: #e8e4dc;
-  border-radius: 3px;
+  border-radius: 8px;
   padding: 22px 26px;
 }
 
@@ -349,27 +368,28 @@ body {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   margin-bottom: 10px;
+  color: var(--reactive);
 }
 
 .diagnostic-narrative {
   font-size: 14px;
   line-height: 1.8;
   font-weight: 300;
-  color: #c8c4bc;
+  color: var(--ink2);
 }
 
-.diagnostic-narrative strong { color: #4ade80; font-weight: 500; }
+.diagnostic-narrative strong { color: var(--strategic); font-weight: 500; }
 
 /* Where to start */
 .where-to-start {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 3px;
+  border-radius: 8px;
   overflow: hidden;
 }
 
 .wts-header {
-  background: #111111;
+  background: var(--surface);
   border-bottom: 1px solid var(--border);
   padding: 14px 20px;
   display: flex;
@@ -381,6 +401,8 @@ body {
   font-family: 'Archivo Black', sans-serif;
   font-size: 15px;
   color: var(--ink);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
 .wts-sub {
@@ -404,21 +426,17 @@ body {
 }
 
 .priority-item:last-child { border-bottom: none; }
-.priority-item.priority-1 { background: #0f1a0f; }
-.priority-item.priority-2 { background: var(--surface); }
+.priority-item.priority-1,
+.priority-item.priority-2,
 .priority-item.priority-3 { background: var(--surface); }
 
 .priority-num {
   font-family: 'Archivo Black', sans-serif;
   font-size: 22px;
-  color: var(--border);
+  color: var(--ink2);
   line-height: 1;
   margin-top: 2px;
 }
-
-.priority-item.priority-1 .priority-num { color: #4ade80; }
-.priority-item.priority-2 .priority-num { color: var(--muted); }
-.priority-item.priority-3 .priority-num { color: var(--border); }
 
 .priority-content {}
 
@@ -464,7 +482,7 @@ body {
   font-family: 'JetBrains Mono', monospace;
   font-size: 8px;
   padding: 2px 6px;
-  border-radius: 2px;
+  border-radius: 6px;
   white-space: nowrap;
   flex-shrink: 0;
   margin-top: 1px;
@@ -473,7 +491,7 @@ body {
   font-weight: 600;
 }
 
-.tag-now  { background: #2a0a0a; color: #ff8070; }
+.tag-now  { background: #2a1515; color: var(--reactive); }
 .tag-soon { background: #2a1a00; color: #f5c842; }
 .tag-then { background: #0a1a2a; color: #60a5fa; }
 
@@ -481,12 +499,12 @@ body {
 .lever-overview {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 3px;
+  border-radius: 8px;
   overflow: hidden;
 }
 
 .lever-overview-head {
-  background: #111111;
+  background: var(--surface);
   border-bottom: 1px solid var(--border);
   padding: 12px 18px;
   font-family: 'JetBrains Mono', monospace;
@@ -520,16 +538,16 @@ body {
   font-family: 'JetBrains Mono', monospace;
   font-size: 9px;
   padding: 3px 8px;
-  border-radius: 2px;
+  border-radius: 6px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   font-weight: 600;
   white-space: nowrap;
 }
 
-.badge-reactive  { background: #3a1010; color: #ff8070; }
+.badge-reactive  { background: #2d1818; color: var(--reactive); }
 .badge-partial   { background: #2a2000; color: #f5c842; }
-.badge-strategic { background: #0a2a14; color: #4ade80; }
+.badge-strategic { background: #0d2818; color: var(--strategic); }
 
 .lever-row-note {
   font-size: 11px;
@@ -549,7 +567,7 @@ body {
 .traj-card {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 3px;
+  border-radius: 8px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -628,7 +646,7 @@ body {
 .criteria-section {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 3px;
+  border-radius: 8px;
   overflow: hidden;
 }
 
@@ -638,7 +656,7 @@ body {
   display: flex;
   gap: 4px;
   flex-wrap: wrap;
-  background: #111111;
+  background: var(--surface);
 }
 
 .criteria-lever-btn {
@@ -649,15 +667,15 @@ body {
   background: var(--surface);
   color: var(--muted);
   cursor: pointer;
-  border-radius: 2px;
+  border-radius: 6px;
   transition: all 0.15s;
 }
 
-.criteria-lever-btn:hover { border-color: #555; color: var(--ink); }
-.criteria-lever-btn.active { background: #2a2720; color: #f2efe8; border-color: #555; }
+.criteria-lever-btn:hover { border-color: var(--muted); color: var(--ink); }
+.criteria-lever-btn.active { background: var(--border); color: var(--accent); border-color: var(--muted); }
 
 .criteria-header {
-  background: #111111;
+  background: var(--surface);
   border-bottom: 1px solid var(--border);
   padding: 12px 18px;
   display: flex;
@@ -677,9 +695,9 @@ body {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   padding: 3px 8px;
-  border-radius: 2px;
-  background: #2a2720;
-  color: #f2efe8;
+  border-radius: 6px;
+  background: var(--border);
+  color: var(--accent);
   border: 1px solid #3a3730;
 }
 
@@ -707,9 +725,9 @@ body {
   border-bottom: 2px solid;
 }
 
-.level-reactive .criteria-level-head { color: #ff8070; border-color: #ff8070; }
+.level-reactive .criteria-level-head { color: var(--reactive); border-color: var(--reactive); }
 .level-partial .criteria-level-head  { color: #f5c842; border-color: #f5c842; }
-.level-strategic .criteria-level-head { color: #4ade80; border-color: #4ade80; }
+.level-strategic .criteria-level-head { color: var(--strategic); border-color: var(--strategic); }
 
 .criteria-bullets {
   list-style: none;
@@ -738,7 +756,7 @@ body {
 .risk-intro {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 3px;
+  border-radius: 8px;
   padding: 18px 22px;
   display: flex;
   justify-content: space-between;
@@ -781,12 +799,12 @@ body {
 .risk-heatmap {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 3px;
+  border-radius: 8px;
   overflow: hidden;
 }
 
 .risk-heatmap-head {
-  background: #111111;
+  background: var(--surface);
   border-bottom: 1px solid var(--border);
   padding: 12px 18px;
   display: flex;
@@ -832,7 +850,7 @@ body {
 }
 
 .risk-cell {
-  border-radius: 2px;
+  border-radius: 6px;
   min-height: 52px;
   padding: 6px 8px;
   display: flex;
@@ -840,11 +858,11 @@ body {
   gap: 3px;
 }
 
-.risk-cell-empty    { background: #1a1a18; }
-.risk-cell-low      { background: #0a2a14; border: 1px solid #1a4a24; }
-.risk-cell-medium   { background: #2a1a00; border: 1px solid #4a3000; }
-.risk-cell-high     { background: #2a0f0f; border: 1px solid #4a1f1f; }
-.risk-cell-critical { background: #3a0a0a; border: 1px solid #6a1a1a; }
+.risk-cell-empty    { background: #1a1a18; border-radius: 6px; }
+.risk-cell-low      { background: #0d2818; border: 1px solid #1a4a24; border-radius: 6px; }
+.risk-cell-medium   { background: #2a1a00; border: 1px solid #4a3000; border-radius: 6px; }
+.risk-cell-high     { background: #2a0f0f; border: 1px solid #4a1f1f; border-radius: 6px; }
+.risk-cell-critical { background: #2a1515; border: 1px solid #5a2520; border-radius: 6px; }
 
 .risk-cell-item {
   font-size: 9px;
@@ -864,7 +882,7 @@ body {
 .risk-register-section {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 3px;
+  border-radius: 8px;
   overflow: hidden;
 }
 
@@ -879,7 +897,7 @@ body {
   padding: 10px 14px;
   text-align: left;
   border-bottom: 1px solid var(--border);
-  background: #111111;
+  background: var(--surface);
 }
 
 .risk-register-table td {
@@ -898,7 +916,7 @@ body {
   font-family: 'JetBrains Mono', monospace;
   font-size: 8px;
   padding: 2px 6px;
-  border-radius: 2px;
+  border-radius: 6px;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   white-space: nowrap;
@@ -907,28 +925,28 @@ body {
 .cat-regulatory   { background: #0a1a2a; color: #60a5fa; }
 .cat-reputational { background: #1a0a2a; color: #c084fc; }
 .cat-operational  { background: #2a1000; color: #fb923c; }
-.cat-ethical      { background: #0a2a14; color: #4ade80; }
+.cat-ethical      { background: #0d2818; color: var(--strategic); }
 
 .risk-level-tag {
   font-family: 'JetBrains Mono', monospace;
   font-size: 9px;
   padding: 2px 8px;
-  border-radius: 2px;
+  border-radius: 6px;
   letter-spacing: 0.04em;
   font-weight: 500;
   white-space: nowrap;
 }
 
-.rl-critical { background: #3a1010; color: #ff8070; }
+.rl-critical { background: #2d1818; color: var(--reactive); }
 .rl-high     { background: #2a1a00; color: #f5c842; }
 .rl-medium   { background: #0a1a2a; color: #60a5fa; }
-.rl-low      { background: #0a2a14; color: #4ade80; }
+.rl-low      { background: #0d2818; color: var(--strategic); }
 
 /* ── HOW THIS WORKS ── */
 .transparency-intro {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 3px;
+  border-radius: 8px;
   padding: 20px 22px;
 }
 
@@ -952,7 +970,7 @@ body {
   gap: 1px;
   background: var(--border);
   border: 1px solid var(--border);
-  border-radius: 3px;
+  border-radius: 8px;
   overflow: hidden;
 }
 
@@ -974,15 +992,15 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #161616;
+  background: var(--surface);
   border: 1px solid var(--border);
-  color: #f2efe8;
-  border-radius: 3px;
+  color: var(--accent);
+  border-radius: 8px;
   padding: 14px 20px;
 }
 
-.export-bar-text { font-size: 12px; font-weight: 300; color: #666; }
-.export-bar-text strong { color: #f2efe8; font-weight: 500; }
+.export-bar-text { font-size: 12px; font-weight: 300; color: var(--muted); }
+.export-bar-text strong { color: var(--accent); font-weight: 500; }
 
 .export-btn {
   font-family: 'JetBrains Mono', monospace;
@@ -990,10 +1008,10 @@ body {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   padding: 10px 20px;
-  background: #4ade80;
+  background: var(--strategic);
   color: #0a1a0e;
   border: none;
-  border-radius: 2px;
+  border-radius: 6px;
   cursor: pointer;
   font-weight: 600;
   transition: background 0.15s, transform 0.1s;
@@ -1002,6 +1020,21 @@ body {
 
 .export-btn:hover { background: #86efac; }
 .export-btn:active { transform: scale(0.97); }
+
+.export-preview-wrap {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  min-height: 480px;
+}
+.export-preview-wrap iframe {
+  display: block;
+  width: 100%;
+  min-height: 640px;
+  height: 80vh;
+  border: none;
+}
 
 .section-title {
   font-family: 'JetBrains Mono', monospace;
@@ -1028,17 +1061,17 @@ body {
   <div class="btn-tooltip-text" id="tooltip-text"></div>
 </div>
 
+<header class="site-header">
+  <h1 class="site-header-title">Simple<br><em>AI</em><br>Strategy<br>Simulator</h1>
+  <div class="site-header-divider" aria-hidden="true"></div>
+  <p class="site-header-sub">Clarity on your AI strategy.<br><strong>And what to do next.</strong></p>
+</header>
+
 <div class="page">
 
 <!-- ══ LEFT: Controls ══ -->
 
 <div class="controls">
-  <div class="controls-header">
-    <div class="eyebrow"> </div>
-    <h1>Simple<br><em>AI</em><br>Strategy<br>Simulator</h1>
-    <p class="controls-sub">Clarity on your AI strategy. And what to do next.</p>
-  </div>
-
   <div class="sector-selector">
     <div class="sector-label">Your sector</div>
     <div class="sector-btns">
@@ -1161,18 +1194,6 @@ body {
       <div class="decision-desc" id="ddesc-7">Little structured training; staff either avoid AI or experiment without support.</div>
     </div>
   </div>
-
-  <div class="maturity-summary">
-    <div class="maturity-label">Your maturity stage</div>
-    <div class="maturity-band" id="maturity-band" style="color:#c0392b">Reactive</div>
-    <div class="maturity-desc" id="maturity-desc">AI is happening here, but nothing is compounding yet.</div>
-    <div class="maturity-dots" id="maturity-dots">
-      <div class="maturity-dot" style="background:#c0392b;"></div>
-      <div class="maturity-dot"></div>
-      <div class="maturity-dot"></div>
-      <div class="maturity-dot"></div>
-    </div>
-  </div>
 </div>
 
 <!-- ══ RIGHT: Output ══ -->
@@ -1180,14 +1201,27 @@ body {
 <div class="output">
   <div class="output-header">
     <div class="output-title" id="output-title">AI strategy diagnostic</div>
-    <div class="tab-nav">
-      <button class="tab-btn active" data-tab="results">Diagnosis & next steps</button>
-      <button class="tab-btn" data-tab="trajectory">What happens next</button>
-      <button class="tab-btn" data-tab="criteria">Maturity criteria</button>
-      <button class="tab-btn" data-tab="risks">Risk register</button>
-      <button class="tab-btn" data-tab="howworks">How this works</button>
-      <button class="tab-btn" data-tab="export">Export</button>
+  </div>
+
+  <div class="maturity-summary">
+    <div class="maturity-label">Your maturity stage</div>
+    <div class="maturity-band" id="maturity-band" style="color:var(--reactive)">Reactive</div>
+    <div class="maturity-desc" id="maturity-desc">AI is happening here, but nothing is compounding yet.</div>
+    <div class="maturity-dots" id="maturity-dots">
+      <div class="maturity-dot" style="background:var(--reactive);"></div>
+      <div class="maturity-dot"></div>
+      <div class="maturity-dot"></div>
+      <div class="maturity-dot"></div>
     </div>
+  </div>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" data-tab="results">Diagnosis & next steps</button>
+    <button class="tab-btn" data-tab="trajectory">What you're building</button>
+    <button class="tab-btn" data-tab="criteria">Maturity criteria</button>
+    <button class="tab-btn" data-tab="risks">Risk register</button>
+    <button class="tab-btn" data-tab="howworks">How this works</button>
+    <button class="tab-btn" data-tab="export">Export</button>
   </div>
 
   <!-- ── RESULTS TAB ── -->
@@ -1195,14 +1229,14 @@ body {
     <div class="diagnostic-intro" id="diagnostic-intro">
       <div class="diagnostic-band" id="diagnostic-band">Reactive stage</div>
       <div class="diagnostic-narrative" id="diagnostic-narrative">
-        AI is happening here, but it isn't compounding yet. The missing ingredient isn't effort — it's alignment. A documented AI vision tied to your mission is what turns isolated activity into a strategy. Start there.
+        AI is showing up across the organization, but things haven't quite come together yet. A documented AI vision connected to your broader mission gives every initiative a shared baseline and somewhere to build from. Without it, results stay scattered and the lessons learned in one corner rarely make it anywhere else.
       </div>
     </div>
 
     <div class="where-to-start" id="where-to-start">
       <div class="wts-header">
         <div class="wts-title">Where to start</div>
-        <div class="wts-sub">Your highest-leverage moves, in order</div>
+        <div class="wts-sub">Realistic, high-leverage steps you can take, starting now</div>
       </div>
       <div class="priority-list" id="priority-list"></div>
     </div>
@@ -1215,16 +1249,17 @@ body {
 
   <!-- ── TRAJECTORY TAB ── -->
   <div class="tab-panel" id="tab-trajectory">
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:16px 20px;">
-      <p style="font-size:12px;color:var(--ink2);line-height:1.7;font-weight:300;">Based on your current settings, here's what organizations at your stage typically experience over time — and what changes if you move the right levers.</p>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px 20px;">
+      <p style="font-size:12px;color:var(--ink2);line-height:1.7;font-weight:300;">Based on your current settings, here's what organizations at your stage typically experience over time and what changes if you move the right levers.</p>
+      <p style="font-size:12px;color:var(--ink2);line-height:1.7;font-weight:300;">Try different Strategy, Governance, and Execution options in the left panel to see how your trajectory shifts.</p>
     </div>
     <div class="trajectory-section" id="trajectory-section"></div>
   </div>
 
   <!-- ── CRITERIA TAB ── -->
   <div class="tab-panel" id="tab-criteria">
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:16px 18px;">
-      <p style="font-size:12px;color:var(--ink2);line-height:1.7;font-weight:300;">Observable criteria for each lever and maturity level, adapted to your selected sector. Use these to calibrate your settings — or share with stakeholders to ground a conversation about where your organization actually sits.</p>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px 18px;">
+      <p style="font-size:12px;color:var(--ink2);line-height:1.7;font-weight:300;">Observable criteria for each lever and maturity level, adapted to your selected sector. Use these to calibrate your settings or share with stakeholders to ground a conversation about where your organization actually sits.</p>
     </div>
 
     <div class="criteria-section">
@@ -1293,7 +1328,7 @@ body {
 
     <div class="section-title" style="margin-bottom:8px;">Research grounding by lever</div>
     <div class="source-grid">
-      <div class="source-row" style="background:#111111;border-bottom:1px solid var(--border);">
+      <div class="source-row" style="background:var(--surface)111;border-bottom:1px solid var(--border);">
         <div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);">Lever</div>
         <div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);">Key finding</div>
         <div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);">Source</div>
@@ -1314,36 +1349,13 @@ body {
     <div class="export-bar">
       <div class="export-bar-text">
         <strong>Export your AI strategy assessment</strong><br>
-        A clean PDF with your diagnosis, recommendations, and risk register.
+        Preview below, then click Export to open the print view.
       </div>
-      <button class="export-btn" id="export-btn" onclick="exportPDF()">↗ Open print view</button>
+      <button class="export-btn" id="export-btn" onclick="exportPDF()">Export</button>
     </div>
 
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:20px 24px;">
-      <div class="section-title" style="margin-bottom:14px;">PDF includes</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-        <div style="display:flex;gap:10px;align-items:flex-start;">
-          <span style="font-family:'JetBrains Mono',monospace;font-size:16px;color:#4ade80;line-height:1.2;">01</span>
-          <div><div style="font-size:13px;font-weight:500;margin-bottom:3px;color:var(--ink);">Maturity stage & narrative</div><div style="font-size:11px;color:var(--muted);font-weight:300;">Where you are and what it means</div></div>
-        </div>
-        <div style="display:flex;gap:10px;align-items:flex-start;">
-          <span style="font-family:'JetBrains Mono',monospace;font-size:16px;color:#4ade80;line-height:1.2;">02</span>
-          <div><div style="font-size:13px;font-weight:500;margin-bottom:3px;color:var(--ink);">Lever-by-lever assessment</div><div style="font-size:11px;color:var(--muted);font-weight:300;">Current state across all 8 levers</div></div>
-        </div>
-        <div style="display:flex;gap:10px;align-items:flex-start;">
-          <span style="font-family:'JetBrains Mono',monospace;font-size:16px;color:#4ade80;line-height:1.2;">03</span>
-          <div><div style="font-size:13px;font-weight:500;margin-bottom:3px;color:var(--ink);">Prioritized recommendations</div><div style="font-size:11px;color:var(--muted);font-weight:300;">Concrete next steps for your top 3 levers</div></div>
-        </div>
-        <div style="display:flex;gap:10px;align-items:flex-start;">
-          <span style="font-family:'JetBrains Mono',monospace;font-size:16px;color:#4ade80;line-height:1.2;">04</span>
-          <div><div style="font-size:13px;font-weight:500;margin-bottom:3px;color:var(--ink);">Risk register</div><div style="font-size:11px;color:var(--muted);font-weight:300;">Active risks with category, likelihood, and impact</div></div>
-        </div>
-      </div>
-    </div>
-
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:16px 20px;">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Preview — your current state</div>
-      <div id="pdf-preview" style="display:flex;flex-direction:column;gap:8px;"></div>
+    <div class="export-preview-wrap">
+      <iframe id="pdf-preview-iframe" title="PDF preview" sandbox="allow-same-origin"></iframe>
     </div>
   </div>
 
@@ -1786,10 +1798,10 @@ const CATEGORY_META = {
 };
 
 const MATURITY_BANDS = [
-  { label: 'Reactive',  color: '#c0392b', desc: 'AI is happening here, but nothing is compounding yet.' },
+  { label: 'Reactive',  color: '#d4897e', desc: 'AI is happening here, but nothing is compounding yet.' },
   { label: 'Emerging',  color: '#d97706', desc: 'Momentum exists but gaps are limiting the return.' },
   { label: 'Embedded',  color: '#1a6b3a', desc: 'Foundations are working. Compounding is beginning.' },
-  { label: 'Leading',   color: '#4ade80', desc: 'AI capability is institutionalized and self-reinforcing.' },
+  { label: 'Leading',   color: 'var(--strategic)', desc: 'AI capability is institutionalized and self-reinforcing.' },
 ];
 
 function calcBand() {
@@ -1815,7 +1827,7 @@ function renderAll() {
   document.getElementById('maturity-desc').textContent = band.desc;
   const dots = document.getElementById('maturity-dots').children;
   for (let i = 0; i < dots.length; i++) {
-    dots[i].style.background = i <= bandIdx ? band.color : '#222';
+    dots[i].style.background = i <= bandIdx ? band.color : 'var(--border)';
   }
 
   const descs = SECTOR_DESCS[CURRENT_SECTOR];
@@ -1852,7 +1864,7 @@ function renderDiagnostic(bandIdx, band) {
     narrative = `Every lever is at strategic. Your AI foundations are documented, governed, and operationalized. The compounding effect becomes most visible at the 2–5 year horizon — the gap between you and reactive organizations widens dramatically over time. The question now is <strong>execution fidelity</strong>: can you sustain the quality of these foundations under budget pressure, leadership changes, and the next wave of AI capability shifts?`;
   } else if (bandIdx === 0) {
     if (noVision) {
-      narrative = `AI is happening here, but it isn't compounding yet. The missing ingredient isn't effort — it's alignment. <strong>A documented AI vision tied to your mission</strong> is what turns isolated activity into a strategy. Without it, every new initiative starts from scratch and produces results nobody can compare or build on.`;
+      narrative = `AI is showing up across the organization, but things haven't quite come together yet. <strong>A documented AI vision connected to your broader mission</strong> gives every initiative a shared baseline and somewhere to build from. Without it, results stay scattered and the lessons learned in one corner rarely make it anywhere else.`;
     } else if (noPolicy) {
       narrative = `Some direction exists, but <strong>teams are operating without guardrails</strong>. Each initiative is making its own judgment calls about what's acceptable. The organization is moving fast enough that the absence of policy is creating real exposure — not just theoretical risk. Fix this before scaling.`;
     } else {
@@ -1900,14 +1912,14 @@ function renderPriorities() {
   document.getElementById('priority-list').innerHTML = opportunities.map((opp, rank) => {
     const rec = recs[opp.idx];
     const recLevel = opp.val === 0 ? rec.reactive : rec.partial;
-    const stateColor = opp.val === 0 ? '#ff8070' : '#f5c842';
-    const stateBg = opp.val === 0 ? '#3a1010' : '#2a2000';
+    const stateColor = opp.val === 0 ? 'var(--reactive)' : '#f5c842';
+    const stateBg = opp.val === 0 ? '#2d1818' : '#2a2000';
 
     return `<div class="priority-item priority-${rank + 1}">
       <div class="priority-num">${rank + 1}</div>
       <div class="priority-content">
         <div class="priority-lever">${opp.name}</div>
-        <div class="priority-state" style="color:${stateColor};background:${stateBg};display:inline-block;padding:2px 7px;border-radius:2px;margin-bottom:8px;">Currently ${getValLabel(opp.val)}</div>
+        <div class="priority-state" style="color:${stateColor};background:${stateBg};display:inline-block;padding:2px 7px;border-radius:6px;margin-bottom:8px;">Currently ${getValLabel(opp.val)}</div>
         <div class="priority-why">${recLevel.why}</div>
         <div class="priority-actions">
           ${recLevel.actions.map(a => {
@@ -1954,15 +1966,15 @@ function renderTrajectory(bandIdx, band) {
 
   const trajectories = {
     reactive: {
-      h6: { theme: 'Activity without direction', color: '#c0392b',
+      h6: { theme: 'Activity without direction', color: '#d4897e',
         narrative: 'AI activity is happening — tools are being tried, vendors are pitching, individuals are experimenting. But none of it is connected to a shared direction. Each new initiative starts from scratch and produces results that can\'t be compared, measured, or built upon.',
         signals: ['Decisions about AI tools are being made by whoever asks first', 'No shared language for what AI is supposed to accomplish here', 'Staff enthusiasm is real but unguided — and beginning to create compliance exposure', 'Every vendor conversation starts with "so, what are you trying to do with AI?"'],
       },
-      h18: { theme: 'Fragmentation compounds', color: '#c0392b',
+      h18: { theme: 'Fragmentation compounds', color: '#d4897e',
         narrative: 'The lack of foundation is becoming expensive. Duplicate investments are surfacing. Promising early experiments have hit a ceiling because no one committed to scale them. The people doing the most interesting AI work are doing it around the organization, not through it.',
         signals: ['Multiple teams have independently built similar AI tools with no coordination', 'The best early pilots are stalled — not for lack of interest, but lack of resourcing commitment', 'Risk incidents are starting to appear; responses are improvised case-by-case', 'Leadership is being asked "what\'s your AI strategy?" and has no crisp answer'],
       },
-      h5y: { theme: 'Structural gap opens', color: '#c0392b',
+      h5y: { theme: 'Structural gap opens', color: '#d4897e',
         narrative: 'The gap between your organization and those that invested in AI foundations is now structural. They have institutional AI capability that compounds. Yours resets with every budget cycle and leadership change. Catching up requires disproportionate investment to close a gap that didn\'t have to exist.',
         signals: ['Competitors or peer institutions have AI capability embedded in how they operate', 'Your AI narrative for funders, partners, and talent is weak relative to peers', 'The cost of catching up is now substantially higher than building foundations would have been', 'Staff with strong AI skills are not choosing you when they have options'],
       },
@@ -2018,15 +2030,15 @@ function renderTrajectory(bandIdx, band) {
       },
     },
     leading: {
-      h6: { theme: 'Execution fidelity', color: '#4ade80',
+      h6: { theme: 'Execution fidelity', color: 'var(--strategic)',
         narrative: 'Every lever is set. Strategy is documented, governance is embedded, processes are standardized, and people are equipped. The risk at this stage isn\'t strategic — it\'s operational. Can you maintain the quality of these foundations under pressure: budget cycles, leadership transitions, the next wave of AI capability changes?',
         signals: ['AI decisions being made faster because the infrastructure for making them is solid', 'New capabilities absorbed into existing frameworks rather than creating governance exceptions', 'Staff across functions are genuine contributors to AI strategy', 'The organization evaluates vendor claims critically because it understands its own context'],
       },
-      h18: { theme: 'The compounding flywheel', color: '#4ade80',
+      h18: { theme: 'The compounding flywheel', color: 'var(--strategic)',
         narrative: 'At full strategic alignment, the compounding effect is real and accelerating. Each AI initiative builds on shared infrastructure, informed by accumulated institutional knowledge, governed by embedded processes that no longer require heroic individual effort.',
         signals: ['AI capability is a genuine competitive and reputational differentiator', 'The organization is attracting talent specifically because of its AI maturity', 'Risk incidents are rare and handled with established processes', 'The value of AI work is visible and attributable'],
       },
-      h5y: { theme: 'Distance from the field', color: '#4ade80',
+      h5y: { theme: 'Distance from the field', color: 'var(--strategic)',
         narrative: 'Five years of compounding investment on solid foundations creates institutional AI capability that reactive organizations cannot quickly replicate — not because the tools aren\'t available to them, but because the people, processes, culture, and accumulated knowledge aren\'t.',
         signals: ['The organization is shaping sector norms on AI use, not just responding to them', 'AI literacy survives leadership and staff turnover', 'The infrastructure creates a moat from accumulated institutional knowledge', 'The primary strategic question is how to extend the foundation, not how to build it'],
       },
@@ -2115,7 +2127,7 @@ function renderRiskRegister() {
   risks.forEach(r => counts[r.levelMeta.label]++);
 
   const chipsEl = document.getElementById('risk-summary-chips');
-  const chipColors = { Critical: '#ff8070', High: '#f5c842', Medium: '#60a5fa', Low: '#4ade80' };
+  const chipColors = { Critical: 'var(--reactive)', High: '#f5c842', Medium: '#60a5fa', Low: 'var(--strategic)' };
   chipsEl.innerHTML = Object.entries(counts).map(([level, count]) =>
     `<div class="risk-summary-chip">
       <span class="risk-count-badge" style="color:${chipColors[level]}">${count}</span>
@@ -2173,38 +2185,7 @@ function renderRiskRegister() {
   }).join('');
 }
 
-function renderPDFPreview(bandIdx, band) {
-  const risks = getActiveRisks();
-  const critCount = risks.filter(r => r.levelMeta.label === 'Critical').length;
-  const highCount  = risks.filter(r => r.levelMeta.label === 'High').length;
-
-  const topPriorities = DECISIONS
-    .map((d, i) => ({ name: d.name, val: VALS[i], weight: LEVER_PRIORITY_WEIGHT[i], gap: 2 - VALS[i] }))
-    .filter(d => d.val < 2)
-    .sort((a, b) => (b.gap * b.weight) - (a.gap * a.weight))
-    .slice(0, 3);
-
-  document.getElementById('pdf-preview').innerHTML = `
-    <div style="display:flex;gap:12px;flex-wrap:wrap;">
-      <div style="background:var(--bg);border:1px solid var(--border);border-radius:2px;padding:12px 16px;flex:1;min-width:120px;">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;">Stage</div>
-        <div style="font-family:'Archivo Black',sans-serif;font-size:22px;color:${band.color};">${band.label}</div>
-        <div style="font-size:11px;color:var(--muted);">${SECTOR_LABELS[CURRENT_SECTOR]}</div>
-      </div>
-      <div style="background:var(--bg);border:1px solid var(--border);border-radius:2px;padding:12px 16px;flex:1;min-width:120px;">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;">Active risks</div>
-        <div style="font-size:11px;color:var(--ink2);line-height:1.8;"><span style="color:#ff8070;font-weight:600;">${critCount} critical</span> · <span style="color:#f5c842;font-weight:600;">${highCount} high</span> · ${risks.length} total</div>
-      </div>
-    </div>
-    <div style="background:var(--bg);border:1px solid var(--border);border-radius:2px;padding:12px 16px;">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Top priorities to move</div>
-      ${topPriorities.map((p, i) => `<div style="font-size:12px;color:var(--ink);margin-bottom:4px;"><span style="font-family:'JetBrains Mono',monospace;color:#4ade80;margin-right:8px;">${i+1}.</span>${p.name} <span style="color:var(--muted);font-style:italic;">(currently ${getValLabel(p.val)})</span></div>`).join('')}
-      ${topPriorities.length === 0 ? '<div style="font-size:12px;color:var(--muted);">All levers are strategic.</div>' : ''}
-    </div>
-  `;
-}
-
-function exportPDF() {
+function buildExportHTML(forPrint) {
   const bandIdx = calcBand();
   const band = MATURITY_BANDS[bandIdx];
   const risks = getActiveRisks();
@@ -2212,7 +2193,7 @@ function exportPDF() {
   risks.forEach(r => riskCounts[r.levelMeta.label]++);
 
   const topPriorities = DECISIONS
-    .map((d, i) => ({ name: d.name, val: VALS[i], weight: LEVER_PRIORITY_WEIGHT[i], gap: 2 - VALS[i] }))
+    .map((d, i) => ({ name: d.name, idx: i, val: VALS[i], weight: LEVER_PRIORITY_WEIGHT[i], gap: 2 - VALS[i] }))
     .filter(d => d.val < 2)
     .sort((a, b) => (b.gap * b.weight) - (a.gap * a.weight))
     .slice(0, 3);
@@ -2223,7 +2204,7 @@ function exportPDF() {
   const leverRows = DECISIONS.map((d, i) => {
     const v = VALS[i];
     const col = v === 0 ? '#991b1b' : v === 1 ? '#854d0e' : '#166534';
-    return `<tr><td>${d.name}</td><td style="color:${col};font-weight:600;">${getValLabel(v)}</td><td style="color:#888;">${d.group}</td></tr>`;
+    return `<tr><td>${d.name}</td><td style="color:${col};font-weight:600;">${getValLabel(v)}</td><td style="color:var(--ink2);">${d.group}</td></tr>`;
   }).join('');
 
   const priorityItems = topPriorities.map((p, i) => {
@@ -2233,10 +2214,10 @@ function exportPDF() {
     return `<div style="margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #ebe8e0;">
       <div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:8px;">
         <span style="background:#1a6b3a;color:white;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;line-height:20px;text-align:center;">${i+1}</span>
-        <div><strong style="font-size:14px;">${p.name}</strong><span style="font-size:11px;color:#888;margin-left:8px;">Currently: ${getValLabel(p.val)}</span></div>
+        <div><strong style="font-size:14px;">${p.name}</strong><span style="font-size:11px;color:var(--ink2);margin-left:8px;">Currently: ${getValLabel(p.val)}</span></div>
       </div>
-      <p style="font-size:12px;color:#555;line-height:1.7;margin-bottom:8px;margin-left:30px;">${recLevel.why}</p>
-      ${recLevel.actions.map(a => `<div style="display:flex;gap:8px;margin-bottom:5px;margin-left:30px;"><span style="font-family:monospace;font-size:9px;background:#f0fdf4;color:#166534;padding:2px 6px;border-radius:2px;white-space:nowrap;font-weight:600;text-transform:uppercase;flex-shrink:0;margin-top:1px;">${tagMap[a.tag]}</span><span style="font-size:12px;color:#3a3830;line-height:1.5;">${a.text}</span></div>`).join('')}
+      <p style="font-size:12px;color:var(--muted);line-height:1.7;margin-bottom:8px;margin-left:30px;">${recLevel.why}</p>
+      ${recLevel.actions.map(a => `<div style="display:flex;gap:8px;margin-bottom:5px;margin-left:30px;"><span style="font-family:monospace;font-size:9px;background:#f0fdf4;color:#166534;padding:2px 6px;border-radius:6px;white-space:nowrap;font-weight:600;text-transform:uppercase;flex-shrink:0;margin-top:1px;">${tagMap[a.tag]}</span><span style="font-size:12px;color:#3a3830;line-height:1.5;">${a.text}</span></div>`).join('')}
     </div>`;
   }).join('');
 
@@ -2248,22 +2229,24 @@ function exportPDF() {
     return `<tr><td>${r.statement}</td><td>${catMeta.label}</td><td>${r.lever.split('&')[0].trim()}</td><td>${likLabel}</td><td>${impLabel}</td><td style="color:${levelColors[r.levelMeta.label]};font-weight:600;">${r.levelMeta.label}</td></tr>`;
   }).join('');
 
-  const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>SASS — AI Strategy Assessment</title>
+  const printScript = forPrint ? '<script>window.onload=function(){window.print();}<\\/script>' : '';
+  return `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>SASS — AI Strategy Assessment</title>
 <style>@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;700&display=swap');
-*{margin:0;padding:0;box-sizing:border-box;}body{font-family:'Archivo',sans-serif;color:#1a1a1a;background:white;font-size:12px;}
-.header{background:#0e0e0e;color:#f2efe8;padding:24px 32px;display:flex;justify-content:space-between;align-items:center;}
-.header-title{font-size:22px;font-weight:700;}.header-sub{font-size:11px;color:#888;margin-top:4px;}
-.band-box{background:${band.color};color:white;border-radius:4px;padding:12px 20px;text-align:center;}
-.band-label{font-size:24px;font-weight:700;line-height:1;}.band-sub{font-size:10px;margin-top:2px;opacity:0.85;}
+:root{--bg:#ffffff;--surface:#f5f5f5;--ink:#1a1a1a;--ink2:#404040;--muted:#666;--border:#ddd;--accent:#1a1a1a;}
+*{margin:0;padding:0;box-sizing:border-box;}body{font-family:'Archivo',sans-serif;color:var(--ink);background:var(--bg);font-size:12px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.header{background:var(--surface);color:var(--accent);padding:24px 32px;display:flex;justify-content:space-between;align-items:center;}
+.header-title{font-size:22px;font-weight:700;}.header-sub{font-size:11px;color:var(--ink2);margin-top:4px;}
+.band-box{background:${band.color};color:white;border-radius:8px;padding:12px 20px;text-align:center;}
+.band-label{font-size:24px;font-weight:700;line-height:1;}.band-sub{font-size:10px;margin-top:2px;opacity:0.9;}
 .body{padding:28px 32px;}.section{margin-bottom:28px;}
-.section-head{font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;padding-bottom:6px;border-bottom:2px solid #0e0e0e;margin-bottom:14px;}
-.meta-row{display:flex;gap:12px;margin-bottom:24px;}.meta-box{background:#f7f5f0;border-radius:3px;padding:12px 16px;flex:1;}
-.meta-label{font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:#888;margin-bottom:4px;}.meta-val{font-size:14px;font-weight:600;}
-table{width:100%;border-collapse:collapse;font-size:11px;}th{background:#0e0e0e;color:#f2efe8;padding:7px 10px;text-align:left;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;}
-td{padding:7px 10px;border-bottom:1px solid #ebe8e0;vertical-align:top;line-height:1.4;}tr:nth-child(even) td{background:#faf9f5;}
-.footer{margin-top:32px;padding-top:12px;border-top:1px solid #ebe8e0;font-size:9px;color:#aaa;display:flex;justify-content:space-between;}
+.section-head{font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;padding-bottom:6px;border-bottom:2px solid var(--border);margin-bottom:14px;}
+.meta-row{display:flex;gap:12px;margin-bottom:24px;}.meta-box{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 16px;flex:1;}
+.meta-label{font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink2);margin-bottom:4px;}.meta-val{font-size:14px;font-weight:600;}
+table{width:100%;border-collapse:collapse;font-size:11px;}th{background:var(--surface);color:var(--accent);padding:7px 10px;text-align:left;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;}
+td{padding:7px 10px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.4;}tr:nth-child(even) td{background:#fafafa;}
+.footer{margin-top:32px;padding-top:12px;border-top:1px solid var(--border);font-size:9px;color:var(--muted);display:flex;justify-content:space-between;}
 @media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact;}.page-break{page-break-before:always;}}</style></head><body>
-<div class="header"><div><div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#666;margin-bottom:6px;">Simple AI Strategy Simulator</div>
+<div class="header"><div><div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">Simple AI Strategy Simulator</div>
 <div class="header-title">AI Strategy Assessment</div><div class="header-sub">${SECTOR_LABELS[CURRENT_SECTOR]} · ${date}</div></div>
 <div class="band-box"><div class="band-label">${band.label}</div><div class="band-sub">Maturity stage</div></div></div>
 <div class="body"><div class="meta-row">
@@ -2273,10 +2256,18 @@ td{padding:7px 10px;border-bottom:1px solid #ebe8e0;vertical-align:top;line-heig
 <div class="section"><div class="section-head">Lever Assessment</div><table><thead><tr><th>Lever</th><th>Current State</th><th>Domain</th></tr></thead><tbody>${leverRows}</tbody></table></div>
 ${topPriorities.length > 0 ? `<div class="section"><div class="section-head">Prioritized Recommendations</div>${priorityItems}</div>` : ''}
 <div class="page-break"></div>
-<div class="section"><div class="section-head">Risk Register</div><table><thead><tr><th>Risk</th><th>Category</th><th>Lever</th><th>Likelihood</th><th>Impact</th><th>Level</th></tr></thead><tbody>${riskRows || '<tr><td colspan="6" style="text-align:center;color:#888;padding:20px;">No active risks.</td></tr>'}</tbody></table></div>
+<div class="section"><div class="section-head">Risk Register</div><table><thead><tr><th>Risk</th><th>Category</th><th>Lever</th><th>Likelihood</th><th>Impact</th><th>Level</th></tr></thead><tbody>${riskRows || '<tr><td colspan="6" style="text-align:center;color:var(--ink2);padding:20px;">No active risks.</td></tr>'}</tbody></table></div>
 <div class="footer"><span>Simple AI Strategy Simulator · SASS</span><span>McKinsey State of AI 2024 · Gartner AI Maturity Model · Deloitte AI Institute · Google Cloud AI Adoption Study</span></div></div>
-<script>window.onload=function(){window.print();}<\/script></body></html>`;
+${printScript}</body></html>`;
+}
 
+function renderPDFPreview(bandIdx, band) {
+  const iframe = document.getElementById('pdf-preview-iframe');
+  if (iframe) iframe.srcdoc = buildExportHTML(false);
+}
+
+function exportPDF() {
+  const html = buildExportHTML(true);
   const pw = window.open('', '_blank', 'width=900,height=700');
   pw.document.open();
   pw.document.write(html);
