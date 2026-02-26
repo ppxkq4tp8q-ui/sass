@@ -1052,6 +1052,63 @@ body {
   .lever-row { grid-template-columns: 1fr 80px; }
   .lever-row-note { display: none; }
 }
+
+/* Mobile: larger text and higher contrast for readability */
+@media (max-width: 768px) {
+  body {
+    font-size: 17px;
+    color: #9ca8bb;
+  }
+
+  .site-header { padding: 12px 20px 14px; }
+  .site-header-title { font-size: 28px; }
+  .site-header-sub { font-size: 17px; color: #a8b4c4; }
+  .site-header-sub strong { color: #c9d1d9; }
+  body { padding-top: 112px; }
+  .page { min-height: calc(100vh - 112px); }
+
+  .controls { padding: 20px 20px 32px; }
+  .sector-label { font-size: 10px; }
+  .sector-btn { font-size: 11px; padding: 10px 8px; }
+  .group-label { font-size: 14px; color: #a8b4c4; }
+  .decision-name { font-size: 15px; color: #9ca8bb; }
+  .decision-desc { font-size: 13px; color: #8a96a8; line-height: 1.55; }
+  .decision-val { font-size: 13px; }
+  .scale-btn { font-size: 11px; padding: 10px 12px; }
+  .maturity-label { font-size: 10px; color: #7b88a1; }
+  .maturity-band { font-size: 24px; }
+  .maturity-desc { font-size: 13px; color: #8a96a8; }
+
+  .output { padding: 24px 20px 40px; }
+  .output-title { font-size: 24px; color: #c9d1d9; }
+  .maturity-summary .maturity-band { font-size: 24px; }
+  .maturity-summary .maturity-desc { font-size: 13px; color: #8a96a8; }
+  .tab-btn { font-size: 10px; padding: 10px 12px 12px; }
+  .diagnostic-intro { padding: 20px 20px; }
+  .diagnostic-band { font-size: 14px; color: #a8b4c4; }
+  .diagnostic-narrative { font-size: 16px; line-height: 1.7; color: #9ca8bb; }
+  .diagnostic-narrative strong { color: var(--strategic); }
+  .wts-title { font-size: 16px; color: #9ca8bb; }
+  .wts-sub { font-size: 13px; color: #8a96a8; }
+  .priority-lever { font-size: 15px; color: #9ca8bb; }
+  .priority-why { font-size: 14px; color: #8a96a8; line-height: 1.6; }
+  .priority-action span:last-child { font-size: 14px; color: #9ca8bb; }
+  .lever-overview-head { font-size: 10px; color: #7b88a1; }
+  .lever-row-name { font-size: 14px; color: #9ca8bb; }
+  .lever-row-note { display: block; font-size: 13px; color: #8a96a8; }
+  .section-title { font-size: 10px; color: #8a96a8; }
+  .risk-intro p { font-size: 14px; color: #9ca8bb; line-height: 1.65; }
+  .export-bar-text { font-size: 14px; color: #9ca8bb; }
+  .export-bar-text strong { color: #c9d1d9; }
+
+  #criteria-lever-title { font-size: 18px; color: #c9d1d9; }
+  .criteria-level-head { font-size: 13px; }
+  .criteria-bullets li { font-size: 14px; color: #9ca8bb; line-height: 1.55; }
+  .risk-register-table th { font-size: 10px; color: #8a96a8; padding: 12px 14px; }
+  .risk-register-table td { font-size: 14px; color: #9ca8bb; padding: 12px 14px; line-height: 1.55; }
+  .risk-category-tag { font-size: 10px; }
+  .risk-level-tag { font-size: 11px; }
+}
 </style>
 
 </head>
